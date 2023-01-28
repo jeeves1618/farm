@@ -44,13 +44,13 @@ public class MainController {
         return "homepage";
     }
 
-    @GetMapping(path = "/sweets")
+    @GetMapping(path = "/Dairy")
     public String getSweets(Model model, RestTemplate restTemplate) throws JsonProcessingException {
         HomeMetaData homeMetaData = restTemplate.getForObject(
                 "http://localhost:8081/farmfoods/home", HomeMetaData.class);
         List<Category> categoryList = null;
         try {
-            URL url = new URL("http://localhost:8081/farmfoods/category/sweets");
+            URL url = new URL("http://localhost:8081/farmfoods/category/Dairy");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("GET");
             httpURLConnection.setRequestProperty("Accept", "application/json");
@@ -74,10 +74,10 @@ public class MainController {
             e.printStackTrace();
         }
 
-        homeMetaData.setCategoryHeader("Sweet Categories");
+        homeMetaData.setCategoryHeader("Dairy Produce");
         model.addAttribute("categories",categoryList);
         model.addAttribute("metahome",homeMetaData);
-        model.addAttribute("pageTitle","Sweet Categories");
+        model.addAttribute("pageTitle","Dairy Produce");
         return "categories";
     }
 

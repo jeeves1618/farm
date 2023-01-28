@@ -58,7 +58,7 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
         long millis=System.currentTimeMillis();
         java.sql.Date date=new java.sql.Date(millis);
         try {
-            menuList = objectMapper.readValue(new URL("https://raw.githubusercontent.com/ArchanaGlobalTech/homepage/master/data/menu.json"), ArrayList.class);
+            menuList = objectMapper.readValue(new URL("https://raw.githubusercontent.com/jeeves1618/farm/master/REST%20APIs/src/main/resources/static/data/item.json?token=GHSAT0AAAAAABZIF6WCOPSBNR2DYUNGZEDOY6VCKWQ"), ArrayList.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

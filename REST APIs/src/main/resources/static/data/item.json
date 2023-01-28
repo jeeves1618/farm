@@ -246,5 +246,21 @@
     "category": "Fruits",
     "image": "img/menu/B/K.jpg",
     "description": "A diet rich in vegetables and fruits can lower blood pressure, reduce the risk of heart disease and stroke"
+  },
+  {
+    "id": "32",
+    "name": "Coconut Water",
+    "pricing": { "250 ml": 19, "500 ml": 38, "1 lt": 77 },
+    "category": "Others",
+    "image": "img/menu/B/K.jpg",
+    "description": "Delicious coconut water from the coromandal coast of Chennai"
+  },
+  {
+    "id": "32",
+    "name": "Palmyra Fruit",
+    "pricing": { "250 ml": 19, "500 ml": 38, "1 lt": 77 },
+    "category": "Others",
+    "image": "img/menu/B/K.jpg",
+    "description": "The Palmyra fruit is a good source of vitamin C, carotenoids, minerals, and sugars"
   }
 ]

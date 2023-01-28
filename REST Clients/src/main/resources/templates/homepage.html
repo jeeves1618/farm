@@ -147,31 +147,32 @@
       </div>
       <div id="home-tiles" class="row">
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/sweets}"
+
+          <a th:href="@{/farmfoods/items(menuItemSubCategory=Dairy)}"
             ><div id="menu-tile">
               <span th:text="${metahome.tileHeader1}"></span></div
           ></a>
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/savouries}"
+          <a th:href="@{/farmfoods/items(menuItemSubCategory=Poultry)}"
             ><div id="specials-tile">
               <span th:text="${metahome.tileHeader2}"></span></div
           ></a>
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/savouries}"
+          <a th:href="@{/farmfoods/items(menuItemSubCategory=Vegetables)}"
           ><div id="veg-tile">
             <span th:text="${metahome.tileHeader3}"></span></div
           ></a>
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/savouries}"
+          <a th:href="@{/farmfoods/items(menuItemSubCategory=Fruits)}"
           ><div id="fruit-tile">
             <span th:text="${metahome.tileHeader4}"></span></div
           ></a>
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/savouries}"
+          <a th:href="@{/farmfoods/items(menuItemSubCategory=Others)}"
           ><div id="other-tile">
             <span th:text="${metahome.tileHeader5}"></span></div
           ></a>
@@ -179,8 +180,7 @@
         <div class="col-md-4 col-sm-12 col-xs-12">
           <a href="https://goo.gl/maps/6bSQUcCFTbujkNzf7" target="_blank">
             <div id="map-tile">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2213.2103858688924!2d80.22968629974028!3d13.038498079183693!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5266ff599f70c7%3A0x69987ecfa55fc100!2sArchana%20Sweets%20Restaurant!5e0!3m2!1sen!2sin!4v1665232073586!5m2!1sen!2sin"
+              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15560.181119437684!2d80.2318667!3d12.8403506!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525a5f3280fbab%3A0xb7280e1a673a5153!2sHIRANANDANI%20BRIDGEWOOD%2C%20Egattur%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1674910017829!5m2!1sen!2sin"
                 width="100%"
                 height="250"
                 frameborder="0"
