@@ -1,0 +1,850 @@
+body {
+  font-size: 16px;
+  /*newlook*/
+  color: #61122f;
+  /*newlook*/
+  background-color: white;
+  font-family: "Oxygen", sans-serif;
+}
+#a-element-behind-logo {
+  display: inline-block;
+  width: 200px;
+}
+/**Header**/
+#header-nav {
+  /*background-color: #fdc426;*/
+  background-color: #e4312c;
+  border-radius: 0;
+  border: 0;
+  /* Make the nav bar fixed */
+  position: fixed;
+  width: 100%;
+  /* Make the nav bar come to the front */
+  z-index: 1100;
+}
+
+#logo-img {
+  background: url("../img/HDlogo.jpg") no-repeat;
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 100px;
+  width: 140px;
+  margin: 10px 15px 10px 0;
+}
+
+.navbar-brand {
+  padding-top: 25px;
+}
+
+#jumbotran-main-text {
+  position: relative;
+  text-align: center;
+  font-size: 3em;
+}
+
+#jumbotran-sub-text p {
+  position: relative;
+  text-align: center;
+  font-size: 1.25em;
+}
+
+#jumbotran-main-text hr {
+  width: 40%;
+  /*color: #951c49;*/
+  color: white;
+}
+.navbar-brand h1 {
+  /*Restaurant Name*/
+  font-family: "Libre Bodoni", serif;
+  /*color: #951c49;*/
+  color: white;
+  font-size: 1.75em;
+  font-weight: bolder;
+  /*text-shadow: 1px 1px 1px #222;*/
+  margin-top: 10;
+  margin-bottom: 0;
+  display: block;
+  line-height: 0.75;
+  font-stretch: ultra-condensed;
+}
+
+.navbar-brand a:hover,
+.navbar-brand a:focus {
+  text-decoration: none;
+}
+
+.navbar-brand p {
+  color: #557c3e;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.7em;
+  margin-top: 15px;
+}
+
+.navbar-brand p span {
+  vertical-align: middle;
+}
+
+#nav-list {
+  margin-top: 10px;
+}
+#nav-list a {
+  /*color: #951c49;*/
+  color: white;
+  text-align: center;
+}
+#nav-list a:hover {
+  background: #e7e7e7;
+}
+#nav-list a span {
+  font-size: 1.8em;
+}
+#nav-no-of-items-cart {
+  font-size: 0.5em;
+}
+#phone {
+  margin-top: 5px;
+}
+#phone a {
+  /* Phone number */
+  text-align: right;
+  padding-bottom: 0;
+}
+#phone div {
+  /*Call us for home delivery */
+  color: #fdc426;
+  text-align: right;
+  padding-right: 15px;
+}
+
+.navbar-header button.navbar-toggle,
+.navbar-header .icon-bar {
+  border: 1px solid white;
+}
+.navbar-header button.navbar-toggle {
+  clear: both;
+  margin-top: -50px;
+}
+/* END HEADER */
+/* Main Content Begins*/
+/* Main Content Ends*/
+/* FOOTER */
+.panel-footer {
+  margin-top: 30px;
+  padding-top: 35px;
+  padding-bottom: 30px;
+  background-color: #222;
+  border-top: 0;
+}
+.panel-footer div.row {
+  margin-bottom: 35px;
+  /*newlook*/
+  color: white;
+}
+#hours,
+#address {
+  line-height: 2;
+}
+#hours > span,
+#address > span {
+  font-size: 1.3em;
+}
+#address p {
+  color: #557c3e;
+  font-size: 0.8em;
+  line-height: 1.8;
+}
+#testimonials {
+  font-style: italic;
+}
+#testimonials p:nth-child(2) {
+  margin-top: 25px;
+}
+/* END FOOTER */
+/* Overflow hidden will ensure that nothing comes out of the tile*/
+#menu-tile,
+#specials-tile,
+#veg-tile,
+#fruit-tile,
+#other-tile,
+#map-tile {
+  height: 250px;
+  width: 100%;
+  margin-bottom: 15px;
+  position: relative;
+  border: 2px solid #3f0c1f;
+  overflow: hidden;
+}
+#menu-tile:hover,
+#specials-tile:hover,
+#veg-tile:hover,
+#fruit-tile:hover,
+#other-tile:hover,
+#map-tile:hover {
+  box-shadow: 0 1px 15px 1px #3f0c1f;
+}
+
+#menu-tile {
+  background: url("../img/sweet-tile.jpg") no-repeat;
+  background-position: center;
+}
+#specials-tile {
+  background: url("../img/savorite-tile.jpg") no-repeat;
+  background-position: center;
+}
+#veg-tile {
+  background: url("../img/savorite-tile.jpg") no-repeat;
+  background-position: center;
+}
+#fruit-tile {
+  background: url("../img/savorite-tile.jpg") no-repeat;
+  background-position: center;
+}
+#other-tile {
+  background: url("../img/savorite-tile.jpg") no-repeat;
+  background-position: center;
+}
+#bg-jumbotron {
+  background: url("../img/jumbotran_1200.jpg") no-repeat;
+  background-position: center;
+}
+
+/*new look*/
+#jumbotran-main-text,
+#jumbotran-sub-text {
+  color: white;
+  padding-top: 80px;
+}
+#menu-tile span,
+#specials-tile span,
+#veg-tile span,
+#fruit-tile span,
+#other-tile span,
+#map-tile span {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 1.6em;
+  text-transform: uppercase;
+  background-color: #000;
+  color: #fff;
+  opacity: 0.8;
+}
+
+#bg-jumbotron span {
+  position: relative;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 1.6em;
+  background-color: #000;
+  color: #fff;
+  opacity: 0.8;
+}
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited {
+  position: relative;
+  margin-left: 45%;
+  background-color: #fdc426 !important;
+  width: 200px;
+}
+/* MENU CATEGORIES PAGE */
+.category-tile {
+  position: relative;
+  border: 0px solid #3f0c1f;
+  overflow: hidden;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 15px;
+  box-shadow: 0 0 10px #3f0c1f;
+}
+.category-tile span {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  background-color: #000;
+  color: #fff;
+  opacity: 0.8;
+}
+.category-tile:hover {
+  box-shadow: 0 1px 5px 1px #cccccc;
+}
+
+#menu-categories-title + div {
+  margin-bottom: 50px;
+}
+
+#menu-categories-title {
+  margin-top: 0px;
+}
+#cart-title {
+  margin-top: 60px;
+}
+/* END MENU CATEGORIES PAGE */
+
+/* SINGLE CATEGORY PAGE */
+.menu-item-tile {
+  margin-bottom: 25px;
+}
+.menu-item-tile hr {
+  width: 80%;
+  color: #951c49;
+}
+.menu-item-tile .menu-item-price {
+  font-size: 1.1em;
+  text-align: center;
+  margin-top: 0px;
+  margin-right: -15px;
+}
+.menu-item-tile .menu-item-price span {
+  font-size: 0.6em;
+}
+.menu-item-photo {
+  position: relative;
+  border: 0px solid #3f0c1f;
+  box-shadow: 0 0 10px #3f0c1f;
+  overflow: hidden;
+  padding: 0;
+  margin-right: -15px;
+  margin-left: auto;
+  margin-bottom: 20px;
+  max-width: 250px;
+}
+.menu-item-photo div {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100px;
+  font-size: 1em;
+  background-color: #557c3e;
+  text-align: center;
+}
+
+.shop-item-photo {
+  position: relative;
+  border: 0px solid #3f0c1f;
+  box-shadow: 0 0 10px #3f0c1f;
+  overflow: hidden;
+  padding: 0;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 20px;
+  max-width: 75px;
+}
+.shop-item-photo div {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0px;
+  background-color: #557c3e;
+  text-align: center;
+}
+
+.shop-item-total {
+  position: relative;
+  border: 0px solid #3f0c1f;
+  overflow: hidden;
+  padding: 0;
+  margin-right: -15px;
+  margin-left: 25%;
+  margin-bottom: 20px;
+  max-width: 285px;
+}
+.menu-item-description {
+  padding-right: 30px;
+}
+h3.menu-item-title {
+  margin: 0 0 10px;
+}
+.menu-item-details {
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.menu-item-photo a:hover,
+.menu-item-photo a:active,
+.menu-item-photo a {
+  color: white;
+}
+
+/* END SINGLE CATEGORY PAGE */
+/* Start Success Page */
+#success-title {
+  margin-bottom: 50px;
+  margin-top: 50px;
+  font-family: "Courier New", Courier, monospace;
+}
+
+#quantityofsweetpacks,
+#packsize,
+#pricelabelofsweetpacks {
+  display: inline-block;
+  color: #61122f;
+  width: 150px;
+  text-align: left;
+  /*newlook*/
+  border: 1px solid white;
+}
+
+[id^="quantityselected"],
+[id^="PackSize"],
+[id^="priceofsweetpacks"] {
+  color: #61122f;
+  width: 80px;
+}
+
+[id^="priceofsweetpacks"] {
+  text-align: right;
+}
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited {
+  color: #61122f;
+}
+/* End Success Page */
+
+/********** Large devices only **********/
+@media (min-width: 1200px) {
+  .container .jumbotron {
+    background: url("../img/jumbotran_1200.jpg") no-repeat;
+    height: 675px;
+    box-shadow: 0 0 50px #3f0c1f;
+    border: 2px solid #3f0c1f;
+  }
+
+  #complete-body-under-nav {
+    height: 130px;
+  }
+  #menu-categories-title {
+    margin-top: 0px;
+  }
+}
+
+/********** Medium devices only **********/
+@media (min-width: 992px) and (max-width: 1199px) {
+  /* Header */
+  #logo-img {
+    background: url("../img/HDlogo.jpg") no-repeat;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 100px;
+    width: 190px;
+    margin: 0px 15px 10px 0;
+  }
+  #menu-categories-title {
+    margin-top: 0px;
+  }
+  #complete-body-under-nav {
+    height: 130px;
+  }
+
+  .navbar-brand {
+    padding-top: auto;
+  }
+
+  /* End Header */
+  .container .jumbotron {
+    background: url("../img/jumbotran_992.jpg") no-repeat;
+    height: 558px;
+    box-shadow: 0 0 50px #3f0c1f;
+    border: 2px solid #3f0c1f;
+  }
+
+  .btn-primary,
+  .btn-primary:hover,
+  .btn-primary:active,
+  .btn-primary:visited {
+    position: relative;
+    margin-left: 40%;
+    background-color: #fdc426 !important;
+  }
+}
+
+/********** Small devices only **********/
+@media (min-width: 768px) and (max-width: 991px) {
+  .container .jumbotron {
+    background: url("../img/jumbotran_768.jpg") no-repeat;
+    height: 432px;
+    box-shadow: 0 0 50px #3f0c1f;
+    border: 2px solid #3f0c1f;
+  }
+
+  .navbar-brand {
+    padding-top: auto;
+  }
+
+  .btn-primary,
+  .btn-primary:hover,
+  .btn-primary:active,
+  .btn-primary:visited {
+    position: relative;
+    margin-left: 35%;
+    background-color: #fdc426 !important;
+  }
+
+  #menu-categories-title {
+    margin-top: 10px;
+  }
+
+  #nvbr01 h1 {
+    /*Restaurant Name*/
+    font-family: "Libre Bodoni", serif;
+    /*color: #951c49;*/
+    color: white;
+    font-size: 1.75em;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #222;
+    margin-top: 10;
+    margin-bottom: 0;
+    line-height: 0.75;
+    font-stretch: ultra-condensed;
+  }
+
+  #success-title {
+    font-size: 1em;
+    margin-bottom: 10px;
+  }
+
+  #complete-body-under-nav {
+    height: 130px;
+  }
+
+  #call-btn > a {
+    font-size: 1.5em;
+    display: block;
+    margin: 0 20px;
+    padding: 10px;
+    border: 2px solid #fdc426;
+    background-color: white;
+    color: rgb(15, 129, 62);
+  }
+
+  #xs-deliver {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+}
+/********** Extra small devices only **********/
+@media (min-width: 478px) and (max-width: 767px) {
+  /* Header */
+  .navbar-brand {
+    padding-top: auto;
+    height: 80px;
+  }
+
+  #a-element-behind-logo {
+    display: inline-block;
+    width: 34%;
+  }
+
+  /* Footer */
+  .panel-footer section {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .panel-footer section:nth-child(3) {
+    margin-bottom: 0; /* margin already exists on the whole row */
+  }
+  .panel-footer section hr {
+    width: 50%;
+    color: #951c49;
+  }
+  /* End Footer */
+  .navbar-brand h1 {
+    /* Restaurant name */
+    align-items: left;
+    padding-top: 10px;
+    /* font-size: 5vw;1vw = 1% of viewport width */
+  }
+  .navbar-brand p {
+    /* Kosher cert */
+    font-size: 0.6em;
+    margin-top: 12px;
+  }
+  .navbar-brand p img {
+    /* Star-K */
+    height: 20px;
+  }
+
+  #collapsable-nav a {
+    /* Collapsed nav menu text */
+    font-size: 1.2em;
+  }
+  #collapsable-nav a span {
+    /* Collapsed nav menu glyph */
+    font-size: 1em;
+    margin-right: 5px;
+  }
+
+  #complete-body-under-nav {
+    height: 130px;
+  }
+
+  #call-btn > a {
+    font-size: 1.5em;
+    display: block;
+    margin: 0 20px;
+    padding: 10px;
+    border: 2px solid #fdc426;
+    background-color: white;
+    color: rgb(15, 129, 62);
+  }
+
+  #xs-deliver {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .container .jumbotron {
+    margin-top: 30px;
+    padding: 0;
+    box-shadow: 0 0 50px #3f0c1f;
+    border: 2px solid #3f0c1f;
+  }
+
+  #menu-tile,
+  #specials-tile,
+  #veg-tile,
+  #fruit-tile,
+  #other-tile,
+  #map-tile {
+    width: 360px;
+    margin: 0 auto 15px;
+  }
+
+  .menu-item-photo {
+    margin-right: auto;
+  }
+  .menu-item-tile .menu-item-price {
+    text-align: right;
+  }
+  .menu-item-description {
+    text-align: center;
+    padding: 0px;
+  }
+  .btn-primary,
+  .btn-primary:hover,
+  .btn-primary:active,
+  .btn-primary:visited {
+    position: relative;
+    background-color: #fdc426;
+  }
+
+  #nvbr01 h1 {
+    /*Restaurant Name*/
+    font-family: "Libre Bodoni", serif;
+    /*color: #951c49;*/
+    color: white;
+    font-size: 1.75em;
+    font-weight: bolder;
+    /*text-shadow: 1px 1px 1px #222;*/
+    margin-top: 10;
+    margin-bottom: 0;
+    line-height: 0.75;
+    margin-left: 0px;
+  }
+
+  #success-title {
+    font-size: 1em;
+    margin-bottom: 10px;
+  }
+
+  #add-to-cart-division .btn-primary {
+    margin: auto;
+    display: block;
+  }
+  #check-out-division,
+  #back-from-checkout,
+  #place-order-division {
+    height: 50px;
+    width: 100%;
+    align-items: center;
+  }
+
+  #check-out-division .btn-primary,
+  #back-from-checkout .btn-primary,
+  #place-order-division .btn-primary {
+    margin: auto;
+    display: block;
+  }
+  #place-order-division .btn-primary {
+    margin: auto;
+    display: block;
+  }
+
+  #success-division .btn-primary {
+    margin: auto;
+    display: block;
+  }
+}
+
+/********** Super extra small devices Only :-) (e.g., iPhone 8) **********/
+@media (max-width: 478px) {
+  /* Header */
+  /* Header */
+  .navbar-brand {
+    padding-top: 5px;
+    height: 80px;
+  }
+
+  #a-element-behind-logo {
+    display: inline-block;
+    width: 37%;
+  }
+
+  .navbar-brand h1 {
+    /* Restaurant name */
+    /*Restaurant Name*/
+    font-family: "Libre Bodoni", serif;
+    /*color: #951c49;*/
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    /*text-shadow: 1px 1px 1px #222;*/
+    margin-top: 10;
+    line-height: 0.75;
+    margin-left: 0px;
+    display: block;
+    max-width: 150px;
+    word-wrap: break-word;
+    line-height: 1.2;
+    text-align: center;
+  }
+  /* Header */
+  #logo-img {
+    background: url("../img/HDlogo.jpg") no-repeat;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 95px;
+    width: 134px;
+    margin: 5px 0px 5px 0px;
+  }
+  /* End Header */
+  .menu-item-photo {
+    margin-right: auto;
+  }
+  .menu-item-tile .menu-item-price {
+    text-align: center;
+  }
+  .menu-item-description {
+    text-align: center;
+    padding: 0px;
+  }
+
+  /* Footer */
+  .panel-footer section {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .panel-footer section:nth-child(3) {
+    margin-bottom: 0; /* margin already exists on the whole row */
+  }
+  .panel-footer section hr {
+    width: 50%;
+    color: #951c49;
+  }
+  /* End Footer */
+  /* Home page */
+   #menu-tile,
+    #specials-tile,
+    #veg-tile,
+    #fruit-tile,
+    #other-tile,
+    #map-tile {
+    width: 280px;
+    margin: 0 auto 15px;
+  }
+
+  .col-xxs-12 {
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    float: left;
+    width: 100%;
+  }
+
+  #complete-body-under-nav {
+    height: 110px;
+  }
+
+  #call-btn > a {
+    font-size: 1.5em;
+    display: block;
+    margin: 0 20px;
+    padding: 10px;
+    padding-bottom: 5px;
+    border: 2px solid #fdc426;
+    background-color: white;
+    color: rgb(15, 129, 62);
+  }
+
+  #xs-deliver {
+    margin-top: 5px;
+    margin-bottom: 0px;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .container .jumbotron {
+    margin-top: 30px;
+    padding: 0;
+    box-shadow: 0 0 50px #3f0c1f;
+    border: 2px solid #3f0c1f;
+  }
+
+  #check-out-division,
+  #back-from-checkout {
+    height: 50px;
+    width: 100%;
+    align-items: center;
+  }
+
+  #check-out-division .btn-primary,
+  #back-from-checkout .btn-primary {
+    margin: auto;
+    display: block;
+  }
+  #place-order-division .btn-primary {
+    margin: auto;
+    display: block;
+  }
+
+  #success-division .btn-primary {
+    margin: auto;
+    display: block;
+  }
+
+  #add-to-cart-division .btn-primary {
+    margin: auto;
+    display: block;
+  }
+  .btn-primary,
+  .btn-primary:hover,
+  .btn-primary:active,
+  .btn-primary:visited {
+    position: relative;
+    background-color: #fdc426;
+  }
+
+  hr {
+    width: 60%;
+    color: #951c49;
+  }
+}

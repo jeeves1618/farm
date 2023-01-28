@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html" />
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <title>Archana Sweets</title>
+    <!-- CSS only -->
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+      crossorigin="anonymous"
+    />
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oxygen&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Libre+Bodoni&family=Lora&family=Mukta&family=Oxygen&family=Source+Serif+Pro&family=Tiro+Kannada&display=swap"
+      rel="stylesheet"
+    />
+    <script th:src="@{../static/js/items.js}" type="text/javascript"></script>
+  </head>
+  <body>
+    <header>
+      <nav id="header-nav" class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header" id="navbar-header-id">
+            <!--pull left is bootstrap way of saying float left. visible-md and visible-lg will ensure that the impage is visible only when the screen is not small-->
+            <a
+              th:href="@{/farmfoods/home}"
+              class="pull-left visible-md visible-lg visible-sm visible-xs"
+              id="a-element-behind-logo"
+            >
+              <div id="logo-img" alt="Logo image"></div>
+            </a>
+            <div class="navbar-brand" id="nvbr01">
+              <a
+                th:href="@{/farmfoods/home}"
+                class="pull-right visible-md visible-lg visible-xs visible-sm"
+                id="a-element-behind-brandname"
+                ><h1 th:text="${metahome.titleText}"></h1
+              ></a>
+              <p>
+                <!--<img src="img/x.jpg" alt="sub text" />-->
+              </p>
+            </div>
+            <!--data-target="#collapsable-nav" points to the element with that ID-->
+            <button
+              type="button"
+              class="navbar-toggle collapsed"
+              data-toggle="collapse"
+              data-target="#collapsable-nav"
+              aria-expanded="false"
+            >
+              <!--sr only is for screen reader-->
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+
+          <div id="collapsable-nav" class="collapse navbar-collapse">
+            <!--nav navbar-nav ensures that the elements are part of nav bar. navbar-right aligns to the right-->
+            <ul id="nav-list" class="nav navbar-nav navbar-right">
+              <li>
+                <a th:href="@{/farmfoods/sweets}">
+                  <!--Glyficons are part of bootstrap https://getbootstrap.com/docs/3.4/components/#glyphicons-->
+                  <span class="glyphicon glyphicon-cutlery"></span>
+                  <!--THe class hidden-xs will hide the break element at xs size-->
+                  <br class="hidden-xs" />
+                  Menu</a
+                >
+              </li>
+              <li>
+                <a th:href="@{/farmfoods/about}">
+                  <span class="glyphicon glyphicon-info-sign"></span
+                  ><br class="hidden-xs" />
+                  About</a
+                >
+              </li>
+              <li>
+                <a th:href="@{/farmfoods/cart}">
+                  <span
+                    id="nav-no-of-items-cart"
+                    class="glyphicon glyphicon-shopping-cart"
+                  ></span
+                  ><br class="hidden-xs" />&nbsp;&nbsp; Cart</a
+                >
+              </li>
+              <li id="phone" class="hidden-xs hidden-sm">
+                <a href="tel:044-24344440">
+                  <span th:text="${metahome.telephoneNumber}"></span
+                ></a>
+                <div th:text="${metahome.telephoneNumberText}"></div>
+              </li>
+            </ul>
+            <!-- #nav-list -->
+          </div>
+          <!-- .collapse .navbar-collapse -->
+        </div>
+      </nav>
+    </header>
+    <div id="complete-body-under-nav"></div>
+    <h2
+      id="menu-categories-title"
+      class="text-center"
+      th:text="${metahome.categoryHeader}"
+    ></h2>
+    <div class="text-center" th:text="${metahome.categoryMessage}"></div>
+    <!--           ------------------------------------------------------------                   -->
+
+    <section th:if="${not #lists.isEmpty(items)}" class="row">
+      <div th:each="item : ${items}" class="menu-item-tile col-md-6">
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="menu-item-photo">
+              <span id="cartIndicator"></span>
+              <img
+                class="img-responsive"
+                width="250"
+                height="150"
+                th:src="@{${item.menuImageFileName}}"
+                th:alt="${item.menuItemSubCategory}"
+              />
+            </div>
+          </div>
+          <div class="menu-item-description col-sm-7">
+            <h3 class="menu-item-title" th:text="${item.menuItemName}"></h3>
+            <p
+              class="menu-item-details"
+              th:text="${item.menuItemDescription}"
+            ></p>
+            <p class="menu-item-pricing">
+              <span id="packsize"> Pack Size : </span>
+              <select name="PackSize" id="PackSize_">
+                <option value="Object.keys(menu[i].pricing)[0]">250 gm</option>
+                <option
+                  value="
+  Object.keys(menu[i].pricing)[1]"
+                >
+                  500 gm
+                </option>
+                <option value="Object.keys(menu[i].pricing)[2]">1 KG</option>
+              </select>
+            </p>
+            <p class="menu-item-pricing">
+              <span id="quantityofsweetpacks"> Quantity : </span>
+              <select name="quantityselected" id="quantityselected_">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="12">12</option>
+                <option value="24">24</option>
+                <option value="100">100</option>
+              </select>
+            </p>
+            <p class="calculated-price">
+              <span id="pricelabelofsweetpacks"> Price : </span>
+              <span id="priceofsweetpacks"> ₹ 500 </span>
+            </p>
+            <div id="add-to-cart-division">
+              <button
+                id="placeorder_"
+                type="button"
+                class="btn btn-primary mx-auto"
+              >
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--           ------------------------------------------------------------                   
+      <div
+        th:each="item : ${items}"
+        class="col-md-3 col-sm-4 col-xs-6 col-xxs-12"
+      >
+        <a
+          th:href="@{/farmfoods/items(menuItemSubCategory=${category.menuItemSubCategory})}"
+        >
+          <div class="category-tile">
+            <img
+              width="200"
+              height="200"
+              th:src="@{${category.menuImageFileName}}"
+              th:alt="${category.menuItemSubCategory}"
+            />
+            <span th:text="${category.menuItemSubCategory}"></span>
+          </div>
+        </a>
+      </div> -->
+    </section>
+
+    <div id="contact-region">
+      <div id="call-btn" class="visible-xs visible-sm">
+        <a
+          class="btn"
+          href="tel:044-24344440"
+          th:text="${metahome.telephoneNumber}"
+          ><span class="glyphicon glyphicon-earphone"></span
+        ></a>
+      </div>
+      <div
+        id="xs-deliver"
+        class="text-center visible-xs visible-sm"
+        th:text="${metahome.telephoneNumberText}"
+      ></div>
+    </div>
+    <div id="main-content" class="container"></div>
+    <h2 id="menu-categories-title" class="text-center"></h2>
+    <div class="text-center">These items are available all during the day</div>
+
+    <!--Iteration of items begins -->
+    <section id="dmenu" class="row"></section>
+    <div id="check-out-division">
+      <hr class="visible-xs visible-md visible-lg" />
+      <a id="check-out-link" th:href="@{/farmfoods/cart}">
+        <button
+          id="check-out-button"
+          type="button"
+          class="btn btn-primary mx-auto"
+        ></button>
+      </a>
+    </div>
+    <br />
+    <div id="back-from-checkout">
+      <a id="back-from-checkout-link" th:href="@{/farmfoods/sweets}">
+        <button
+          id="back-from-checkout-button"
+          type="button"
+          class="btn btn-primary mx-auto"
+        ></button>
+      </a>
+    </div>
+    <!-- End of #Main Content -->
+    <footer class="panel-footer">
+      <div class="container">
+        <div class="row">
+          <section id="hours" class="col-sm-4">
+            <span>Hours:</span><br />
+            Sun-Thurs: 7:15am - 10:00pm<br />
+            Fri: 7:15am - 10:30pm<br />
+            Saturday: 7:15am - 11:30pm
+            <hr class="visible-xs" />
+          </section>
+          <section id="address" class="col-sm-4">
+            <span>Address:</span><br />
+            5/63, Old Mahaballipuram Road, <br />Egattur, Near Navallur,<br />
+            Chennai-600130
+            <p>
+              * Delivery area within 5 Kms, with minimum order of Rs.200.
+            </p>
+            <hr class="visible-xs" />
+          </section>
+          <section id="testimonials" class="col-sm-4">
+            <p>
+              "The healthiest organic shop I've ever tried! And that's saying a
+              lot, since I've tried many!"
+            </p>
+            <p>
+              "Fresh farm produce! Great service! Couldn't ask for more! I'll be back
+              again and again!"
+            </p>
+          </section>
+        </div>
+        <div class="text-center">
+          &copy; Copyright Farm Fresh Foods, Chennai, 2022
+        </div>
+      </div>
+    </footer>
+
+    <!--Java Script -->
+    <!-- jQuery is needed for JS -->
+    <script
+      src="https://code.jquery.com/jquery-2.2.4.js"
+      integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+      crossorigin="anonymous"
+    ></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
+      integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
