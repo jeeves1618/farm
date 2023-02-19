@@ -13,7 +13,7 @@ body {
 /**Header**/
 #header-nav {
   /*background-color: #fdc426;*/
-  background-color: #e4312c;
+  background-color: #344e41;
   border-radius: 0;
   border: 0;
   /* Make the nav bar fixed */
@@ -22,7 +22,9 @@ body {
   /* Make the nav bar come to the front */
   z-index: 1100;
 }
-
+#navbar-header-id button {
+  margin-right: 5%;
+}
 #logo-img {
   background: url("../img/HDlogo.jpg") no-repeat;
   background-size: contain;
@@ -37,9 +39,13 @@ body {
 }
 
 #jumbotran-main-text {
+  padding-top: 5%;
   position: relative;
   text-align: center;
   font-size: 3em;
+  color: #e1ad47;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
 }
 
 #jumbotran-sub-text p {
@@ -51,7 +57,6 @@ body {
 #jumbotran-main-text hr {
   width: 40%;
   /*color: #951c49;*/
-  color: white;
 }
 .navbar-brand h1 {
   /*Restaurant Name*/
@@ -66,6 +71,7 @@ body {
   display: block;
   line-height: 0.75;
   font-stretch: ultra-condensed;
+  text-transform: uppercase;
 }
 
 .navbar-brand a:hover,
@@ -119,7 +125,7 @@ body {
 
 .navbar-header button.navbar-toggle,
 .navbar-header .icon-bar {
-  border: 1px solid white;
+  border: 2px solid white;
 }
 .navbar-header button.navbar-toggle {
   clear: both;
@@ -162,8 +168,8 @@ body {
 }
 /* END FOOTER */
 /* Overflow hidden will ensure that nothing comes out of the tile*/
-#menu-tile,
-#specials-tile,
+#dairy-tile,
+#poultry-tile,
 #veg-tile,
 #fruit-tile,
 #other-tile,
@@ -172,36 +178,37 @@ body {
   width: 100%;
   margin-bottom: 15px;
   position: relative;
-  border: 2px solid #3f0c1f;
+  border: 2px solid #344e41;
   overflow: hidden;
+  border-radius: 3%;
 }
-#menu-tile:hover,
-#specials-tile:hover,
+#dairy-tile:hover,
+#poultry-tile:hover,
 #veg-tile:hover,
 #fruit-tile:hover,
 #other-tile:hover,
 #map-tile:hover {
-  box-shadow: 0 1px 15px 1px #3f0c1f;
+  box-shadow: 0 1px 15px 1px #344e41;
 }
 
-#menu-tile {
-  background: url("../img/sweet-tile.jpg") no-repeat;
+#dairy-tile {
+  background: url("../img/dairy-tile.jpg") no-repeat;
   background-position: center;
 }
-#specials-tile {
-  background: url("../img/savorite-tile.jpg") no-repeat;
+#poultry-tile {
+  background: url("../img/poultry-tile.jpg") no-repeat;
   background-position: center;
 }
 #veg-tile {
-  background: url("../img/savorite-tile.jpg") no-repeat;
+  background: url("../img/veg-tile.jpg") no-repeat;
   background-position: center;
 }
 #fruit-tile {
-  background: url("../img/savorite-tile.jpg") no-repeat;
+  background: url("../img/fruit-tile.jpg") no-repeat;
   background-position: center;
 }
 #other-tile {
-  background: url("../img/savorite-tile.jpg") no-repeat;
+  background: url("../img/other-tile.jpg") no-repeat;
   background-position: center;
 }
 #bg-jumbotron {
@@ -210,13 +217,15 @@ body {
 }
 
 /*new look*/
-#jumbotran-main-text,
 #jumbotran-sub-text {
   color: white;
-  padding-top: 80px;
+  padding-top: 10%;
+  font-size: 1.25em;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
 }
-#menu-tile span,
-#specials-tile span,
+#dairy-tile span,
+#poultry-tile span,
 #veg-tile span,
 #fruit-tile span,
 #other-tile span,
@@ -256,12 +265,12 @@ body {
 /* MENU CATEGORIES PAGE */
 .category-tile {
   position: relative;
-  border: 0px solid #3f0c1f;
+  border: 0px solid #344e41;
   overflow: hidden;
   width: 200px;
   height: 200px;
   margin: 0 auto 15px;
-  box-shadow: 0 0 10px #3f0c1f;
+  box-shadow: 0 0 10px #344e41;
 }
 .category-tile span {
   position: absolute;
@@ -310,8 +319,8 @@ body {
 }
 .menu-item-photo {
   position: relative;
-  border: 0px solid #3f0c1f;
-  box-shadow: 0 0 10px #3f0c1f;
+  border: 0px solid #344e41;
+  box-shadow: 0 0 10px #344e41;
   overflow: hidden;
   padding: 0;
   margin-right: -15px;
@@ -331,8 +340,8 @@ body {
 
 .shop-item-photo {
   position: relative;
-  border: 0px solid #3f0c1f;
-  box-shadow: 0 0 10px #3f0c1f;
+  border: 0px solid #344e41;
+  box-shadow: 0 0 10px #344e41;
   overflow: hidden;
   padding: 0;
   margin-right: auto;
@@ -351,7 +360,7 @@ body {
 
 .shop-item-total {
   position: relative;
-  border: 0px solid #3f0c1f;
+  border: 0px solid #344e41;
   overflow: hidden;
   padding: 0;
   margin-right: -15px;
@@ -418,8 +427,8 @@ h3.menu-item-title {
   .container .jumbotron {
     background: url("../img/jumbotran_1200.jpg") no-repeat;
     height: 675px;
-    box-shadow: 0 0 50px #3f0c1f;
-    border: 2px solid #3f0c1f;
+    box-shadow: 0 0 50px #344e41;
+    border: 2px solid #344e41;
   }
 
   #complete-body-under-nav {
@@ -427,6 +436,22 @@ h3.menu-item-title {
   }
   #menu-categories-title {
     margin-top: 0px;
+  }
+  #call-btn > a {
+    font-size: 1.5em;
+    display: block;
+    margin: 0 0px;
+    padding: 10px;
+    border: 4px solid #fdc426;
+    background-color: white;
+    color: rgb(15, 129, 62);
+  }
+  #xs-deliver {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 }
 
@@ -441,6 +466,7 @@ h3.menu-item-title {
     width: 190px;
     margin: 0px 15px 10px 0;
   }
+
   #menu-categories-title {
     margin-top: 0px;
   }
@@ -456,8 +482,8 @@ h3.menu-item-title {
   .container .jumbotron {
     background: url("../img/jumbotran_992.jpg") no-repeat;
     height: 558px;
-    box-shadow: 0 0 50px #3f0c1f;
-    border: 2px solid #3f0c1f;
+    box-shadow: 0 0 50px #344e41;
+    border: 2px solid #344e41;
   }
 
   .btn-primary,
@@ -468,6 +494,24 @@ h3.menu-item-title {
     margin-left: 40%;
     background-color: #fdc426 !important;
   }
+
+  #call-btn > a {
+    font-size: 1.5em;
+    display: block;
+    margin: 0 0px;
+    padding: 10px;
+    border: 4px solid #fdc426;
+    background-color: white;
+    color: rgb(15, 129, 62);
+  }
+
+  #xs-deliver {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
 }
 
 /********** Small devices only **********/
@@ -475,14 +519,16 @@ h3.menu-item-title {
   .container .jumbotron {
     background: url("../img/jumbotran_768.jpg") no-repeat;
     height: 432px;
-    box-shadow: 0 0 50px #3f0c1f;
-    border: 2px solid #3f0c1f;
+    box-shadow: 0 0 50px #344e41;
+    border: 2px solid #344e41;
   }
 
   .navbar-brand {
     padding-top: auto;
   }
-
+  #jumbotran-main-text {
+    padding-top: 0%;
+  }
   .btn-primary,
   .btn-primary:hover,
   .btn-primary:active,
@@ -522,9 +568,9 @@ h3.menu-item-title {
   #call-btn > a {
     font-size: 1.5em;
     display: block;
-    margin: 0 20px;
+    margin: 0 0px;
     padding: 10px;
-    border: 2px solid #fdc426;
+    border: 4px solid #fdc426;
     background-color: white;
     color: rgb(15, 129, 62);
   }
@@ -544,7 +590,12 @@ h3.menu-item-title {
     padding-top: auto;
     height: 80px;
   }
-
+  .container .jumbotron {
+    background: url("../img/jumbotran_768.jpg") no-repeat;
+    height: 432px;
+    box-shadow: 0 0 50px #344e41;
+    border: 2px solid #344e41;
+  }
   #a-element-behind-logo {
     display: inline-block;
     width: 34%;
@@ -596,9 +647,9 @@ h3.menu-item-title {
   #call-btn > a {
     font-size: 1.5em;
     display: block;
-    margin: 0 20px;
+    margin: 0 0px;
     padding: 10px;
-    border: 2px solid #fdc426;
+    border: 4px solid #fdc426;
     background-color: white;
     color: rgb(15, 129, 62);
   }
@@ -613,12 +664,12 @@ h3.menu-item-title {
   .container .jumbotron {
     margin-top: 30px;
     padding: 0;
-    box-shadow: 0 0 50px #3f0c1f;
-    border: 2px solid #3f0c1f;
+    box-shadow: 0 0 50px #344e41;
+    border: 2px solid #344e41;
   }
 
-  #menu-tile,
-  #specials-tile,
+  #dairy-tile,
+  #poultry-tile,
   #veg-tile,
   #fruit-tile,
   #other-tile,
@@ -701,7 +752,12 @@ h3.menu-item-title {
     padding-top: 5px;
     height: 80px;
   }
-
+  .container .jumbotron {
+    background: url("../img/jumbotran_768.jpg") no-repeat;
+    height: 432px;
+    box-shadow: 0 0 50px #344e41;
+    border: 2px solid #344e41;
+  }
   #a-element-behind-logo {
     display: inline-block;
     width: 37%;
@@ -760,12 +816,12 @@ h3.menu-item-title {
   }
   /* End Footer */
   /* Home page */
-   #menu-tile,
-    #specials-tile,
-    #veg-tile,
-    #fruit-tile,
-    #other-tile,
-    #map-tile {
+  #dairy-tile,
+  #poultry-tile,
+  #veg-tile,
+  #fruit-tile,
+  #other-tile,
+  #map-tile {
     width: 280px;
     margin: 0 auto 15px;
   }
@@ -786,10 +842,10 @@ h3.menu-item-title {
   #call-btn > a {
     font-size: 1.5em;
     display: block;
-    margin: 0 20px;
+    margin: 0 0px;
     padding: 10px;
     padding-bottom: 5px;
-    border: 2px solid #fdc426;
+    border: 4px solid #fdc426;
     background-color: white;
     color: rgb(15, 129, 62);
   }
@@ -805,8 +861,8 @@ h3.menu-item-title {
   .container .jumbotron {
     margin-top: 30px;
     padding: 0;
-    box-shadow: 0 0 50px #3f0c1f;
-    border: 2px solid #3f0c1f;
+    box-shadow: 0 0 50px #344e41;
+    border: 2px solid #344e41;
   }
 
   #check-out-division,

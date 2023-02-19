@@ -24,7 +24,7 @@ public class HomeDataLoader implements ApplicationListener<ApplicationReadyEvent
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
-        homeData.setTitleText("Farm Fresh Foods");
+        homeData.setTitleText("Dhariya Farms");
         homeData.setTelephoneNumber("9915081947");
         homeData.setTelephoneNumberText("Call us for home delivery");
         homeData.setCenterCarousalHeader("Farming for families since 2010");

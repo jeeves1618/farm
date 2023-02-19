@@ -114,5 +114,6 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>my-Farm-Clients</finalName>
     </build>
 </project>

@@ -39,10 +39,10 @@ public class MainController {
         return homeDataService.getHomePageData();
     }
 
-    @GetMapping(path = "/category/Dairy")
-    public List<Category> getSweetCategories(String menuItemCategory) throws IOException {
+    @GetMapping(path = "/category")
+    public List<Category> getSweetCategories(@RequestParam String menuItemCategory) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        menuItemCategory = "Dairy";
+        //menuItemCategory = "Dairy";
         return categoryRepo.findByMenuItemCategory(menuItemCategory);
     }
 

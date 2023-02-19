@@ -39,7 +39,7 @@
             <div class="navbar-brand" id="nvbr01">
               <a
                 th:href="@{/farmfoods/home}"
-                class="pull-right visible-md visible-lg visible-xs visible-sm"
+                class="visible-md visible-lg visible-xs visible-sm"
                 id="a-element-behind-brandname"
                 ><h1 th:text="${metahome.titleText}"></h1
               ></a>
@@ -66,23 +66,23 @@
           <div id="collapsable-nav" class="collapse navbar-collapse">
             <!--nav navbar-nav ensures that the elements are part of nav bar. navbar-right aligns to the right-->
             <ul id="nav-list" class="nav navbar-nav navbar-right">
-              <li>
-                <a th:href="@{/farmfoods/sweets}">
+              <li class="hidden-xs hidden-sm visible-md visible-lg">
+                <a th:href="@{/farmfoods/menu}">
                   <!--Glyficons are part of bootstrap https://getbootstrap.com/docs/3.4/components/#glyphicons-->
                   <span class="glyphicon glyphicon-cutlery"></span>
                   <!--THe class hidden-xs will hide the break element at xs size-->
-                  <br class="hidden-xs" />
+                  <br class="hidden-xs hidden-sm visible-md visible-lg" />
                   Menu</a
                 >
               </li>
-              <li>
+              <li class="hidden-xs hidden-sm visible-md visible-lg">
                 <a th:href="@{/farmfoods/about}">
                   <span class="glyphicon glyphicon-info-sign"></span
                   ><br class="hidden-xs" />
                   About</a
                 >
               </li>
-              <li>
+              <li class="hidden-xs hidden-sm visible-md visible-lg">
                 <a th:href="@{/farmfoods/cart}">
                   <span
                     id="nav-no-of-items-cart"
@@ -91,7 +91,7 @@
                   ><br class="hidden-xs" />&nbsp;&nbsp; Cart</a
                 >
               </li>
-              <li id="phone" class="hidden-xs hidden-sm">
+              <li id="phone" class="hidden-xs hidden-sm hidden-md hidden-lg">
                 <a href="tel:044-24344440">
                   <span th:text="${metahome.telephoneNumber}"></span
                 ></a>
@@ -105,8 +105,8 @@
       </nav>
     </header>
     <div id="complete-body-under-nav"></div>
-    <div id="contact-region">
-      <div id="call-btn" class="visible-xs visible-sm">
+    <div id="contact-region" class="container">
+      <div id="call-btn" class="visible-xs visible-sm visible-md visible-lg">
         <a
           class="btn"
           href="tel:044-24344440"
@@ -116,25 +116,24 @@
       </div>
       <div
         id="xs-deliver"
-        class="text-center visible-xs visible-sm"
+        class="text-center visible-xs visible-sm visible-md visible-lg glyphicon glyphicon-earphone"
         th:text="${metahome.telephoneNumberText}"
       ></div>
     </div>
     <div id="main-content" class="container">
       <div class="jumbotron">
         <!-- img-responsive is from bootstrap and it will ensure that the image realigns based on the width and it is visible only when the browser is xs -->
-        <img
-          th:src="@{/img/jumbotran_767.jpg}"
-          alt="Picture of restaurant"
-          class="img-responsive visible-xs"
-        />
+
         <h2
           id="jumbotran-main-text"
-          class="visible-lg visible-md visible-sm"
+          class="visible-xs visible-sm visible-md visible-lg"
           th:text="${metahome.centerCarousalHeader}"
         ></h2>
 
-        <h3 id="jumbotran-sub-text" class="visible-lg visible-md">
+        <h3
+          id="jumbotran-sub-text"
+          class="visible-lg visible-md visible-xs visible-sm"
+        >
           <i class="fa fa-truck service-icon"></i>
           <p th:text="${metahome.centerCarousalLine1}"></p>
           <i class="fa fa-coffee service-icon"></i>
@@ -147,40 +146,40 @@
       </div>
       <div id="home-tiles" class="row">
         <div class="col-md-4 col-sm-6 col-xs-12">
-
           <a th:href="@{/farmfoods/items(menuItemSubCategory=Dairy)}"
-            ><div id="menu-tile">
+            ><div id="dairy-tile">
               <span th:text="${metahome.tileHeader1}"></span></div
           ></a>
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">
           <a th:href="@{/farmfoods/items(menuItemSubCategory=Poultry)}"
-            ><div id="specials-tile">
+            ><div id="poultry-tile">
               <span th:text="${metahome.tileHeader2}"></span></div
           ></a>
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">
           <a th:href="@{/farmfoods/items(menuItemSubCategory=Vegetables)}"
-          ><div id="veg-tile">
-            <span th:text="${metahome.tileHeader3}"></span></div
+            ><div id="veg-tile">
+              <span th:text="${metahome.tileHeader3}"></span></div
           ></a>
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">
           <a th:href="@{/farmfoods/items(menuItemSubCategory=Fruits)}"
-          ><div id="fruit-tile">
-            <span th:text="${metahome.tileHeader4}"></span></div
+            ><div id="fruit-tile">
+              <span th:text="${metahome.tileHeader4}"></span></div
           ></a>
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">
           <a th:href="@{/farmfoods/items(menuItemSubCategory=Others)}"
-          ><div id="other-tile">
-            <span th:text="${metahome.tileHeader5}"></span></div
+            ><div id="other-tile">
+              <span th:text="${metahome.tileHeader5}"></span></div
           ></a>
         </div>
-        <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="col-md-4 col-sm-6 col-xs-12">
           <a href="https://goo.gl/maps/6bSQUcCFTbujkNzf7" target="_blank">
             <div id="map-tile">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15560.181119437684!2d80.2318667!3d12.8403506!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525a5f3280fbab%3A0xb7280e1a673a5153!2sHIRANANDANI%20BRIDGEWOOD%2C%20Egattur%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1674910017829!5m2!1sen!2sin"
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15560.181119437684!2d80.2318667!3d12.8403506!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525a5f3280fbab%3A0xb7280e1a673a5153!2sHIRANANDANI%20BRIDGEWOOD%2C%20Egattur%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1674910017829!5m2!1sen!2sin"
                 width="100%"
                 height="250"
                 frameborder="0"
@@ -210,9 +209,7 @@
             <span>Address:</span><br />
             5/63, Old Mahaballipuram Road, <br />Egattur, Near Navallur,<br />
             Chennai-600130
-            <p>
-              * Delivery area within 5 Kms, with minimum order of Rs.200.
-            </p>
+            <p>* Delivery area within 5 Kms, with minimum order of Rs.200.</p>
             <hr class="visible-xs" />
           </section>
           <section id="testimonials" class="col-sm-4">
@@ -221,8 +218,8 @@
               lot, since I've tried many!"
             </p>
             <p>
-              "Fresh farm produce! Great service! Couldn't ask for more! I'll be back
-              again and again!"
+              "Fresh farm produce! Great service! Couldn't ask for more! I'll be
+              back again and again!"
             </p>
           </section>
         </div>

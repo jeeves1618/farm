@@ -12,7 +12,7 @@
     <groupId>org.farmfresh</groupId>
     <artifactId>Sweets</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>ArchanaSweets</name>
+    <name>myFarm</name>
     <description>Creating a sample portal for managing inventory and showcasing products</description>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -114,5 +114,6 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>my-Farm-APIs</finalName>
     </build>
 </project>

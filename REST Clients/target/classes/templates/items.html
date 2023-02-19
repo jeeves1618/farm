@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html" />
     <meta name="viewport" content="width=device-width initial-scale=1" />
-    <title>Archana Sweets</title>
+    <title th:text="${metahome.titleText}"></title>
     <!-- CSS only -->
     <!-- Latest compiled and minified CSS -->
     <link
@@ -92,12 +92,6 @@
                   ><br class="hidden-xs" />&nbsp;&nbsp; Cart</a
                 >
               </li>
-              <li id="phone" class="hidden-xs hidden-sm">
-                <a href="tel:044-24344440">
-                  <span th:text="${metahome.telephoneNumber}"></span
-                ></a>
-                <div th:text="${metahome.telephoneNumberText}"></div>
-              </li>
             </ul>
             <!-- #nav-list -->
           </div>
@@ -106,6 +100,21 @@
       </nav>
     </header>
     <div id="complete-body-under-nav"></div>
+    <div id="contact-region" class="container">
+      <div id="call-btn" class="visible-xs visible-sm visible-md visible-lg">
+        <a
+          class="btn"
+          href="tel:9915081947"
+          th:text="${metahome.telephoneNumber}"
+          ><span class="glyphicon glyphicon-earphone"></span
+        ></a>
+      </div>
+      <div
+        id="xs-deliver"
+        class="text-center visible-xs visible-sm visible-md visible-lg glyphicon glyphicon-earphone"
+        th:text="${metahome.telephoneNumberText}"
+      ></div>
+    </div>
     <h2
       id="menu-categories-title"
       class="text-center"
@@ -227,17 +236,21 @@
           id="check-out-button"
           type="button"
           class="btn btn-primary mx-auto"
-        ></button>
+        >
+          Cart
+        </button>
       </a>
     </div>
     <br />
     <div id="back-from-checkout">
-      <a id="back-from-checkout-link" th:href="@{/farmfoods/sweets}">
+      <a id="back-from-checkout-link" th:href="@{/farmfoods/home}">
         <button
           id="back-from-checkout-button"
           type="button"
           class="btn btn-primary mx-auto"
-        ></button>
+        >
+          Home
+        </button>
       </a>
     </div>
     <!-- End of #Main Content -->
@@ -255,9 +268,7 @@
             <span>Address:</span><br />
             5/63, Old Mahaballipuram Road, <br />Egattur, Near Navallur,<br />
             Chennai-600130
-            <p>
-              * Delivery area within 5 Kms, with minimum order of Rs.200.
-            </p>
+            <p>* Delivery area within 5 Kms, with minimum order of Rs.200.</p>
             <hr class="visible-xs" />
           </section>
           <section id="testimonials" class="col-sm-4">
@@ -266,8 +277,8 @@
               lot, since I've tried many!"
             </p>
             <p>
-              "Fresh farm produce! Great service! Couldn't ask for more! I'll be back
-              again and again!"
+              "Fresh farm produce! Great service! Couldn't ask for more! I'll be
+              back again and again!"
             </p>
           </section>
         </div>

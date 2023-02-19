@@ -1,10 +1,8 @@
 package org.farmfresh.online.Controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.farmfresh.online.Domain.Category;
 import org.farmfresh.online.Domain.HomeMetaData;
 import org.farmfresh.online.Domain.Menu;
 import org.farmfresh.online.Domain.Pricing;
@@ -38,84 +36,11 @@ public class MainController {
 
     @GetMapping(path = "/home")
     public String getHomePage(Model model, RestTemplate restTemplate){
+        log.info("Retrieving data for home page");
         HomeMetaData homeMetaData = restTemplate.getForObject(
                 "http://localhost:8081/farmfoods/home", HomeMetaData.class);
         model.addAttribute("metahome",homeMetaData);
         return "homepage";
-    }
-
-    @GetMapping(path = "/Dairy")
-    public String getSweets(Model model, RestTemplate restTemplate) throws JsonProcessingException {
-        HomeMetaData homeMetaData = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
-        List<Category> categoryList = null;
-        try {
-            URL url = new URL("http://localhost:8081/farmfoods/category/Dairy");
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setRequestProperty("Accept", "application/json");
-            if (httpURLConnection.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + httpURLConnection.getResponseCode());
-            }
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (httpURLConnection.getInputStream())));
-
-            String output;
-            System.out.println("Output from Server .... \n");
-            while ((output = br.readLine()) != null) {
-                ObjectMapper mapper = new ObjectMapper();
-                categoryList = mapper.readValue(output, new TypeReference<List<Category>>(){});
-            }
-            System.out.println("categoryList : " + categoryList);
-            httpURLConnection.disconnect();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        homeMetaData.setCategoryHeader("Dairy Produce");
-        model.addAttribute("categories",categoryList);
-        model.addAttribute("metahome",homeMetaData);
-        model.addAttribute("pageTitle","Dairy Produce");
-        return "categories";
-    }
-
-    @GetMapping(path = "/savouries")
-    public String getSavouries(Model model, RestTemplate restTemplate) throws JsonProcessingException {
-        HomeMetaData homeMetaData = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
-        List<Category> categoryList = null;
-        try {
-            URL url = new URL("http://localhost:8081/farmfoods/category/savouries");
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setRequestProperty("Accept", "application/json");
-            if (httpURLConnection.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + httpURLConnection.getResponseCode());
-            }
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (httpURLConnection.getInputStream())));
-
-            String output;
-            System.out.println("Output from Server .... \n");
-            while ((output = br.readLine()) != null) {
-                ObjectMapper mapper = new ObjectMapper();
-                categoryList = mapper.readValue(output, new TypeReference<List<Category>>(){});
-            }
-            System.out.println("categoryList : " + categoryList);
-            httpURLConnection.disconnect();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        homeMetaData.setCategoryHeader("Savouries Categories");
-        model.addAttribute("categories",categoryList);
-        model.addAttribute("metahome",homeMetaData);
-        model.addAttribute("pageTitle","Savouries Categories");
-        return "categories";
     }
 
     @GetMapping(path = "/items")
@@ -152,6 +77,9 @@ public class MainController {
         homeMetaData.setCategoryHeader(displayMenuItemSubCategory);
         model.addAttribute("metahome",homeMetaData);
         for(Menu menu: menuList){
+
+            menu.setMenuImageFileName("../"+menu.getMenuImageFileName());
+            System.out.println("Debug : " + menu.getMenuImageFileName() + " for " + menu.getMenuItemName());
             List<Pricing> pricingList = new ArrayList<>();
             try {
                 URL url = new URL("http://localhost:8081/farmfoods/pricing/" + menu.getMenuItemId());
