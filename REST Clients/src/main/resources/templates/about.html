@@ -115,77 +115,42 @@
       ></div>
     </div>
     <div id="main-content" class="container">
-      <div class="jumbotron">
-        <!-- img-responsive is from bootstrap and it will ensure that the image realigns based on the width and it is visible only when the browser is xs -->
-
-        <h2
-          id="jumbotran-main-text"
-          class="visible-xs visible-sm visible-md visible-lg"
-          th:text="${metahome.centerCarousalHeader}"
-        ></h2>
-
-        <h3
-          id="jumbotran-sub-text"
-          class="visible-lg visible-md visible-xs visible-sm"
-        >
-          <i class="fa fa-truck service-icon"></i>
-          <p th:text="${metahome.centerCarousalLine1}"></p>
-          <i class="fa fa-coffee service-icon"></i>
-          <p th:text="${metahome.centerCarousalLine2}"></p>
-          <i class="fa fa-award service-icon"></i>
-          <p th:text="${metahome.centerCarousalLine3}"></p>
-          <i class="fa fa-table service-icon"></i>
-          <p th:text="${metahome.centerCarousalLine4}"></p>
-        </h3>
+      <br />
+      <h1 id="menu-categories-title" class="text-center">Serving Since 2010</h1>
+      <hr />
+      <h2 id="menu-categories-title" class="text-center">Our Story</h2>
+      <div class="text-center">
+        <p>
+          Welcome to Dhariya Farms, a beautiful and sustainable farm that offers
+          a range of fresh, healthy, and locally sourced products! Our farm is
+          located in the banks of Palar river, and we're dedicated to providing
+          our customers with the freshest, most nutritious produce possible.
+        </p>
+        <p>
+          At Dhariya Farms, we believe in the importance of sustainable
+          agriculture, which is why we use eco-friendly farming methods that are
+          gentle on the land and promote biodiversity. Our team is made up of
+          experienced farmers who are passionate about growing healthy food
+          while protecting the environment.
+        </p>
+        <p>
+          Our farm offers a wide variety of products, from fresh fruits and
+          vegetables to eggs, dairy, and medicinal herbs. We take great pride in
+          our produce, which is grown without the use of synthetic pesticides or
+          fertilizers. We also raise our animals with the utmost care and
+          respect, ensuring that they're healthy and happy.
+        </p>
       </div>
-      <div id="home-tiles" class="row">
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Dairy)}"
-            ><div id="dairy-tile">
-              <span th:text="${metahome.tileHeader1}"></span></div
-          ></a>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Poultry)}"
-            ><div id="poultry-tile">
-              <span th:text="${metahome.tileHeader2}"></span></div
-          ></a>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Vegetables)}"
-            ><div id="veg-tile">
-              <span th:text="${metahome.tileHeader3}"></span></div
-          ></a>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Fruits)}"
-            ><div id="fruit-tile">
-              <span th:text="${metahome.tileHeader4}"></span></div
-          ></a>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Others)}"
-            ><div id="other-tile">
-              <span th:text="${metahome.tileHeader5}"></span></div
-          ></a>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <a href="https://goo.gl/maps/6bSQUcCFTbujkNzf7" target="_blank">
-            <div id="map-tile">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15560.181119437684!2d80.2318667!3d12.8403506!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525a5f3280fbab%3A0xb7280e1a673a5153!2sHIRANANDANI%20BRIDGEWOOD%2C%20Egattur%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1674910017829!5m2!1sen!2sin"
-                width="100%"
-                height="250"
-                frameborder="0"
-                style="border: 0"
-                allowfullscreen
-              ></iframe>
-              <span th:text="${metahome.tileHeader6}"></span>
-            </div>
-          </a>
-        </div>
+      <hr />
+      <h2 id="menu-categories-title" class="text-center">Our Vision</h2>
+      <div class="text-center">
+        In addition to our commitment to sustainable farming, we're also
+        passionate about building a strong and vibrant local community. We
+        believe that small, local farms like ours have an important role to play
+        in promoting healthy living and strengthening the connections between
+        people and the land. Thank you for considering Dhariya Farms!
       </div>
-      <!-- End of #home-tiles -->
+      <hr />
     </div>
 
     <!-- End of #Main Content -->

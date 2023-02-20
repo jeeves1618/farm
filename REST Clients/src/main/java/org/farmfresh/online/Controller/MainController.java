@@ -44,7 +44,7 @@ public class MainController {
     }
 
     @GetMapping(path = "/items")
-    public String getAboutPage(@RequestParam("menuItemSubCategory") String menuItemSubCategory,  Model model, RestTemplate restTemplate){
+    public String getItemsPage(@RequestParam("menuItemSubCategory") String menuItemSubCategory,  Model model, RestTemplate restTemplate){
         HomeMetaData homeMetaData = restTemplate.getForObject(
                 "http://localhost:8081/farmfoods/home", HomeMetaData.class);
         String displayMenuItemSubCategory = menuItemSubCategory;
@@ -109,6 +109,81 @@ public class MainController {
         model.addAttribute("items", menuList);
         System.out.println(menuList);
         return "items";
+    }
+
+    @GetMapping(path = "/products")
+    public String getProductsPage(Model model, RestTemplate restTemplate){
+        HomeMetaData homeMetaData = restTemplate.getForObject(
+                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+
+        List<Menu> menuList = null;
+        try {
+            URL url = new URL("http://localhost:8081/farmfoods/products/Y");
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("GET");
+            httpURLConnection.setRequestProperty("Accept", "application/json");
+
+            if (httpURLConnection.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + httpURLConnection.getResponseCode());
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (httpURLConnection.getInputStream())));
+
+            String output;
+            System.out.println("Output from Server .... \n");
+            while ((output = br.readLine()) != null) {
+                ObjectMapper mapper = new ObjectMapper();
+                menuList = mapper.readValue(output, new TypeReference<List<Menu>>(){});
+            }
+            httpURLConnection.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        homeMetaData.setCategoryHeader("All Products");
+        model.addAttribute("metahome",homeMetaData);
+        for(Menu menu: menuList){
+
+            menu.setMenuImageFileName("../"+menu.getMenuImageFileName());
+            System.out.println("Debug : " + menu.getMenuImageFileName() + " for " + menu.getMenuItemName());
+            List<Pricing> pricingList = new ArrayList<>();
+            try {
+                URL url = new URL("http://localhost:8081/farmfoods/pricing/" + menu.getMenuItemId());
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("GET");
+                httpURLConnection.setRequestProperty("Accept", "application/json");
+
+                if (httpURLConnection.getResponseCode() != 200) {
+                    throw new RuntimeException("Failed : HTTP error code : "
+                            + httpURLConnection.getResponseCode());
+                }
+                BufferedReader br = new BufferedReader(new InputStreamReader(
+                        (httpURLConnection.getInputStream())));
+
+                String output;
+                System.out.println("Output from Server .... \n");
+                while ((output = br.readLine()) != null) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    pricingList = mapper.readValue(output, new TypeReference<List<Pricing>>(){});
+                    menu.setPricingList(pricingList);
+                }
+                httpURLConnection.disconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        model.addAttribute("items", menuList);
+        System.out.println(menuList);
+        return "items";
+    }
+
+    @GetMapping(path = "/about")
+    public String getAboutPage(Model model, RestTemplate restTemplate){
+        HomeMetaData homeMetaData = restTemplate.getForObject(
+                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        model.addAttribute("metahome",homeMetaData);
+        return "about";
     }
 
     @GetMapping(path = "/contact")
