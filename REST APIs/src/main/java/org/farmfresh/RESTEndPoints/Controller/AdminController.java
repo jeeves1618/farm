@@ -1,9 +1,11 @@
 package org.farmfresh.RESTEndPoints.Controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.farmfresh.RESTEndPoints.Domain.HomeMetaData;
 import org.farmfresh.RESTEndPoints.Domain.UIMetaData;
 import org.farmfresh.RESTEndPoints.Entity.Menu;
 import org.farmfresh.RESTEndPoints.Entity.UploadInfo;
+import org.farmfresh.RESTEndPoints.Service.HomeDataService;
 import org.farmfresh.RESTEndPoints.Service.MenuService;
 import org.farmfresh.RESTEndPoints.Service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -33,15 +36,17 @@ public class AdminController {
     @Autowired
     MenuService menuService;
 
+    @Autowired
+    HomeDataService homeDataService;
+
     private final String UPLOAD_FILE_PATH = "C:\\Dev\\Sweets\\data\\";
     private final String USER_NAME = System.getProperty("user.name").substring(0,1).toUpperCase()+ System.getProperty("user.name").substring(1);
 
     @GetMapping(path = "/menumanager")
-    public String getHomePage(Model model){
-        List<UploadInfo> uploadInfoList = uploadService.findall();
-        model.addAttribute("uploadEntries", uploadInfoList);
-        model.addAttribute("messagetext", "Please select the type of statement and upload it here");
-        model.addAttribute("UIMetaData",uiMetaData);
+    public String getHomePage(Model model, RestTemplate restTemplate){
+        HomeMetaData homeMetaData = restTemplate.getForObject(
+                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        model.addAttribute("metahome",homeMetaData);
         return "menumanager";
     }
 

@@ -20,7 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 /*
                 
                 */
-                .antMatchers("/admin/menumanager", "/admin/quotegenerator","/admin/menu/upload").authenticated()
+                .antMatchers("/admin/menumanagerx", "/admin/quotegeneratorx","/admin/menu/uploadx").authenticated()
                 /*
                 permitAll() has been given instead of authenticated() to test the REST endpoints.
                 Should figure out the rest endpoint for Spring Security
