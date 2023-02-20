@@ -37,7 +37,7 @@ public class HomeDataLoader implements ApplicationListener<ApplicationReadyEvent
         homeData.setTileHeader3("Vegetables");
         homeData.setTileHeader4("Fruits");
         homeData.setTileHeader5("Others");
-        homeData.setTileHeader6("Map");
+        homeData.setTileHeader6("Pickup Point");
         homeData.setCategoryMessage("Availability of fruits and vegetables are subject to seasonal variations");
 
         homeDataRepo.save(homeData);
