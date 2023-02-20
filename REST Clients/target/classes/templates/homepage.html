@@ -66,23 +66,23 @@
           <div id="collapsable-nav" class="collapse navbar-collapse">
             <!--nav navbar-nav ensures that the elements are part of nav bar. navbar-right aligns to the right-->
             <ul id="nav-list" class="nav navbar-nav navbar-right">
-              <li class="hidden-xs hidden-sm visible-md visible-lg">
-                <a th:href="@{/farmfoods/menu}">
+              <li>
+                <a th:href="@{/farmfoods/sweets}">
                   <!--Glyficons are part of bootstrap https://getbootstrap.com/docs/3.4/components/#glyphicons-->
                   <span class="glyphicon glyphicon-cutlery"></span>
                   <!--THe class hidden-xs will hide the break element at xs size-->
-                  <br class="hidden-xs hidden-sm visible-md visible-lg" />
+                  <br class="hidden-xs" />
                   Menu</a
                 >
               </li>
-              <li class="hidden-xs hidden-sm visible-md visible-lg">
+              <li>
                 <a th:href="@{/farmfoods/about}">
                   <span class="glyphicon glyphicon-info-sign"></span
                   ><br class="hidden-xs" />
                   About</a
                 >
               </li>
-              <li class="hidden-xs hidden-sm visible-md visible-lg">
+              <li>
                 <a th:href="@{/farmfoods/cart}">
                   <span
                     id="nav-no-of-items-cart"
@@ -90,12 +90,6 @@
                   ></span
                   ><br class="hidden-xs" />&nbsp;&nbsp; Cart</a
                 >
-              </li>
-              <li id="phone" class="hidden-xs hidden-sm hidden-md hidden-lg">
-                <a href="tel:044-24344440">
-                  <span th:text="${metahome.telephoneNumber}"></span
-                ></a>
-                <div th:text="${metahome.telephoneNumberText}"></div>
               </li>
             </ul>
             <!-- #nav-list -->
