@@ -616,9 +616,22 @@ h3.menu-item-title {
   /* End Footer */
   .navbar-brand h1 {
     /* Restaurant name */
-    align-items: left;
-    padding-top: 10px;
-    /* font-size: 5vw;1vw = 1% of viewport width */
+    /*Restaurant Name*/
+    font-family: "Libre Bodoni", serif;
+    /*color: #951c49;*/
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    /*text-shadow: 1px 1px 1px #222;*/
+    margin-top: 10;
+    line-height: 1;
+    margin-left: 0px;
+    display: block;
+    max-width: 150px;
+    word-wrap: break-word;
+
+    line-height: 1.2;
+    text-align: center;
   }
   .navbar-brand p {
     /* Kosher cert */
@@ -773,7 +786,7 @@ h3.menu-item-title {
     font-weight: bold;
     /*text-shadow: 1px 1px 1px #222;*/
     margin-top: 10;
-    line-height: 0.75;
+    line-height: 1;
     margin-left: 0px;
     display: block;
     max-width: 150px;
