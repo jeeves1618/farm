@@ -51,7 +51,7 @@
     "id": "7",
     "name": "Country Chicken Eggs",
     "pricing": { "250 gm": 350, "500 gm": 700, "1 kg": 1400 },
-    "category": "Poultry ",
+    "category": "Poultry",
     "image": "img/menu/B/G.jpg",
     "description": "Eggs naturally contain vitamin D. The Country Hen eggs contain over three times the vitamin D of an average egg"
   },

@@ -109,6 +109,13 @@ body {
 #nav-no-of-items-cart {
   font-size: 0.5em;
 }
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:focus,
+.nav-pills > li.active > a:hover {
+  color: #fff;
+  background-color: #337ab7;
+}
 #phone {
   margin-top: 5px;
 }
