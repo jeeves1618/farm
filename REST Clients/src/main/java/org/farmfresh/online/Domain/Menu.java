@@ -25,4 +25,8 @@ public class Menu {
     private String userCreated;
     private String userUpdated;
     private List<Pricing> pricingList;
+
+    /*
+    Available Quantity
+     */
 }

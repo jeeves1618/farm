@@ -3,7 +3,7 @@
 }
 
 main {
-  background-color: rgb(233, 215, 207);
+  background-color: #dad7cd;
 }
 
 a {
@@ -14,6 +14,10 @@ a {
   padding-top: 40px;
 }
 
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+}
 .btn-outline-success {
   color: white !important;
   background-color: rgb(34, 22, 22) !important;
@@ -37,15 +41,15 @@ a {
 
 .topic-tile {
   position: relative;
-  background-color: rgb(223, 136, 124);
+  background-color: #588157;
   border: 2px solid white;
   padding: 15px;
   padding-top: 30px;
   overflow: hidden;
-  width: 220px;
-  height: 300px;
-  margin: 0 auto 15px;
-  box-shadow: 0 0 10px #3f0c1f;
+  width: 350px;
+  height: 350px;
+  margin: 0 auto 25px;
+  box-shadow: 0 0 10px #283618;
   border-radius: 5%;
 }
 
@@ -63,7 +67,7 @@ a {
 }
 .genre-tile {
   position: relative;
-  background-color: rgb(167, 1, 78);
+  background-color: #344e41;
   color: white;
   border: 2px solid white;
   border-radius: 4px;
@@ -71,7 +75,7 @@ a {
   width: 180px;
   height: auto;
   margin: 0 auto -15px;
-  box-shadow: 0 0 10px #3f0c1f;
+  box-shadow: 0 0 10px #283618;
   z-index: 1099;
   text-decoration: none !important;
   text-align: center;
@@ -84,65 +88,86 @@ a {
   padding-top: 8%;
 }
 #title-text {
-  padding-top: 24px;
-  padding-bottom: 12px;
+  padding-top: 10%;
+  padding-bottom: 5px;
   border-radius: 4px;
   width: 300px;
   border: 0px solid white;
   color: rgb(167, 1, 78);
-  background-color: rgb(233, 215, 207);
+  background-color: #dad7cd;
 }
 
 .section-tile {
-  background-color: rgb(233, 215, 207);
+  background-color: #cad2c5;
   border: 2px solid white;
-  box-shadow: 0 0 10px #3f0c1f;
+  box-shadow: 0 0 10px #283618;
   border-radius: 5px;
   margin: 20px;
 }
 
 .book-tile {
-  background-color: rgb(223, 136, 124);
+  background-color: rgb(233, 215, 207);
   position: relative;
   border: 2px solid white;
   overflow: hidden;
-  width: 200px;
+  width: 25%;
   height: 250px;
   margin: 35px auto 20px;
 
-  box-shadow: 0 0 10px #3f0c1f;
+  box-shadow: 0 0 10px #283618;
   border-radius: 5%;
 }
 
 .book-description {
-  background-color: rgb(167, 1, 78);
+  background-color: #344e41;
   color: white;
   font-weight: bold;
   text-align: center;
   position: relative;
   border: 2px solid white;
   overflow: hidden;
-  width: 50%;
+  width: 70%;
   height: 250px;
   margin: 35px auto 20px;
-  box-shadow: 0 0 10px #3f0c1f;
+  box-shadow: 0 0 10px #283618;
   border-radius: 5%;
 }
 
 .book-title-tile {
   position: relative;
-  background-color: rgb(223, 136, 124);
+  background-color: #588157;
   font-weight: bolder;
   text-align: center;
   color: rgb(71, 62, 62);
   border: 2px solid white;
   font-size: 18px;
-  width: 60%;
+  width: 50%;
   height: auto;
   margin: 0 auto -25px;
-  box-shadow: 0 0 10px #3f0c1f;
+  box-shadow: 0 0 10px #283618;
   border-radius: 4px;
   padding: 3px 0 3px 0;
+}
+
+.edit-button {
+  background-color: #344e41;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  border: 2px solid white;
+  overflow: hidden;
+  width: 20%;
+  margin: auto;
+  margin-bottom: 15px;
+  box-shadow: 0 0 10px #283618;
+  border-radius: 5%;
+}
+
+.edit-button:hover {
+  background-color: white;
+  color: #344e41;
+  border: 2px solid #344e41;
 }
 h2 {
   color: rgb(34, 22, 22);
@@ -161,6 +186,39 @@ hr {
 
   margin-inline-start: 25%;
 }
+/* FOOTER */
+.panel-footer {
+  margin-top: 30px;
+  padding-top: 35px;
+  padding-bottom: 30px;
+  background-color: #222;
+  border-top: 0;
+}
+.panel-footer div.row {
+  margin-bottom: 35px;
+  /*newlook*/
+  color: white;
+}
+#hours,
+#address {
+  line-height: 2;
+}
+#hours > span,
+#address > span {
+  font-size: 1.3em;
+}
+#address p {
+  color: #557c3e;
+  font-size: 0.8em;
+  line-height: 1.8;
+}
+#testimonials {
+  font-style: italic;
+}
+#testimonials p:nth-child(2) {
+  margin-top: 25px;
+}
+/* END FOOTER */
 /********** Large devices only **********/
 @media (min-width: 1200px) {
 }

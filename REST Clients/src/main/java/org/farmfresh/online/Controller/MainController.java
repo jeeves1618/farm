@@ -3,6 +3,7 @@ package org.farmfresh.online.Controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.farmfresh.online.Domain.Category;
 import org.farmfresh.online.Domain.HomeMetaData;
 import org.farmfresh.online.Domain.Menu;
 import org.farmfresh.online.Domain.Pricing;
@@ -146,7 +147,6 @@ public class MainController {
         for(Menu menu: menuList){
 
             menu.setMenuImageFileName("../"+menu.getMenuImageFileName());
-            System.out.println("Debug : " + menu.getMenuImageFileName() + " for " + menu.getMenuItemName());
             List<Pricing> pricingList = new ArrayList<>();
             try {
                 URL url = new URL("http://localhost:8081/farmfoods/pricing/" + menu.getMenuItemId());
@@ -186,13 +186,50 @@ public class MainController {
         return "about";
     }
 
-    @GetMapping(path = "/account")
+    @GetMapping(path = "/category")
     public String getAccountPage(Model model, RestTemplate restTemplate){
         HomeMetaData homeMetaData = restTemplate.getForObject(
                 "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        List<Category> categoryList = null;
+        try {
+            URL url = new URL("http://localhost:8081/farmfoods/catSummary");
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("GET");
+            httpURLConnection.setRequestProperty("Accept", "application/json");
+
+            if (httpURLConnection.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + httpURLConnection.getResponseCode());
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (httpURLConnection.getInputStream())));
+
+            String output;
+            System.out.println("Output from Server .... \n");
+            while ((output = br.readLine()) != null) {
+                ObjectMapper mapper = new ObjectMapper();
+                categoryList = mapper.readValue(output, new TypeReference<List<Category>>(){});
+            }
+            httpURLConnection.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        homeMetaData.setCategoryHeader("Inventory List");
+        model.addAttribute("metahome",homeMetaData);
+        model.addAttribute("categories", categoryList);
+        return "account";
+    }
+
+    @GetMapping(path = "/inverntory")
+    public String getInventory(@RequestParam("menuItemSubCategory") String menuItemSubCategory,  Model model, RestTemplate restTemplate){
+        HomeMetaData homeMetaData = restTemplate.getForObject(
+                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        String displayMenuItemSubCategory = menuItemSubCategory;
         List<Menu> menuList = null;
         try {
-            URL url = new URL("http://localhost:8081/farmfoods/products/Y");
+            menuItemSubCategory = URLEncoder.encode(menuItemSubCategory,"UTF-8").replace("+", "%20");
+            URL url = new URL("http://localhost:8081/farmfoods/items/" + menuItemSubCategory);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("GET");
             httpURLConnection.setRequestProperty("Accept", "application/json");
@@ -215,7 +252,7 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        homeMetaData.setCategoryHeader("Inventory List");
+        homeMetaData.setCategoryHeader(displayMenuItemSubCategory);
         model.addAttribute("metahome",homeMetaData);
         for(Menu menu: menuList){
 
@@ -247,8 +284,9 @@ public class MainController {
                 e.printStackTrace();
             }
         }
-        model.addAttribute("products", menuList);
-        return "account";
+        model.addAttribute("items", menuList);
+        System.out.println(menuList);
+        return "inventoryitems";
     }
 
     @GetMapping(path = "/contact")

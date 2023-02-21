@@ -152,13 +152,13 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
             for(CatSummary catSummary:catSummaryList){
                 System.out.println((catSummary));
                 category.setMenuItemCategory(catSummary.getMenuItemCategory());
-                category.setMenuItemSubCategory(catSummary.getMenuItemSubCategory());
+                category.setMenuItemSubCategory(catSummary.getMenuItemSubCategory()+" (" + catSummary.getMenuItemCount() + ")");
                 category.setMenuItemCount((int) catSummary.getMenuItemCount());
                 category.setDateCreated(date);
                 category.setDateUpdated(date);
                 category.setUserCreated("Farm Fresh");
                 category.setUserUpdated("Organic");
-                category.setMenuImageFileName(menuRepo.findOneByMenuItemSubCategory(catSummary.getMenuItemSubCategory()).getMenuImageFileName());
+                category.setMenuImageFileName("../" + menuRepo.findOneByMenuItemSubCategory(catSummary.getMenuItemSubCategory()).getMenuImageFileName());
                 categoryRepo.save(category);
                 category = new Category();
 

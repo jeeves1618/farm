@@ -65,6 +65,12 @@ public class MainController {
         return menuRepo.findByMenuAvailabilityInd(menuAvailabilityInd);
     }
 
+    @GetMapping(path = "/catSummary")
+    public List<Category> getCategory() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return categoryRepo.findAll();
+    }
+
     @GetMapping(path = "/inventory")
     public List<Menu> getInventory() throws IOException {
         ObjectMapper mapper = new ObjectMapper();

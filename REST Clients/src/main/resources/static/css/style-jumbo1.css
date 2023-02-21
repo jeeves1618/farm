@@ -25,6 +25,16 @@ img {
   z-index: 1100;
 }
 
+#jumbo-text-02 {
+  color: white;
+  text-align: left;
+  align-content: center;
+  font-size: 1.5em;
+  line-height: 1.75em;
+  /* Make the nav bar come to the front */
+  z-index: 1100;
+}
+
 #jumbo-header-01 {
   color: white;
   text-align: right;

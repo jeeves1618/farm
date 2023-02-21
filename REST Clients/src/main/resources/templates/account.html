@@ -1,189 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="Content-Type" content="text/html" />
-    <meta name="viewport" content="width=device-width initial-scale=1" />
-    <title th:text="${metahome.titleText}"></title>
-    <!-- CSS only -->
-    <!-- Latest compiled and minified CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css"
-      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
-      crossorigin="anonymous"
-    />
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Oxygen&family=Pacifico&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Libre+Bodoni&family=Lora&family=Mukta&family=Oxygen&family=Source+Serif+Pro&family=Tiro+Kannada&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <header>
-      <nav id="header-nav" class="navbar navbar-default">
-        <div class="container">
-          <div class="navbar-header" id="navbar-header-id">
-            <!--pull left is bootstrap way of saying float left. visible-md and visible-lg will ensure that the impage is visible only when the screen is not small-->
-            <a
-              th:href="@{/farmfoods/home}"
-              class="pull-left visible-md visible-lg visible-sm visible-xs"
-              id="a-element-behind-logo"
-            >
-              <div id="logo-img" alt="Logo image"></div>
-            </a>
-            <div class="navbar-brand" id="nvbr01">
-              <a
-                th:href="@{/farmfoods/home}"
-                class="visible-md visible-lg visible-xs visible-sm"
-                id="a-element-behind-brandname"
-                ><h1 th:text="${metahome.titleText}"></h1
-              ></a>
-              <p>
-                <!--<img src="img/x.jpg" alt="sub text" />-->
-              </p>
-            </div>
-            <!--data-target="#collapsable-nav" points to the element with that ID-->
-            <button
-              type="button"
-              class="navbar-toggle collapsed"
-              data-toggle="collapse"
-              data-target="#collapsable-nav"
-              aria-expanded="false"
-            >
-              <!--sr only is for screen reader-->
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-          </div>
-
-          <div id="collapsable-nav" class="collapse navbar-collapse">
-            <!--nav navbar-nav ensures that the elements are part of nav bar. navbar-right aligns to the right-->
-            <ul id="nav-list" class="nav navbar-nav navbar-right">
-              <li>
-                <a th:href="@{/farmfoods/products}">
-                  <!--Glyficons are part of bootstrap https://getbootstrap.com/docs/3.4/components/#glyphicons-->
-                  <span class="glyphicon glyphicon-leaf"></span>
-                  <!--THe class hidden-xs will hide the break element at xs size-->
-                  <br class="hidden-xs" />
-                  Products</a
-                >
-              </li>
-              <li>
-                <a th:href="@{/farmfoods/about}">
-                  <span class="glyphicon glyphicon-info-sign"></span
-                  ><br class="hidden-xs" />
-                  About</a
-                >
-              </li>
-              <li>
-                <a th:href="@{/farmfoods/home}">
-                  <span
-                    id="nav-no-of-items-cart"
-                    class="glyphicon glyphicon-shopping-cart"
-                  ></span
-                  ><br class="hidden-xs" />&nbsp;&nbsp; Cart</a
-                >
-              </li>
-              <li>
-                <a th:href="@{/farmfoods/account}">
-                  <span
-                    id="nav-no-of-items-cart"
-                    class="glyphicon glyphicon-user"
-                  ></span
-                  ><br class="hidden-xs" />&nbsp;&nbsp; Account</a
-                >
-              </li>
-            </ul>
-            <!-- #nav-list -->
-          </div>
-          <!-- .collapse .navbar-collapse -->
-        </div>
-      </nav>
-    </header>
-    <div id="complete-body-under-nav"></div>
-    <div id="contact-region" class="container">
-      <div id="call-btn" class="visible-xs visible-sm visible-md visible-lg">
-        <a
-          class="btn"
-          href="tel:044-24344440"
-          th:text="${metahome.telephoneNumber}"
-          ><span class="glyphicon glyphicon-earphone"></span
-        ></a>
-      </div>
-      <div
-        id="xs-deliver"
-        class="text-center visible-xs visible-sm visible-md visible-lg glyphicon glyphicon-earphone"
-        th:text="${metahome.telephoneNumberText}"
-      ></div>
-    </div>
-    <!-- https://stackoverflow.com/questions/48927089/bootstrap-4-change-color-of-nav-pill-active -->
-    <div id="main-content" class="container">
-      <ul class="nav nav-pills nav-dhariya">
-        <li role="presentation" class="active"><a href="#">Item</a></li>
-        <li role="presentation"><a href="#">Home</a></li>
-        <li role="presentation"><a href="#">Pricing</a></li>
-      </ul>
-    </div>
-
-    <!-- End of #Main Content -->
-    <footer class="panel-footer">
-      <div class="container">
-        <div class="row">
-          <section id="hours" class="col-sm-4">
-            <span>Hours:</span><br />
-            Sun-Thurs: 7:15am - 10:00pm<br />
-            Fri: 7:15am - 10:30pm<br />
-            Saturday: 7:15am - 11:30pm
-            <hr class="visible-xs" />
-          </section>
-          <section id="address" class="col-sm-4">
-            <span>Address:</span><br />
-            5/63, Old Mahaballipuram Road, <br />Egattur, Near Navallur,<br />
-            Chennai-600130
-            <p>* Delivery area within 5 Kms, with minimum order of Rs.200.</p>
-            <hr class="visible-xs" />
-          </section>
-          <section id="testimonials" class="col-sm-4">
-            <p>
-              "The healthiest organic shop I've ever tried! And that's saying a
-              lot, since I've tried many!"
-            </p>
-            <p>
-              "Fresh farm produce! Great service! Couldn't ask for more! I'll be
-              back again and again!"
-            </p>
-          </section>
-        </div>
-        <div class="text-center">
-          &copy; Copyright Farm Fresh Foods, Chennai, 2022
-        </div>
-      </div>
-    </footer>
-    <!--Java Script -->
-    <!-- jQuery is needed for JS -->
-    <script
-      src="https://code.jquery.com/jquery-2.2.4.js"
-      integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
-      crossorigin="anonymous"
-    ></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
-      integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
-      crossorigin="anonymous"
-    ></script>
-  </body>
-</html>
-<!--- -------------------------------------------------------------------------  -->
-
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
@@ -211,8 +26,15 @@
   <body>
     <div class="flex-container">
       <nav id="header-nav" class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-          <a class="navbar-brand" th:href="@{/app/main}"
+        <div class="container">
+          <a
+            th:href="@{/farmfoods/home}"
+            class="pull-left visible-md visible-lg visible-sm visible-xs"
+            id="a-element-behind-logo"
+          >
+            <div id="logo-img" alt="Logo image"></div>
+          </a>
+          <a class="navbar-brand" th:href="@{/farmfoods/home}"
             ><h1 id="header-nav-logo" th:text="${metahome.titleText}"></h1
           ></a>
           <button
@@ -272,39 +94,29 @@
           </div>
         </div>
       </nav>
-      <div class="jumbotron img-responsive" id="jumbo-01">
-        <h1 id="jumbo-header-01">Farm Manager</h1>
-        <hr />
-        <p id="jumbo-text-01">
-          Managing a small farm can be a challenging task, but a web application
-          can help simplify the process and make it more efficient. Here are
-          some features and considerations for managing the farm.
-        </p>
-        <ol>
-          <li>Sales and inventory management</li>
-          <li>Customer Management</li>
-          <li>Financial management</li>
-          <li>Crop management</li>
-          <li>Livestock management</li>
-          <li>Weather monitoring</li>
-        </ol>
-      </div>
+
       <main>
         <div class="container" id="title-text"><h2>Inventory</h2></div>
         <div id="topicList">
-          <section th:if="${not #lists.isEmpty(products)}" class="row">
+          <section th:if="${not #lists.isEmpty(categories)}" class="row">
             <div
-              th:each="product : ${products}"
-              class="col-md-3 col-sm-4 col-xs-6 col-xxs-12"
+              th:each="category : ${categories}"
+              class="col-md-4 col-sm-6 col-xs-12"
             >
-              <a th:href="@{/book/books(Genre=${topic.bookGenre})}">
-                <p th:text="${topic.bookGenre}" class="genre-tile"></p>
+              <!-- <a th:href="@{/book/books(Genre=${topic.bookGenre})}"> -->
+              <a
+                th:href="@{/farmfoods/inverntory(menuItemSubCategory=${category.menuItemCategory})}"
+              >
+                <p
+                  th:text="${category.menuItemSubCategory}"
+                  class="genre-tile"
+                ></p>
                 <div class="topic-tile">
                   <img
-                    width="200"
-                    height="250"
-                    th:src="@{${topic.imageFileName}}"
-                    th:alt="${topic.bookGenre}"
+                    width="300"
+                    height="300"
+                    th:src="@{${category.menuImageFileName}}"
+                    th:alt="${category.menuItemCategory}"
                   />
                 </div>
               </a>
@@ -313,7 +125,39 @@
         </div>
       </main>
     </div>
-
+    <footer class="panel-footer">
+      <div class="container">
+        <div class="row">
+          <section id="hours" class="col-sm-4">
+            <span>Hours:</span><br />
+            Sun-Thurs: 7:15am - 10:00pm<br />
+            Fri: 7:15am - 10:30pm<br />
+            Saturday: 7:15am - 11:30pm
+            <hr class="visible-xs" />
+          </section>
+          <section id="address" class="col-sm-4">
+            <span>Address:</span><br />
+            5/63, Old Mahaballipuram Road, <br />Egattur, Near Navallur,<br />
+            Chennai-600130
+            <p>* Delivery area within 5 Kms, with minimum order of Rs.200.</p>
+            <hr class="visible-xs" />
+          </section>
+          <section id="testimonials" class="col-sm-4">
+            <p>
+              "The healthiest organic shop I've ever tried! And that's saying a
+              lot, since I've tried many!"
+            </p>
+            <p>
+              "Fresh farm produce! Great service! Couldn't ask for more! I'll be
+              back again and again!"
+            </p>
+          </section>
+        </div>
+        <div class="text-center">
+          &copy; Copyright Farm Fresh Foods, Chennai, 2022
+        </div>
+      </div>
+    </footer>
     <!-- JavaScript Bundle with Popper -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"

@@ -1,6 +1,6 @@
 /**Header**/
 #header-nav {
-  background-color: black;
+  background-color: #344e41;
   color: white;
   border-radius: 0;
   border: 0;
@@ -12,10 +12,28 @@
   z-index: 1100;
 }
 
-#header-nav-logo h1 {
+#header-nav-logo {
+  font-family: "Libre Bodoni", serif;
+  /*color: #951c49;*/
   color: white;
+  font-size: 1.75em;
+  font-weight: bolder;
+  /*text-shadow: 1px 1px 1px #222;*/
+  margin-top: 10;
+  margin-bottom: 0;
+  display: block;
+  line-height: 0.75;
+  font-stretch: ultra-condensed;
+  text-transform: uppercase;
 }
-
+#logo-img {
+  background: url("../img/HDlogo.jpg") no-repeat;
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 100px;
+  width: 140px;
+  margin: 10px 15px 10px 0;
+}
 .navbar-toggler {
   color: white;
   --bs-navbar-toggler-border-color: white;
