@@ -104,14 +104,14 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
                         case " image":
                             menu.setMenuImageFileName(tokens[1]);
                             break;
-                        case " 1 kg":
-                            pricing.setPackSize("1 kg");
+                        case " 1":
+                            pricing.setPackSize("1");
                             pricing.setMenuItemPackPrice(Integer.valueOf(tokens[1].substring(0,tokens[1].length()-1)));
                             pricingList.add(pricing);
                             pricing = new Pricing();
                             break;
-                        case " 500 gm":
-                            pricing.setPackSize("500 gm");
+                        case " 500":
+                            pricing.setPackSize("500");
                             pricing.setMenuItemPackPrice(Integer.valueOf(tokens[1]));
                             pricingList.add(pricing);
                             pricing = new Pricing();

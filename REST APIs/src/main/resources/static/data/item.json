@@ -312,7 +312,7 @@
   {
     "id": "32",
     "name": "Coconut Water",
-    "pricing": { "250 ml": 19, "500 ml": 38, "1 lt": 77 },
+    "pricing": { "100": 19, "500": 38, "1000": 77 },
     "category": "Others",
     "image": "img/menu/E/A.jpg",
     "description": "Delicious coconut water from the coromandal coast of Chennai",
@@ -322,7 +322,7 @@
   {
     "id": "32",
     "name": "Palmyra Fruit",
-    "pricing": { "250 ml": 19, "500 ml": 38, "1 lt": 77 },
+    "pricing": { "20": 19, "50": 38, "100": 77 },
     "category": "Others",
     "image": "img/menu/E/B.jpg",
     "description": "The Palmyra fruit is a good source of vitamin C, carotenoids, minerals, and sugars",

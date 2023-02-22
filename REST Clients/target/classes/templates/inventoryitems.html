@@ -108,7 +108,7 @@
           <div class="row section-tile">
             <div class="col-sm-5 book-tile">
               <a
-                th:href="@{/farmfoods/inverntory(menuItemSubCategory=${item.menuItemSubCategory})}"
+                th:href="@{/farmfoods/inventory(menuItemSubCategory=${item.menuItemSubCategory})}"
               >
                 <div>
                   <img
@@ -155,6 +155,9 @@
       </section>
     </div>
 
+    <a th:href="@{/farmfoods/category}" class="edit-button"
+      ><b>Back to Inventory</b></a
+    >
     <!-- End of #Main Content -->
     <footer class="panel-footer">
       <div class="container">

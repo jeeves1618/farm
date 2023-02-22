@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -80,7 +81,27 @@ public class MainController {
     @GetMapping(path = "/pricing/{menuItemId}")
     public List<Pricing> getPricing(@PathVariable int menuItemId) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return pricingRepo.findByMenuItemId(menuItemId);
+        Optional<Menu> menu = menuRepo.findById(menuItemId);
+        List<Pricing> pricingList = pricingRepo.findByMenuItemId(menuItemId);
+        for (Pricing pricing:pricingList){
+
+            if (menu.get().getUnitOfMeasure().equals("Weight")){
+                if (Float.parseFloat(pricing.getPackSize())  > 10.0){
+                    pricing.setPackSize(pricing.getPackSize()+ " grams");
+                } else {
+                    pricing.setPackSize(pricing.getPackSize()+ " kilos");
+                }
+            } else if (menu.get().getUnitOfMeasure().equals("Volume")){
+                if (Float.parseFloat(pricing.getPackSize())  > 10.0){
+                    pricing.setPackSize(pricing.getPackSize()+ " ml");
+                } else {
+                    pricing.setPackSize(pricing.getPackSize()+ " liters");
+                }
+            } else {
+                   pricing.setPackSize(pricing.getPackSize()+ " No.s");
+            }
+        }
+        return pricingList;
     }
 
     @GetMapping(path = "/about")

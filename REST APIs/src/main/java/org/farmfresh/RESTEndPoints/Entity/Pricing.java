@@ -24,6 +24,8 @@ public class Pricing {
     private String packSize;
     @Column(name = "menu_item_pack_price")
     private Integer menuItemPackPrice;
+    @Column(name = "menu_item_pack_price_fmtd")
+    private String menuItemPackPriceFmtd;
     @Column(name = "menu_pack_availability_ind")
     private String menuPackAvailabilityInd;
     @CreatedDate

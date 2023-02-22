@@ -221,7 +221,7 @@ public class MainController {
         return "account";
     }
 
-    @GetMapping(path = "/inverntory")
+    @GetMapping(path = "/inventory")
     public String getInventory(@RequestParam("menuItemSubCategory") String menuItemSubCategory,  Model model, RestTemplate restTemplate){
         HomeMetaData homeMetaData = restTemplate.getForObject(
                 "http://localhost:8081/farmfoods/home", HomeMetaData.class);

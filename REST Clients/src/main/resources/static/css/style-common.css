@@ -152,6 +152,7 @@ a {
 
 .edit-button {
   background-color: #344e41;
+  display: block;
   color: white;
   font-weight: bold;
   text-align: center;
@@ -161,6 +162,7 @@ a {
   width: 20%;
   margin: auto;
   margin-bottom: 15px;
+  margin-top: 15px;
   box-shadow: 0 0 10px #283618;
   border-radius: 5%;
 }
