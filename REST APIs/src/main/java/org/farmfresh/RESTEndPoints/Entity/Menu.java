@@ -46,4 +46,8 @@ public class Menu {
     private String userCreated;
     @Column(name = "user_updated")
     private String userUpdated;
+    @Column(name = "available_qty")
+    private Double availableQty;
+    @Column(name = "unit_of_measure")
+    private String unitOfMeasure;
 }

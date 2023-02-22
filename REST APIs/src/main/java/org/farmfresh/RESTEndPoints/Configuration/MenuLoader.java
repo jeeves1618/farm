@@ -116,6 +116,12 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
                             pricingList.add(pricing);
                             pricing = new Pricing();
                             break;
+                        case " available":
+                            menu.setAvailableQty(Double.valueOf(tokens[1]));
+                            break;
+                        case " unitOfMeasure":
+                            menu.setUnitOfMeasure(tokens[1].substring(0,tokens[1].length()-1));
+                            break;
                         default:
                             menu.setMenuAvailabilityInd("Y");
                             menu.setMenuTodaySpecialInd("Y");

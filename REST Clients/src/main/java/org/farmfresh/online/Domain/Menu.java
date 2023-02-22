@@ -24,6 +24,8 @@ public class Menu {
     private Date dateUpdated;
     private String userCreated;
     private String userUpdated;
+    private Double availableQty;
+    private String unitOfMeasure;
     private List<Pricing> pricingList;
 
     /*
