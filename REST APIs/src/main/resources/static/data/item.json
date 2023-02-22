@@ -15,7 +15,7 @@
     "pricing": { "250": 325, "500": 650, "1": 1300 },
     "category": "Dairy",
     "image": "img/menu/B/B.jpg",
-    "description": "Colostrum is the earliest milk produced by the cow and is unique in its composition of essential nutrients, immune factors, and oligosaccharides",
+    "description": "Colostrum is the earliest milk produced by the cow and is unique in its composition",
     "available": 5.75,
     "unitOfMeasure": "Weight"
   },
@@ -25,7 +25,7 @@
     "pricing": { "250": 363, "500": 725, "1": 1450 },
     "category": "Dairy",
     "image": "img/menu/B/C.jpg",
-    "description": "Yogurts can be high in protein, calcium, vitamins, and live culture, or probiotics, which can enhance the gut microbiota",
+    "description": "Yogurts can be high in protein, calcium, vitamins, and live culture, or probiotics",
     "available": 5.75,
     "unitOfMeasure": "Weight"
   },
@@ -45,7 +45,7 @@
     "pricing": { "250": 363, "500": 725, "1": 1450 },
     "category": "Dairy",
     "image": "img/menu/B/E.jpg",
-    "description": "Cheese is a dairy product produced in wide ranges of flavors, textures, and forms by coagulation of the milk protein casein",
+    "description": "Cheese is a dairy product produced in wide ranges of flavors, textures, and forms ",
     "available": 5.75,
     "unitOfMeasure": "Weight"
   },
@@ -55,7 +55,7 @@
     "pricing": { "250": 363, "500": 725, "1": 1450 },
     "category": "Dairy",
     "image": "img/menu/B/F.jpg",
-    "description": "Custard is a variety of culinary preparations based on sweetened milk, cheese, or cream cooked with egg or egg yolk to thicken it, and sometimes also flour, corn starch, or gelatin",
+    "description": "Custard is a variety of culinary preparations based on sweetened milk, cheese, or cream ",
     "available": 5.75,
     "unitOfMeasure": "Weight"
   },
@@ -65,7 +65,7 @@
     "pricing": { "250": 350, "500": 700, "1": 1400 },
     "category": "Poultry",
     "image": "img/menu/B/G.jpg",
-    "description": "Eggs naturally contain vitamin D. The Country Hen eggs contain over three times the vitamin D of an average egg",
+    "description": "Eggs naturally contain vitamin D. The Country Hen eggs contain over three times the vitamin D",
     "available": 5.75,
     "unitOfMeasure": "Count"
   },
@@ -75,7 +75,7 @@
     "pricing": { "250": 350, "500": 700, "1": 1400 },
     "category": "Poultry",
     "image": "img/menu/B/H.jpg",
-    "description": "Turkey eggs are a good source of B vitamins, and vitamins B12 and B9 (folate) in particular. They are also rich in vitamin A and iron",
+    "description": "Turkey eggs are a good source of B vitamins, and vitamins B12 and B9 (folate) in particular.",
     "available": 5.0,
     "unitOfMeasure": "Count"
   },
@@ -85,7 +85,7 @@
     "pricing": { "250": 350, "500": 700, "1": 1400 },
     "category": "Poultry",
     "image": "img/menu/B/I.jpg",
-    "description": "Guinea eggs are high in protein, rich in fat (the good kind), have a low value of carbohydrates, rich in calcium, and have a high value of zinc",
+    "description": "Guinea eggs are high in protein, rich in fat (the good kind), have a low value of carbohydrates",
     "available": 5.0,
     "unitOfMeasure": "Count"
   },
@@ -95,7 +95,7 @@
     "pricing": { "250": 350, "500": 700, "1": 1400 },
     "category": "Poultry",
     "image": "img/menu/B/J.jpg",
-    "description": "Goose eggs are excellent sources of many nutrients such as protein, iron, omega-3 fats and vitamins A, B and folate, good sources of vitamin D and fair sources of calcium",
+    "description": "Goose eggs are excellent sources of many nutrients such as protein, iron, omega-3 fats",
     "available": 50.0,
     "unitOfMeasure": "Count"
   },

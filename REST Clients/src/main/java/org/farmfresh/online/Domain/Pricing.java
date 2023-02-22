@@ -12,6 +12,7 @@ public class Pricing {
     private int menuItemId;
     private String packSize;
     private Integer menuItemPackPrice;
+    private String menuItemPackPriceFmtd;
     private String menuPackAvailabilityInd;
     private Date dateCreated;
     private Date dateUpdated;
