@@ -416,12 +416,12 @@ h3.menu-item-title {
 
 [id^="quantityselected"],
 [id^="PackSize"],
-[id^="priceofsweetpacks"] {
+[id^="priceoffarmpacks"] {
   color: #61122f;
   width: 120px;
 }
 
-[id^="priceofsweetpacks"] {
+[id^="priceoffarmpacks"] {
   text-align: right;
 }
 .btn-primary,

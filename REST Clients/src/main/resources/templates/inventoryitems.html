@@ -135,21 +135,26 @@
                   class="flex-container"
                 >
                   <span th:text="${pricing.packSize}+' : '"></span
-                  ><span th:text="${pricing.menuItemPackPrice}"></span>
+                  ><span th:text="${pricing.menuItemPackPriceFmtd}"></span>
                 </div>
               </section>
               <hr />
               <div class="flex-container">
-                <span>Inventory Available :</span><span>5.75 Kg</span>
+                <span>Inventory Available :</span><span>5.75 Litres</span>
               </div>
               <div class="flex-container">
-                <span>Inventory Blocked for Orders:</span><span>2.75 Kg</span>
+                <span>Inventory Blocked for Orders:</span
+                ><span>2.75 Litres</span>
               </div>
               <div class="flex-container">
-                <span>Free Inventory Available:</span><span>3.00 Kg</span>
+                <span>Free Inventory Available:</span><span>3.00 Litres</span>
               </div>
             </div>
-            <button class="edit-button">Edit</button>
+            <a
+              th:href="@{/farmfoods/showFormForUpdating(menuItemId=${item.menuItemId})}"
+            >
+              <button class="edit-button">Edit</button></a
+            >
           </div>
         </div>
       </section>
@@ -206,5 +211,16 @@
       integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
       crossorigin="anonymous"
     ></script>
+    <script>
+      console.log("Script invoked!");
+      var user_name = document.getElementById("PackSize_");
+      document
+        .getElementById("btn-alert")
+        .addEventListener("click", function () {
+          var value = user_name.value.trim();
+          if (!value) alert("Name Cannot be empty!");
+          else alert("Hello, " + value + "!\nGreetings From GeeksforGeeks.");
+        });
+    </script>
   </body>
 </html>

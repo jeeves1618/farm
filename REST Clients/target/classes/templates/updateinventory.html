@@ -101,65 +101,143 @@
     <div class="container" id="topic-title-books">
       <h2 th:text="${metahome.categoryHeader}"></h2>
     </div>
-    <div id="topicList">
-      <section th:if="${not #lists.isEmpty(items)}" class="row">
-        <div th:each="item : ${items}" class="book-list col-md-6">
-          <div class="book-title-tile" th:text="${item.menuItemName}"></div>
-          <div class="row section-tile">
-            <div class="col-sm-5 book-tile">
-              <a
-                th:href="@{/farmfoods/inventory(menuItemSubCategory=${item.menuItemSubCategory})}"
-              >
-                <div>
-                  <img
-                    width="200"
-                    height="250"
-                    th:src="@{${item.menuImageFileName}}"
-                    th:alt="${item.menuItemName}"
-                  />
-                </div>
-              </a>
+    <form th:action="@{addUpdateItem}" th:object="${item}" method="POST">
+      <div class="book-title-tile" th:text="${item.menuItemName}"></div>
+      <div class="row section-tile">
+        <div class="col-sm-5 book-tile">
+          <a
+            th:href="@{/farmfoods/inventory(menuItemSubCategory=${item.menuItemSubCategory})}"
+          >
+            <div>
+              <img
+                width="200"
+                height="250"
+                th:src="@{${item.menuImageFileName}}"
+                th:alt="${item.menuImageFileName}"
+              />
             </div>
-            <div class="book-description col-sm-7">
-              <i class="bi bi-vector-pen"></i>
-              <p>
-                <span th:text="${item.menuItemName}+' '"></span>
-              </p>
-              <hr />
-              <section
-                th:if="${not #lists.isEmpty(item.pricingList)}"
-                class="row"
-              >
-                <div
-                  th:each="pricing : ${item.pricingList}"
-                  class="flex-container"
-                >
-                  <span th:text="${pricing.packSize}+' : '"></span
-                  ><span th:text="${pricing.menuItemPackPriceFmtd}"></span>
-                </div>
-              </section>
-              <hr />
-              <div class="flex-container">
-                <span>Inventory Available :</span><span>5.75 Litres</span>
-              </div>
-              <div class="flex-container">
-                <span>Inventory Blocked for Orders:</span
-                ><span>2.75 Litres</span>
-              </div>
-              <div class="flex-container">
-                <span>Free Inventory Available:</span><span>3.00 Litres</span>
-              </div>
-            </div>
-            <a
-              th:href="@{/farmfoods/showFormForUpdating(menuItemId=${item.menuItemId})}"
-            >
-              <button class="edit-button">Edit</button></a
-            >
-          </div>
+          </a>
         </div>
-      </section>
-    </div>
 
+        <div class="book-description col-sm-7">
+          <i class="bi bi-vector-pen"></i>
+          <p>
+            <br />
+            <span><input type="text" th:field="*{menuItemName}" /></span>
+          </p>
+          <hr />
+          <section th:if="${not #lists.isEmpty(item.pricingList)}" class="row">
+            <div th:each="pricing : ${item.pricingList}" class="flex-container">
+              <span th:text="${pricing.packSize}+' : '"></span
+              ><span th:text="${pricing.menuItemPackPriceFmtd}"></span>
+            </div>
+          </section>
+          <div class="flex-container">
+            <span>Category :</span
+            ><span
+              ><select th:field="*{menuItemCategory}">
+                <option th:value="'Dairy'" th:text="Dairy        "></option>
+                <option th:value="'Poultry'" th:text="Poultry    "></option>
+                <option th:value="'Vegetables'" th:text="Vegetables "></option>
+                <option th:value="'Fruits'" th:text="Fruits     "></option>
+                <option
+                  th:value="'Others'"
+                  th:text="Others     "
+                ></option></select
+            ></span>
+          </div>
+          <br />
+          <div class="flex-container">
+            <span>Product Description :</span
+            ><span>
+              <textarea
+                rows="2"
+                cols="50"
+                type="text"
+                th:field="*{menuItemDescription}"
+              />
+            </span>
+          </div>
+          <br />
+          <div class="flex-container">
+            <span>Today's Special Indicator:</span
+            ><span
+              ><select th:field="*{menuTodaySpecialInd}">
+                <option th:value="'Y'" th:text="Yes    "></option>
+                <option th:value="'N'" th:text="No     "></option></select
+            ></span>
+          </div>
+          <br />
+          <div class="flex-container">
+            <span>Best Seller Indicator:</span
+            ><span
+              ><select th:field="*{menuBestSellerInd}">
+                <option th:value="'Y'" th:text="Yes    "></option>
+                <option th:value="'N'" th:text="No     "></option></select
+            ></span>
+          </div>
+          <br />
+          <div class="flex-container">
+            <span>Availability Indicator:</span
+            ><span
+              ><select th:field="*{menuAvailabilityInd}">
+                <option th:value="'Y'" th:text="Yes    "></option>
+                <option th:value="'N'" th:text="No     "></option></select
+            ></span>
+          </div>
+          <br />
+          <div class="flex-container">
+            <span>Primary Category Indicator:</span
+            ><span
+              ><select th:field="*{primaryInCategory}">
+                <option th:value="'Y'" th:text="Yes    "></option>
+                <option th:value="'N'" th:text="No     "></option></select
+            ></span>
+          </div>
+          <br />
+          <div class="flex-container">
+            <span>Unit of Measure:</span
+            ><span
+              ><select th:field="*{primaryInCategory}">
+                <option th:value="'Weight'" th:text="Weight    "></option>
+                <option th:value="'Volume'" th:text="Volume    "></option>
+                <option
+                  th:value="'Count'"
+                  th:text="Count     "
+                ></option></select
+            ></span>
+          </div>
+          <br />
+          <hr />
+          <div class="flex-container">
+            <span>Inventory Available :</span
+            ><span><input type="text" th:field="*{availableQty}" /></span>
+          </div>
+          <br />
+          <div class="flex-container">
+            <span>Inventory Blocked for Orders:</span><span>2.75 Kg</span>
+          </div>
+          <br />
+          <div class="flex-container">
+            <span>Free Inventory Available:</span><span>3.00 Kg</span>
+          </div>
+          <br />
+          <div class="flex-container">
+            <label for="myfile"
+              >Upload the cover picture for
+              <span th:text="${item.menuItemName}"></span> here</label
+            >
+            <input type="file" id="myFile" name="filename" />
+          </div>
+          <br />
+        </div>
+        <a
+          th:href="@{/farmfoods/showFormForUpdating(menuItemId=${item.menuItemId})}"
+        >
+          <button class="edit-button">Save</button></a
+        >
+      </div>
+    </form>
     <a th:href="@{/farmfoods/category}" class="edit-button"
       ><b>Back to Inventory</b></a
     >
@@ -211,16 +289,5 @@
       integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
       crossorigin="anonymous"
     ></script>
-    <script>
-      console.log("Script invoked!");
-      var user_name = document.getElementById("PackSize_");
-      document
-        .getElementById("btn-alert")
-        .addEventListener("click", function () {
-          var value = user_name.value.trim();
-          if (!value) alert("Name Cannot be empty!");
-          else alert("Hello, " + value + "!\nGreetings From GeeksforGeeks.");
-        });
-    </script>
   </body>
 </html>

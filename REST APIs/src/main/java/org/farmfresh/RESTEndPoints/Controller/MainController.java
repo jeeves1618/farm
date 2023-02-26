@@ -10,10 +10,12 @@ import org.farmfresh.RESTEndPoints.Repo.CategoryRepo;
 import org.farmfresh.RESTEndPoints.Repo.MenuRepo;
 import org.farmfresh.RESTEndPoints.Repo.PricingRepo;
 import org.farmfresh.RESTEndPoints.Service.HomeDataService;
+import org.farmfresh.RESTEndPoints.Service.RupeeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +36,9 @@ public class MainController {
 
     @Autowired
     PricingRepo pricingRepo;
+
+    @Autowired
+    RupeeFormatter rf;
 
     @GetMapping(path = "/home")
     public HomeData getHomePage(){
@@ -60,6 +65,12 @@ public class MainController {
         return menuRepo.findByMenuItemSubCategory(menuItemSubCategory);
     }
 
+    @GetMapping(path = "/item/{menuItemId}")
+    public Menu getMenuItem(@PathVariable Integer menuItemId) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return menuRepo.findById(menuItemId).get();
+    }
+
     @GetMapping(path = "/products/{menuAvailabilityInd}")
     public List<Menu> getProducts(@PathVariable String menuAvailabilityInd) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -81,10 +92,12 @@ public class MainController {
     @GetMapping(path = "/pricing/{menuItemId}")
     public List<Pricing> getPricing(@PathVariable int menuItemId) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
+        String currencyFormat = "Rs ##,##,##0.00";
+        DecimalFormat ft = new DecimalFormat(currencyFormat);
         Optional<Menu> menu = menuRepo.findById(menuItemId);
         List<Pricing> pricingList = pricingRepo.findByMenuItemId(menuItemId);
         for (Pricing pricing:pricingList){
-
+            pricing.setMenuItemPackPriceFmtd(rf.formattedRupee(ft.format(pricing.getMenuItemPackPrice())));
             if (menu.get().getUnitOfMeasure().equals("Weight")){
                 if (Float.parseFloat(pricing.getPackSize())  > 10.0){
                     pricing.setPackSize(pricing.getPackSize()+ " grams");
@@ -102,6 +115,21 @@ public class MainController {
             }
         }
         return pricingList;
+    }
+
+    /*
+    http://localhost:8081/farmfoods/pricing/perpack?menuItemId=2&packSize=1
+     */
+    @GetMapping("/pricing/perpack")
+    public Integer findPriceForPack(@RequestParam int menuItemId, @RequestParam String packSize, @RequestParam int quantity){
+        log.info("Pricing requested for menu item %s for a pack size of %s.", menuItemId,packSize);
+        return pricingRepo.findPriceForPack(menuItemId,packSize).getMenuItemPackPrice()*quantity;
+    }
+
+    @PostMapping(path = "/meta/addUpdateItem")
+    public String AddBookToList(@ModelAttribute("item") Menu menu){
+        menuRepo.save(menu);
+        return "Updated Successfully";
     }
 
     @GetMapping(path = "/about")

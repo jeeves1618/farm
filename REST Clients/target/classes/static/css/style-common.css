@@ -128,7 +128,7 @@ a {
   border: 2px solid white;
   overflow: hidden;
   width: 60%;
-  height: 250px;
+  height: auto;
   margin: 35px auto 20px;
   box-shadow: 0 0 10px #283618;
   border-radius: 5%;

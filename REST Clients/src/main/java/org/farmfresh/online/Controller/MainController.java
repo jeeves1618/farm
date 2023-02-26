@@ -11,9 +11,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
@@ -257,7 +255,7 @@ public class MainController {
         for(Menu menu: menuList){
 
             menu.setMenuImageFileName("../"+menu.getMenuImageFileName());
-            System.out.println("Debug : " + menu.getMenuImageFileName() + " for " + menu.getMenuItemName());
+
             List<Pricing> pricingList = new ArrayList<>();
             try {
                 URL url = new URL("http://localhost:8081/farmfoods/pricing/" + menu.getMenuItemId());
@@ -289,6 +287,31 @@ public class MainController {
         return "inventoryitems";
     }
 
+    @GetMapping(path = "/showFormForUpdating")
+    public String ShowFormForUpdate(@RequestParam("menuItemId") int menuItemId, Model model, RestTemplate restTemplate){
+
+        HomeMetaData homeMetaData = restTemplate.getForObject(
+                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        model.addAttribute("metahome",homeMetaData);
+
+        Menu menuToBeUpdated = restTemplate.getForObject(
+                "http://localhost:8081/farmfoods/item/" + menuItemId, Menu.class);
+        //Set the Customer as the Model Attribute to Prepopulate the Form
+        menuToBeUpdated.setMenuImageFileName("../" + menuToBeUpdated.getMenuImageFileName());
+        System.out.println("Debug : " + menuToBeUpdated.getMenuImageFileName() + " for " + menuToBeUpdated.getMenuItemName());
+        model.addAttribute("item",menuToBeUpdated);
+
+        //Send the data to the update form
+        return "updateinventory";
+    }
+
+    @PostMapping(path = "/addUpdateItem")
+    public String AddBookToList(@ModelAttribute("item") Menu menu, RestTemplate restTemplate){
+        log.info("Saving menu");
+        //String postResult = restTemplate.postForObject()
+        //chartOfAccountsRepo.save(chartOfAccounts);
+        return "redirect:/farmfoods/inventory?menuItemSubCategory=Dairy";
+    }
     @GetMapping(path = "/contact")
     public String getContactPage(Model model){
         return "contact";

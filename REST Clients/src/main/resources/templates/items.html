@@ -156,34 +156,46 @@
               ></p>
               <p class="menu-item-pricing">
                 <span id="packsize"> Pack Size : </span>
-                <select name="PackSize" id="PackSize_">
+
+                <select name="PackSize" th:id="PackSize_+${item.menuItemId}">
                   <div
                     th:each="pricing : ${item.pricingList}"
                     class="flex-container"
                   >
-                    <option th:value="${pricing.packSize}">
+                    <option
+                      th:value="${pricing.packSize} + 'MenuItemId:' + ${item.menuItemId}"
+                    >
                       <span th:text="${pricing.packSize}"></span>
                     </option>
                   </div>
                 </select>
               </p>
+              <article
+                th:data-menu-item-id="${item.menuItemId}"
+                id="PackPrice_"
+              ></article>
+
               <p class="menu-item-pricing">
                 <span id="quantityofsweetpacks"> Quantity : </span>
-                <select name="quantityselected" id="quantityselected_">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="12">12</option>
-                  <option value="24">24</option>
-                  <option value="100">100</option>
+                <select
+                  name="quantityselected"
+                  th:id="quantityselected_
+                  +${item.menuItemId}"
+                >
+                  <option th:value="1 + ':' + ${item.menuItemId}">1</option>
+                  <option th:value="2 + ':' + ${item.menuItemId}">2</option>
+                  <option th:value="3 + ':' + ${item.menuItemId}">3</option>
+                  <option th:value="4 + ':' + ${item.menuItemId}">4</option>
+                  <option th:value="5 + ':' + ${item.menuItemId}">5</option>
+                  <option th:value="6 + ':' + ${item.menuItemId}">6</option>
+                  <option th:value="12 + ':' + ${item.menuItemId}">12</option>
+                  <option th:value="24 + ':' + ${item.menuItemId}">24</option>
+                  <option th:value="100 + ':' + ${item.menuItemId}">100</option>
                 </select>
               </p>
               <p class="calculated-price">
-                <span id="pricelabelofsweetpacks"> Price : </span>
-                <span id="priceofsweetpacks"> ₹ 500 </span>
+                <span id="pricelabeloffarmpacks"> Price : </span>
+                <span th:id="priceoffarmpacks_+${item.menuItemId}"> ₹ 0 </span>
               </p>
               <div id="add-to-cart-division">
                 <button
@@ -197,25 +209,6 @@
             </div>
           </div>
         </div>
-        <!--           ------------------------------------------------------------                   
-        <div
-          th:each="item : ${items}"
-          class="col-md-3 col-sm-4 col-xs-6 col-xxs-12"
-        >
-          <a
-            th:href="@{/farmfoods/items(menuItemSubCategory=${category.menuItemSubCategory})}"
-          >
-            <div class="category-tile">
-              <img
-                width="200"
-                height="200"
-                th:src="@{${category.menuImageFileName}}"
-                th:alt="${category.menuItemSubCategory}"
-              />
-              <span th:text="${category.menuItemSubCategory}"></span>
-            </div>
-          </a>
-        </div> -->
       </section>
     </div>
 
@@ -312,5 +305,67 @@
       integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
       crossorigin="anonymous"
     ></script>
+    <script>
+      const getPriceForPack = function (packSize, menuItemId, quantity) {
+        let pricerForPack;
+        fetch(
+          `http://localhost:8081/farmfoods/pricing/perpack?menuItemId=${menuItemId}&packSize=${packSize}&quantity=${quantity}`
+        )
+          .then(function (ajaxResponse) {
+            return ajaxResponse.json();
+          })
+          .then(function (formatedData) {
+            console.log(formatedData);
+            document.getElementById(
+              "priceoffarmpacks_" + menuItemId
+            ).textContent = "Rs. " + formatedData.toLocaleString("en-IN");
+          });
+      };
+      let menu_options = document.querySelectorAll('[id^="priceoffarmpacks"]');
+      menu_options.forEach((menu_option) => {
+        let menuItem = menu_option.id;
+        let menuItemId = menuItem.split("_")[1];
+        let packSizeSelected = document.querySelector(
+          "#PackSize_" + menuItemId
+        ).value;
+        let packSize = packSizeSelected.split(" ")[0];
+        let quantity = document
+          .querySelector("#quantityselected_" + menuItemId)
+          .value.split(":")[0];
+        console.log(packSize, menuItemId, quantity);
+        getPriceForPack(packSize, menuItemId, quantity);
+      });
+
+      let pack_size = document.querySelectorAll('[id^="PackSize_"]');
+      let quantity;
+      let pack_price;
+      //console.log(pack_size);
+      pack_size.forEach((pack_options) => {
+        pack_options.addEventListener("change", function () {
+          let packSizeSelected = pack_options.value;
+          let packSize = packSizeSelected.split(" ")[0];
+          let menuItemId = packSizeSelected.split(":")[1];
+          let quantity = document
+            .querySelector("#quantityselected_" + menuItemId)
+            .value.split(":")[0];
+          console.log(packSize, menuItemId, quantity);
+          getPriceForPack(packSize, menuItemId, quantity);
+        });
+      });
+
+      let qty_size = document.querySelectorAll('[id^="quantityselected_"]');
+      qty_size.forEach((qty_options) => {
+        qty_options.addEventListener("change", function () {
+          let quantity = qty_options.value.split(":")[0];
+          let menuItemId = qty_options.value.split(":")[1];
+          let packSizeSelected = document.querySelector(
+            "#PackSize_" + menuItemId
+          ).value;
+          let packSize = packSizeSelected.split(" ")[0];
+          console.log(packSize, menuItemId, quantity);
+          getPriceForPack(packSize, menuItemId, quantity);
+        });
+      });
+    </script>
   </body>
 </html>
