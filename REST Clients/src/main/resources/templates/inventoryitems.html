@@ -103,7 +103,11 @@
     </div>
     <div id="topicList">
       <section th:if="${not #lists.isEmpty(items)}" class="row">
-        <div th:each="item : ${items}" class="book-list col-md-6">
+        <div
+          th:each="item : ${items}"
+          class="book-list col-md-6"
+          th:id="itemTile_+${item.menuItemId}+ '_'+${item.menuAvailabilityInd}"
+        >
           <div class="book-title-tile" th:text="${item.menuItemName}"></div>
           <div class="row section-tile">
             <div class="col-sm-5 book-tile">
@@ -212,5 +216,13 @@
       integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
       crossorigin="anonymous"
     ></script>
+    <script>
+      let tiles = document.querySelectorAll('[id^="itemTile_"]');
+      tiles.forEach((tile) => {
+        if (tile.getAttribute("id").split("_")[2] != "Y")
+          tile.children[1].children[1].style.backgroundColor = "#660708";
+        console.log(tile.children[1]);
+      });
+    </script>
   </body>
 </html>

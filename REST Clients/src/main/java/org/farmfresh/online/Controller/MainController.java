@@ -237,7 +237,7 @@ public class MainController {
         List<Menu> menuList = null;
         try {
             menuItemSubCategory = URLEncoder.encode(menuItemSubCategory,"UTF-8").replace("+", "%20");
-            URL url = new URL("http://localhost:8081/farmfoods/items/" + menuItemSubCategory);
+            URL url = new URL("http://localhost:8081/farmfoods/inventorybycat/" + menuItemSubCategory);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("GET");
             httpURLConnection.setRequestProperty("Accept", "application/json");

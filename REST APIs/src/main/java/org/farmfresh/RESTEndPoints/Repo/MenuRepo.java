@@ -15,6 +15,6 @@ public interface MenuRepo extends JpaRepository<Menu, Integer> {
     List<CatSummary> findCountByCategories();
     @Query(value="select * from menu_item_table where menu_item_sub_category = ?1 limit 1",nativeQuery = true)
     Menu findOneByMenuItemSubCategory(String menuItemSubCategory);
-
-    List<Menu>findByMenuItemSubCategory(String menuItemSubCategory);
+    List<Menu> findByMenuItemSubCategory(String menuItemSubCategory);
+    List<Menu>findByMenuItemSubCategoryAndMenuAvailabilityInd(String menuItemSubCategory, String menuAvailabilityInd);
 }

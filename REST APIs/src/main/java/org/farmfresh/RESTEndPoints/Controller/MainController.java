@@ -52,16 +52,14 @@ public class MainController {
         //menuItemCategory = "Dairy";
         return categoryRepo.findByMenuItemCategory(menuItemCategory);
     }
-
-    @GetMapping(path = "/category/savouries")
-    public List<Category> getSavouriesCategories(String menuItemCategory) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        menuItemCategory = "Savouries";
-        return categoryRepo.findByMenuItemCategory(menuItemCategory);
-    }
-
     @GetMapping(path = "/items/{menuItemSubCategory}")
     public List<Menu> getMenuItems(@PathVariable String menuItemSubCategory) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return menuRepo.findByMenuItemSubCategoryAndMenuAvailabilityInd(menuItemSubCategory,"Y");
+    }
+
+    @GetMapping(path = "/inventorybycat/{menuItemSubCategory}")
+    public List<Menu> getInventoryItems(@PathVariable String menuItemSubCategory) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         return menuRepo.findByMenuItemSubCategory(menuItemSubCategory);
     }
