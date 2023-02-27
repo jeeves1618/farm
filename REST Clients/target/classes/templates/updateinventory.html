@@ -62,7 +62,7 @@
                 <li class="nav-item dropdown">
                   <a
                     class="nav-link dropdown-toggle"
-                    href="#"
+                    href="./#"
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
@@ -117,8 +117,72 @@
               />
             </div>
           </a>
+          <br />
+          <div class="flex-container">
+            <label for="myfile">Change cover picture</label>
+            <input type="file" id="myFile" name="filename" />
+          </div>
+          <hr />
+          <section
+            th:if="${not #lists.isEmpty(item.pricingList)}"
+            class="row flex-container"
+          >
+            <div
+              th:each="pricing, priceStat : *{pricingList}"
+              class="flex-container"
+            >
+              <input
+                th:field="*{pricingList[__${priceStat.index}__].packSize}"
+              />
+              <span> : </span>
+              <input
+                th:field="*{pricingList[__${priceStat.index}__].menuItemPackPrice}"
+              />
+              <br />
+              <input
+                type="hidden"
+                th:field="*{pricingList[__${priceStat.index}__].pricingId}"
+              />
+              <input
+                type="hidden"
+                th:field="*{pricingList[__${priceStat.index}__].menuItemId}"
+              />
+              <input
+                type="hidden"
+                th:field="*{pricingList[__${priceStat.index}__].menuItemPackPriceFmtd}"
+              />
+              <input
+                type="hidden"
+                th:field="*{pricingList[__${priceStat.index}__].menuPackAvailabilityInd}"
+              />
+              <input
+                type="hidden"
+                th:field="*{pricingList[__${priceStat.index}__].dateCreated}"
+              />
+              <input
+                type="hidden"
+                th:field="*{pricingList[__${priceStat.index}__].dateUpdated}"
+              />
+              <input
+                type="hidden"
+                th:field="*{pricingList[__${priceStat.index}__].userCreated}"
+              />
+              <input
+                type="hidden"
+                th:field="*{pricingList[__${priceStat.index}__].userUpdated}"
+              />
+            </div>
+          </section>
+          <hr />
         </div>
 
+        <input type="hidden" th:field="*{menuItemId}" />
+        <input type="hidden" th:field="*{dateCreated}" />
+        <input type="hidden" th:field="*{dateUpdated}" />
+        <input type="hidden" th:field="*{menuImageFileName}" />
+        <input type="hidden" th:field="*{menuItemSubCategory}" />
+        <input type="hidden" th:field="*{userCreated}" />
+        <input type="hidden" th:field="*{userUpdated}" />
         <div class="book-description col-sm-7">
           <i class="bi bi-vector-pen"></i>
           <p>
@@ -126,12 +190,7 @@
             <span><input type="text" th:field="*{menuItemName}" /></span>
           </p>
           <hr />
-          <section th:if="${not #lists.isEmpty(item.pricingList)}" class="row">
-            <div th:each="pricing : ${item.pricingList}" class="flex-container">
-              <span th:text="${pricing.packSize}+' : '"></span
-              ><span th:text="${pricing.menuItemPackPriceFmtd}"></span>
-            </div>
-          </section>
+
           <div class="flex-container">
             <span>Category :</span
             ><span
@@ -198,7 +257,7 @@
           <div class="flex-container">
             <span>Unit of Measure:</span
             ><span
-              ><select th:field="*{primaryInCategory}">
+              ><select th:field="*{unitOfMeasure}">
                 <option th:value="'Weight'" th:text="Weight    "></option>
                 <option th:value="'Volume'" th:text="Volume    "></option>
                 <option
@@ -210,32 +269,25 @@
           <br />
           <hr />
           <div class="flex-container">
-            <span>Inventory Available :</span
-            ><span><input type="text" th:field="*{availableQty}" /></span>
+            <span>Inventory Available :</span>
+            <input type="text" th:field="*{availableQty}" />
+            <span th:text="' ' + ${item.unitToUse}"></span>
           </div>
           <br />
           <div class="flex-container">
-            <span>Inventory Blocked for Orders:</span><span>2.75 Kg</span>
+            <span>Inventory Blocked for Orders:</span
+            ><span
+              th:text="${item.blockedQty} + ' ' + ${item.unitToUse}"
+            ></span>
           </div>
           <br />
           <div class="flex-container">
-            <span>Free Inventory Available:</span><span>3.00 Kg</span>
-          </div>
-          <br />
-          <div class="flex-container">
-            <label for="myfile"
-              >Upload the cover picture for
-              <span th:text="${item.menuItemName}"></span> here</label
-            >
-            <input type="file" id="myFile" name="filename" />
+            <span>Free Inventory Available:</span
+            ><span th:text="${item.freeQty} + ' ' + ${item.unitToUse}"></span>
           </div>
           <br />
         </div>
-        <a
-          th:href="@{/farmfoods/showFormForUpdating(menuItemId=${item.menuItemId})}"
-        >
-          <button class="edit-button">Save</button></a
-        >
+        <button class="edit-button">Save</button>
       </div>
     </form>
     <a th:href="@{/farmfoods/category}" class="edit-button"
@@ -275,18 +327,10 @@
         </div>
       </div>
     </footer>
-
-    <!--Java Script -->
-    <!-- jQuery is needed for JS -->
+    <!-- JavaScript Bundle with Popper -->
     <script
-      src="https://code.jquery.com/jquery-2.2.4.js"
-      integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
-      crossorigin="anonymous"
-    ></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
-      integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
       crossorigin="anonymous"
     ></script>
   </body>

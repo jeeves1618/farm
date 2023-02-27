@@ -26,6 +26,9 @@ public class Menu {
     private String userUpdated;
     private Double availableQty;
     private String unitOfMeasure;
+    private String unitToUse;
+    private Double blockedQty;
+    private Double freeQty;
     private List<Pricing> pricingList;
 
     /*

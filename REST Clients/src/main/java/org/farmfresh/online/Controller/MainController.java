@@ -3,12 +3,10 @@ package org.farmfresh.online.Controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.farmfresh.online.Domain.Category;
-import org.farmfresh.online.Domain.HomeMetaData;
-import org.farmfresh.online.Domain.Menu;
-import org.farmfresh.online.Domain.Pricing;
+import org.farmfresh.online.Domain.*;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +74,14 @@ public class MainController {
         for(Menu menu: menuList){
 
             menu.setMenuImageFileName("../"+menu.getMenuImageFileName());
+            if (menu.getUnitOfMeasure().equals("Weight")) menu.setUnitToUse("Kgs");
+            if (menu.getUnitOfMeasure().equals("Volume")) menu.setUnitToUse("Litres");
+            if (menu.getUnitOfMeasure().equals("Count")) menu.setUnitToUse("No.s");
             System.out.println("Debug : " + menu.getMenuImageFileName() + " for " + menu.getMenuItemName());
+            BlockedQty blockedQty = restTemplate.getForObject(
+                    "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
+            menu.setBlockedQty(blockedQty.getBlockedQuantity());
+            menu.setFreeQty(menu.getAvailableQty() - blockedQty.getBlockedQuantity());
             List<Pricing> pricingList = new ArrayList<>();
             try {
                 URL url = new URL("http://localhost:8081/farmfoods/pricing/" + menu.getMenuItemId());
@@ -145,6 +148,13 @@ public class MainController {
         for(Menu menu: menuList){
 
             menu.setMenuImageFileName("../"+menu.getMenuImageFileName());
+            if (menu.getUnitOfMeasure().equals("Weight")) menu.setUnitToUse("Kgs");
+            if (menu.getUnitOfMeasure().equals("Volume")) menu.setUnitToUse("Litres");
+            if (menu.getUnitOfMeasure().equals("Count")) menu.setUnitToUse("No.s");
+            BlockedQty blockedQty = restTemplate.getForObject(
+                    "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
+            menu.setBlockedQty(blockedQty.getBlockedQuantity());
+            menu.setFreeQty(menu.getAvailableQty() - blockedQty.getBlockedQuantity());
             List<Pricing> pricingList = new ArrayList<>();
             try {
                 URL url = new URL("http://localhost:8081/farmfoods/pricing/" + menu.getMenuItemId());
@@ -255,7 +265,13 @@ public class MainController {
         for(Menu menu: menuList){
 
             menu.setMenuImageFileName("../"+menu.getMenuImageFileName());
-
+            if (menu.getUnitOfMeasure().equals("Weight")) menu.setUnitToUse("Kgs");
+            if (menu.getUnitOfMeasure().equals("Volume")) menu.setUnitToUse("Litres");
+            if (menu.getUnitOfMeasure().equals("Count")) menu.setUnitToUse("No.s");
+            BlockedQty blockedQty = restTemplate.getForObject(
+                    "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
+            menu.setBlockedQty(blockedQty.getBlockedQuantity());
+            menu.setFreeQty(menu.getAvailableQty() - blockedQty.getBlockedQuantity());
             List<Pricing> pricingList = new ArrayList<>();
             try {
                 URL url = new URL("http://localhost:8081/farmfoods/pricing/" + menu.getMenuItemId());
@@ -298,20 +314,74 @@ public class MainController {
                 "http://localhost:8081/farmfoods/item/" + menuItemId, Menu.class);
         //Set the Customer as the Model Attribute to Prepopulate the Form
         menuToBeUpdated.setMenuImageFileName("../" + menuToBeUpdated.getMenuImageFileName());
-        System.out.println("Debug : " + menuToBeUpdated.getMenuImageFileName() + " for " + menuToBeUpdated.getMenuItemName());
-        model.addAttribute("item",menuToBeUpdated);
+        if (menuToBeUpdated.getUnitOfMeasure().equals("Weight")) menuToBeUpdated.setUnitToUse("Kgs");
+        if (menuToBeUpdated.getUnitOfMeasure().equals("Volume")) menuToBeUpdated.setUnitToUse("Litres");
+        if (menuToBeUpdated.getUnitOfMeasure().equals("Count")) menuToBeUpdated.setUnitToUse("No.s");
 
+        BlockedQty blockedQty = restTemplate.getForObject(
+                "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
+        menuToBeUpdated.setBlockedQty(blockedQty.getBlockedQuantity());
+        menuToBeUpdated.setFreeQty(menuToBeUpdated.getAvailableQty() - blockedQty.getBlockedQuantity());
+
+        System.out.println("Debug : " + menuToBeUpdated.getMenuImageFileName() + " for " + menuToBeUpdated.getMenuItemName());
+
+        List<Pricing> pricingList = new ArrayList<>();
+        try {
+            URL url = new URL("http://localhost:8081/farmfoods/pricing/" + menuToBeUpdated.getMenuItemId());
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("GET");
+            httpURLConnection.setRequestProperty("Accept", "application/json");
+
+            if (httpURLConnection.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + httpURLConnection.getResponseCode());
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (httpURLConnection.getInputStream())));
+
+            String output;
+            System.out.println("Output from Server .... \n");
+            while ((output = br.readLine()) != null) {
+                ObjectMapper mapper = new ObjectMapper();
+                pricingList = mapper.readValue(output, new TypeReference<List<Pricing>>(){});
+                menuToBeUpdated.setPricingList(pricingList);
+            }
+            httpURLConnection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("item",menuToBeUpdated);
         //Send the data to the update form
         return "updateinventory";
     }
 
     @PostMapping(path = "/addUpdateItem")
     public String AddBookToList(@ModelAttribute("item") Menu menu, RestTemplate restTemplate){
-        log.info("Saving menu");
-        //String postResult = restTemplate.postForObject()
-        //chartOfAccountsRepo.save(chartOfAccounts);
+        log.info(menu.toString());
+        menu.setMenuImageFileName(menu.getMenuImageFileName().substring(3));
+        //Reference https://howtodoinjava.com/spring-boot2/resttemplate/resttemplate-post-json-example/
+        try {
+            URI uri = new URI("http://localhost:8081/farmfoods/menu/addUpdateItem");
+            ResponseEntity<Menu> result = restTemplate.postForEntity(uri, menu, Menu.class);
+            log.info(result.toString());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        log.info(menu.getPricingList().toString());
+        for(Pricing pricing: menu.getPricingList()){
+            pricing.setPackSize(pricing.getPackSize().split(" ")[0]);
+            try {
+                URI uri = new URI("http://localhost:8081/farmfoods/menu/addUpdatePrice");
+                ResponseEntity<Pricing> result = restTemplate.postForEntity(uri, pricing, Pricing.class);
+                log.info(result.toString());
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+        log.info("Save successful");
         return "redirect:/farmfoods/inventory?menuItemSubCategory=Dairy";
     }
+
     @GetMapping(path = "/contact")
     public String getContactPage(Model model){
         return "contact";

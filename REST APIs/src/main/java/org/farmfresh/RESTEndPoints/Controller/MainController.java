@@ -2,6 +2,7 @@ package org.farmfresh.RESTEndPoints.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.farmfresh.RESTEndPoints.Domain.BlockedQty;
 import org.farmfresh.RESTEndPoints.Entity.Category;
 import org.farmfresh.RESTEndPoints.Entity.HomeData;
 import org.farmfresh.RESTEndPoints.Entity.Menu;
@@ -126,12 +127,29 @@ public class MainController {
         return pricingRepo.findPriceForPack(menuItemId,packSize).getMenuItemPackPrice()*quantity;
     }
 
-    @PostMapping(path = "/meta/addUpdateItem")
-    public String AddBookToList(@ModelAttribute("item") Menu menu){
+    @PostMapping(path = "/menu/addUpdateItem")
+    public Menu updateProducts(@RequestBody Menu menu){
+        log.info(menu.toString());
         menuRepo.save(menu);
-        return "Updated Successfully";
+        log.info("API invoked for updating product");
+        return menu;
     }
 
+    @PostMapping(path = "/menu/addUpdatePrice")
+    public Pricing updatePricing(@RequestBody Pricing pricing){
+        log.info(pricing.toString());
+        pricingRepo.save(pricing);
+        log.info("API invoked for updating price");
+        return pricing;
+    }
+
+
+    @GetMapping(path = "/item/blockedqty")
+    public BlockedQty getBlockedQty(){
+        BlockedQty blockedQty = new BlockedQty();
+        blockedQty.setBlockedQuantity(0.0);
+        return blockedQty;
+    }
     @GetMapping(path = "/about")
     public String getAboutPage(){
         return "about";

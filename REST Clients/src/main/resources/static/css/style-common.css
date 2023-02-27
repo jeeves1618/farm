@@ -102,8 +102,9 @@ a {
   background-color: #cad2c5;
   border: 2px solid white;
   box-shadow: 0 0 10px #283618;
-  border-radius: 5px;
+  border-radius: 4px;
   margin: 20px;
+  font-weight: bold;
 }
 
 .book-tile {
@@ -112,11 +113,10 @@ a {
   border: 2px solid white;
   overflow: hidden;
   width: 35%;
-  height: 250px;
+  height: auto;
   margin: 35px auto 20px;
-
   box-shadow: 0 0 10px #283618;
-  border-radius: 5%;
+  border-radius: 4px;
 }
 
 .book-description {
@@ -131,7 +131,7 @@ a {
   height: auto;
   margin: 35px auto 20px;
   box-shadow: 0 0 10px #283618;
-  border-radius: 5%;
+  border-radius: 4px;
 }
 
 .book-title-tile {
