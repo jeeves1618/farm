@@ -75,14 +75,14 @@
                   Products</a
                 >
               </li>
-              <li class="selected">
+              <li>
                 <a th:href="@{/farmfoods/about}">
                   <span class="glyphicon glyphicon-info-sign"></span
                   ><br class="hidden-xs" />
                   About</a
                 >
               </li>
-              <li>
+              <li class="selected">
                 <a th:href="@{/farmfoods/cart}">
                   <span
                     id="nav-no-of-items-cart"
@@ -108,58 +108,61 @@
       </nav>
     </header>
     <div id="complete-body-under-nav"></div>
-    <div id="contact-region" class="container">
-      <div id="call-btn" class="visible-xs visible-sm visible-md visible-lg">
-        <a
-          class="btn"
-          href="tel:044-24344440"
-          th:text="${metahome.telephoneNumber}"
-          ><span class="glyphicon glyphicon-earphone"></span
-        ></a>
-      </div>
-      <div
-        id="xs-deliver"
-        class="text-center visible-xs visible-sm visible-md visible-lg glyphicon glyphicon-earphone"
-        th:text="${metahome.telephoneNumberText}"
-      ></div>
+    <h2
+      id="cart-title"
+      class="text-center"
+      th:text="${metahome.cartHeader}"
+    ></h2>
+    <div class="text-center">
+      <a th:href="@{/farmfoods/products}" class="text-center"
+        >Continue shopping.</a
+      >
     </div>
+
     <div id="main-content" class="container">
-      <br />
-      <h1 id="menu-categories-title" class="text-center">Serving Since 2010</h1>
-      <hr />
-      <h2 id="menu-categories-title" class="text-center">Our Story</h2>
-      <div class="text-center">
-        <p>
-          Welcome to Dhariya Farms, a beautiful and sustainable farm that offers
-          a range of fresh, healthy, and locally sourced products! Our farm is
-          located in the banks of Palar river, and we're dedicated to providing
-          our customers with the freshest, most nutritious produce possible.
-        </p>
-        <p>
-          At Dhariya Farms, we believe in the importance of sustainable
-          agriculture, which is why we use eco-friendly farming methods that are
-          gentle on the land and promote biodiversity. Our team is made up of
-          experienced farmers who are passionate about growing healthy food
-          while protecting the environment.
-        </p>
-        <p>
-          Our farm offers a wide variety of products, from fresh fruits and
-          vegetables to eggs, dairy, and medicinal herbs. We take great pride in
-          our produce, which is grown without the use of synthetic pesticides or
-          fertilizers. We also raise our animals with the utmost care and
-          respect, ensuring that they're healthy and happy.
-        </p>
+      <div class="under-construction-sign">
+        <!-- img-responsive is from bootstrap and it will ensure that the image realigns based on the width and it is visible only when the browser is xs -->
+
+        <h2
+          id="jumbotran-main-text"
+          class="visible-xs visible-sm visible-md visible-lg"
+        ></h2>
       </div>
-      <hr />
-      <h2 id="menu-categories-title" class="text-center">Our Vision</h2>
-      <div class="text-center">
-        In addition to our commitment to sustainable farming, we're also
-        passionate about building a strong and vibrant local community. We
-        believe that small, local farms like ours have an important role to play
-        in promoting healthy living and strengthening the connections between
-        people and the land. Thank you for considering Dhariya Farms!
+      <!--
+      <div id="home-tiles" class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <a th:href="@{/farmfoods/items(menuItemSubCategory=Dairy)}"
+            ><div id="cart-tile">
+              <span th:text="${metahome.tileHeader1}"></span></div
+          ></a>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <a th:href="@{/farmfoods/items(menuItemSubCategory=Poultry)}"
+            ><div id="cart-tile">
+              <span th:text="${metahome.tileHeader2}"></span></div
+          ></a>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <a th:href="@{/farmfoods/items(menuItemSubCategory=Vegetables)}"
+            ><div id="cart-tile">
+              <span th:text="${metahome.tileHeader3}"></span></div
+          ></a>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <a th:href="@{/farmfoods/items(menuItemSubCategory=Fruits)}"
+            ><div id="cart-tile">
+              <span th:text="${metahome.tileHeader4}"></span></div
+          ></a>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <a th:href="@{/farmfoods/items(menuItemSubCategory=Others)}"
+            ><div id="cart-tile">
+              <span th:text="${metahome.tileHeader5}"></span></div
+          ></a>
+        </div>
       </div>
-      <hr />
+    -->
+      <!-- End of #home-tiles -->
     </div>
 
     <!-- End of #Main Content -->

@@ -10,6 +10,7 @@ body {
   display: inline-block;
   width: 200px;
 }
+
 /**Header**/
 #header-nav {
   /*background-color: #fdc426;*/
@@ -103,6 +104,9 @@ body {
   background: white;
   color: #344e41;
 }
+.selected {
+  background: #5a836e;
+}
 #nav-list a span {
   font-size: 1.8em;
 }
@@ -180,6 +184,7 @@ hr {
 /* Overflow hidden will ensure that nothing comes out of the tile*/
 #dairy-tile,
 #poultry-tile,
+#cart-tile,
 #veg-tile,
 #fruit-tile,
 #other-tile,
@@ -194,6 +199,7 @@ hr {
 }
 #dairy-tile:hover,
 #poultry-tile:hover,
+#cart-tile:hover,
 #veg-tile:hover,
 #fruit-tile:hover,
 #other-tile:hover,
@@ -203,6 +209,10 @@ hr {
 
 #dairy-tile {
   background: url("../img/dairy-tile.jpg") no-repeat;
+  background-position: center;
+}
+#cart-tile {
+  background: url("../img/cart-tile.jpg") no-repeat;
   background-position: center;
 }
 #poultry-tile {
@@ -222,7 +232,7 @@ hr {
   background-position: center;
 }
 #bg-jumbotron {
-  background: url("../img/jumbotran_1200.jpg") no-repeat;
+  background: url("../img/jumbotranf_1200.jpg") no-repeat;
   background-position: center;
 }
 
@@ -236,6 +246,7 @@ hr {
 }
 #dairy-tile span,
 #poultry-tile span,
+#cart-tile span,
 #veg-tile span,
 #fruit-tile span,
 #other-tile span,
@@ -306,7 +317,8 @@ hr {
   margin-top: 0px;
 }
 #cart-title {
-  margin-top: 60px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 /* END MENU CATEGORIES PAGE */
 
@@ -435,7 +447,14 @@ h3.menu-item-title {
 /********** Large devices only **********/
 @media (min-width: 1200px) {
   .container .jumbotron {
-    background: url("../img/jumbotran_1200.jpg") no-repeat;
+    background: url("../img/jumbotranf_1200.jpg") no-repeat;
+    height: 675px;
+    box-shadow: 0 0 50px #344e41;
+    border: 2px solid #344e41;
+  }
+
+  .container .under-construction-sign {
+    background: url("../img/uc.jpg") no-repeat;
     height: 675px;
     box-shadow: 0 0 50px #344e41;
     border: 2px solid #344e41;
@@ -490,12 +509,18 @@ h3.menu-item-title {
 
   /* End Header */
   .container .jumbotron {
-    background: url("../img/jumbotran_992.jpg") no-repeat;
+    background: url("../img/jumbotranf_992.jpg") no-repeat;
     height: 558px;
     box-shadow: 0 0 50px #344e41;
     border: 2px solid #344e41;
   }
 
+  .container .under-construction-sign {
+    background: url("../img/uc.jpg") no-repeat;
+    height: 558px;
+    box-shadow: 0 0 50px #344e41;
+    border: 2px solid #344e41;
+  }
   .btn-primary,
   .btn-primary:hover,
   .btn-primary:active,
@@ -527,12 +552,18 @@ h3.menu-item-title {
 /********** Small devices only **********/
 @media (min-width: 768px) and (max-width: 991px) {
   .container .jumbotron {
-    background: url("../img/jumbotran_768.jpg") no-repeat;
+    background: url("../img/jumbotranf_768.jpg") no-repeat;
     height: 432px;
     box-shadow: 0 0 50px #344e41;
     border: 2px solid #344e41;
   }
 
+  .container .under-construction-sign {
+    background: url("../img/uc.jpg") no-repeat;
+    height: 432px;
+    box-shadow: 0 0 50px #344e41;
+    border: 2px solid #344e41;
+  }
   .navbar-brand {
     padding-top: auto;
   }
@@ -601,7 +632,13 @@ h3.menu-item-title {
     height: 80px;
   }
   .container .jumbotron {
-    background: url("../img/jumbotran_768.jpg") no-repeat;
+    background: url("../img/jumbotranf_768.jpg") no-repeat;
+    height: 432px;
+    box-shadow: 0 0 50px #344e41;
+    border: 2px solid #344e41;
+  }
+  .container .under-construction-sign {
+    background: url("../img/uc.jpg") no-repeat;
     height: 432px;
     box-shadow: 0 0 50px #344e41;
     border: 2px solid #344e41;
@@ -691,8 +728,15 @@ h3.menu-item-title {
     border: 2px solid #344e41;
   }
 
+  .container .under-construction-sign {
+    margin-top: 30px;
+    padding: 0;
+    box-shadow: 0 0 50px #344e41;
+    border: 2px solid #344e41;
+  }
   #dairy-tile,
   #poultry-tile,
+  #cart-tile,
   #veg-tile,
   #fruit-tile,
   #other-tile,
@@ -779,7 +823,14 @@ h3.menu-item-title {
     height: 80px;
   }
   .container .jumbotron {
-    background: url("../img/jumbotran_768.jpg") no-repeat;
+    background: url("../img/jumbotranf_768.jpg") no-repeat;
+    height: 432px;
+    box-shadow: 0 0 50px #344e41;
+    border: 2px solid #344e41;
+  }
+
+  .container .under-construction-sign {
+    background: url("../img/uc.jpg") no-repeat;
     height: 432px;
     box-shadow: 0 0 50px #344e41;
     border: 2px solid #344e41;
@@ -844,6 +895,7 @@ h3.menu-item-title {
   /* Home page */
   #dairy-tile,
   #poultry-tile,
+  #cart-tile,
   #veg-tile,
   #fruit-tile,
   #other-tile,
@@ -885,6 +937,13 @@ h3.menu-item-title {
   }
 
   .container .jumbotron {
+    margin-top: 30px;
+    padding: 0;
+    box-shadow: 0 0 50px #344e41;
+    border: 2px solid #344e41;
+  }
+
+  .container .under-construction-sign {
     margin-top: 30px;
     padding: 0;
     box-shadow: 0 0 50px #344e41;

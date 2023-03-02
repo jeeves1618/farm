@@ -67,7 +67,7 @@
           <div id="collapsable-nav" class="collapse navbar-collapse">
             <!--nav navbar-nav ensures that the elements are part of nav bar. navbar-right aligns to the right-->
             <ul id="nav-list" class="nav navbar-nav navbar-right">
-              <li>
+              <li class="selected">
                 <a th:href="@{/farmfoods/products}">
                   <!--Glyficons are part of bootstrap https://getbootstrap.com/docs/3.4/components/#glyphicons-->
                   <span class="glyphicon glyphicon-leaf"></span>
@@ -84,7 +84,7 @@
                 >
               </li>
               <li>
-                <a th:href="@{/farmfoods/home}">
+                <a th:href="@{/farmfoods/cart}">
                   <span
                     id="nav-no-of-items-cart"
                     class="glyphicon glyphicon-shopping-cart"
@@ -199,7 +199,7 @@
               </p>
               <div id="add-to-cart-division">
                 <button
-                  id="placeorder_"
+                  th:id="placeorder_+${item.menuItemId}"
                   type="button"
                   class="btn btn-primary mx-auto"
                 >

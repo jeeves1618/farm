@@ -356,7 +356,7 @@ public class MainController {
     }
 
     @PostMapping(path = "/addUpdateItem")
-    public String AddBookToList(@ModelAttribute("item") Menu menu, RestTemplate restTemplate){
+    public String updateMenuItem(@ModelAttribute("item") Menu menu, RestTemplate restTemplate){
         log.info(menu.toString());
         menu.setMenuImageFileName(menu.getMenuImageFileName().substring(3));
         //Reference https://howtodoinjava.com/spring-boot2/resttemplate/resttemplate-post-json-example/
@@ -382,9 +382,29 @@ public class MainController {
         return "redirect:/farmfoods/inventory?menuItemSubCategory=Dairy";
     }
 
-    @GetMapping(path = "/contact")
-    public String getContactPage(Model model){
-        return "contact";
+    @PostMapping(path = "/addToCart")
+    public String addToCart(@ModelAttribute("cart") Cart cart, RestTemplate restTemplate){
+        log.info(cart.toString());
+        //Reference https://howtodoinjava.com/spring-boot2/resttemplate/resttemplate-post-json-example/
+        try {
+            URI uri = new URI("http://localhost:8081/farmfoods/menu/addUpdateItem");
+            ResponseEntity<Cart> result = restTemplate.postForEntity(uri, cart, Cart.class);
+            log.info(result.toString());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        log.info("Save successful");
+        return "redirect:/farmfoods/inventory?menuItemSubCategory=Dairy";
+    }
+
+    @GetMapping(path = "/cart")
+    public String getContactPage(Model model, RestTemplate restTemplate){
+        HomeMetaData homeMetaData = restTemplate.getForObject(
+                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        homeMetaData.setCartHeader("Your cart is empty. ");
+        model.addAttribute("metahome",homeMetaData);
+
+        return "cart";
     }
 
     @GetMapping(path = "/reservation")
