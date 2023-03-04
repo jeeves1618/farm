@@ -2,11 +2,11 @@ package org.farmfresh.RESTEndPoints.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.farmfresh.RESTEndPoints.Domain.AddToCart;
 import org.farmfresh.RESTEndPoints.Domain.BlockedQty;
-import org.farmfresh.RESTEndPoints.Entity.Category;
-import org.farmfresh.RESTEndPoints.Entity.HomeData;
-import org.farmfresh.RESTEndPoints.Entity.Menu;
-import org.farmfresh.RESTEndPoints.Entity.Pricing;
+import org.farmfresh.RESTEndPoints.Domain.CartSummary;
+import org.farmfresh.RESTEndPoints.Entity.*;
+import org.farmfresh.RESTEndPoints.Repo.CartRepo;
 import org.farmfresh.RESTEndPoints.Repo.CategoryRepo;
 import org.farmfresh.RESTEndPoints.Repo.MenuRepo;
 import org.farmfresh.RESTEndPoints.Repo.PricingRepo;
@@ -37,6 +37,9 @@ public class MainController {
 
     @Autowired
     PricingRepo pricingRepo;
+
+    @Autowired
+    CartRepo cartRepo;
 
     @Autowired
     RupeeFormatter rf;
@@ -141,12 +144,61 @@ public class MainController {
         return pricing;
     }
 
+    @PostMapping(path = "/menu/addToCart")
+    public Cart addToCart(@RequestBody AddToCart addToCart){
+        Cart cart = new Cart();
+        cart.setMenuItemId(addToCart.getMenuItemId());
+        cart.setPricingId(addToCart.getPricingId());
+        cart.setMenuItemCount(addToCart.getMenuItemCount());
+        cart.setPackSize(addToCart.getPackSize());
+        int menuItemPackPrice = pricingRepo.findById(addToCart.getPricingId()).get().getMenuItemPackPrice();
+        cart.setMenuItemPackPrice(menuItemPackPrice);
+        cart.setCustomerDiscountRate(0.0);
+        cart.setMenuItemTotalPrice((int) (menuItemPackPrice * addToCart.getMenuItemCount() * (1 - cart.getCustomerDiscountRate())));
+        cart.setCartStatus("Pending");
+        cart.setUserUpdated(addToCart.getCustomerId());
+        cart.setUserCreated(addToCart.getCustomerId());
+        cart.setCustomerId(addToCart.getCustomerId());
+        long millis=System.currentTimeMillis();
+        java.sql.Date date=new java.sql.Date(millis);
+        cart.setDateCreated(date);
+        cart.setDateUpdated(date);
+        log.info(cart.toString());
+        cartRepo.save(cart);
+        log.info("API invoked for adding item to Cart");
+        return cart;
+    }
+
+    @GetMapping(path = "/cart/{customerId}")
+    public List<Cart> getCartItems(@PathVariable String customerId) throws IOException {
+        List<Cart> cartList = cartRepo.findByCustomerId(customerId);
+        for(Cart cart: cartList){
+            Optional<Menu> menuItem = menuRepo.findById(cart.getMenuItemId());
+            log.info("Menu Id : " + cart.getMenuItemId());
+            if (menuItem.isPresent()) {
+                Menu menu = menuItem.get();
+                cart.setMenuItemName(menu.getMenuItemName());
+                cart.setMenuItemCategory(menu.getMenuItemCategory());
+                cart.setMenuItemSubCategory(menu.getMenuItemSubCategory());
+                cart.setMenuItemDescription(menu.getMenuItemDescription());
+                String currencyFormat = "Rs ##,##,##0.00";
+                DecimalFormat ft = new DecimalFormat(currencyFormat);
+                cart.setMenuItemTotalPriceFmtd(rf.formattedRupee(ft.format(cart.getMenuItemTotalPrice())));
+            }
+        }
+        return cartList;
+    }
 
     @GetMapping(path = "/item/blockedqty")
     public BlockedQty getBlockedQty(){
         BlockedQty blockedQty = new BlockedQty();
         blockedQty.setBlockedQuantity(0.0);
         return blockedQty;
+    }
+
+    @GetMapping(path = "item/cartsummary/{menuItemId}")
+    public CartSummary getCartSummary(@PathVariable int menuItemId){
+        return cartRepo.findCountByMenuId(menuItemId);
     }
     @GetMapping(path = "/about")
     public String getAboutPage(){

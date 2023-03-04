@@ -38,6 +38,13 @@ public class MainController {
         return "homepage";
     }
 
+    @GetMapping(path = "/item")
+    public Menu getItemById(@RequestParam("menuItemId") String menuItemId,  Model model, RestTemplate restTemplate) {
+        Menu menuItem = restTemplate.getForObject(
+                "http://localhost:8081/farmfoods/item/" + menuItemId, Menu.class);
+        return menuItem;
+    }
+
     @GetMapping(path = "/items")
     public String getItemsPage(@RequestParam("menuItemSubCategory") String menuItemSubCategory,  Model model, RestTemplate restTemplate){
         HomeMetaData homeMetaData = restTemplate.getForObject(
@@ -78,6 +85,9 @@ public class MainController {
             if (menu.getUnitOfMeasure().equals("Volume")) menu.setUnitToUse("Litres");
             if (menu.getUnitOfMeasure().equals("Count")) menu.setUnitToUse("No.s");
             System.out.println("Debug : " + menu.getMenuImageFileName() + " for " + menu.getMenuItemName());
+            CartSummary cartCount = restTemplate.getForObject(
+                    "http://localhost:8081/farmfoods/item/cartsummary/" + menu.getMenuItemId(), CartSummary.class);
+            menu.setMenuItemInCartCount((cartCount == null)  ? 0 :cartCount.getMenuItemCount());
             BlockedQty blockedQty = restTemplate.getForObject(
                     "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
             menu.setBlockedQty(blockedQty.getBlockedQuantity());
@@ -151,6 +161,9 @@ public class MainController {
             if (menu.getUnitOfMeasure().equals("Weight")) menu.setUnitToUse("Kgs");
             if (menu.getUnitOfMeasure().equals("Volume")) menu.setUnitToUse("Litres");
             if (menu.getUnitOfMeasure().equals("Count")) menu.setUnitToUse("No.s");
+            CartSummary cartCount = restTemplate.getForObject(
+                    "http://localhost:8081/farmfoods/item/cartsummary/" + menu.getMenuItemId(), CartSummary.class);
+            menu.setMenuItemInCartCount((cartCount == null)  ? 0 :cartCount.getMenuItemCount());
             BlockedQty blockedQty = restTemplate.getForObject(
                     "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
             menu.setBlockedQty(blockedQty.getBlockedQuantity());
@@ -181,6 +194,9 @@ public class MainController {
                 e.printStackTrace();
             }
         }
+        Cart cart = new Cart();
+        cart.setCartStatus("Pending");
+
         model.addAttribute("items", menuList);
         System.out.println(menuList);
         return "items";
@@ -248,7 +264,6 @@ public class MainController {
             }
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     (httpURLConnection.getInputStream())));
-
             String output;
             System.out.println("Output from Server .... \n");
             while ((output = br.readLine()) != null) {
@@ -268,6 +283,9 @@ public class MainController {
             if (menu.getUnitOfMeasure().equals("Weight")) menu.setUnitToUse("Kgs");
             if (menu.getUnitOfMeasure().equals("Volume")) menu.setUnitToUse("Litres");
             if (menu.getUnitOfMeasure().equals("Count")) menu.setUnitToUse("No.s");
+            CartSummary cartCount = restTemplate.getForObject(
+                    "http://localhost:8081/farmfoods/item/cartsummary/" + menu.getMenuItemId(), CartSummary.class);
+            menu.setMenuItemInCartCount((cartCount == null)  ? 0 :cartCount.getMenuItemCount());
             BlockedQty blockedQty = restTemplate.getForObject(
                     "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
             menu.setBlockedQty(blockedQty.getBlockedQuantity());
@@ -317,7 +335,9 @@ public class MainController {
         if (menuToBeUpdated.getUnitOfMeasure().equals("Weight")) menuToBeUpdated.setUnitToUse("Kgs");
         if (menuToBeUpdated.getUnitOfMeasure().equals("Volume")) menuToBeUpdated.setUnitToUse("Litres");
         if (menuToBeUpdated.getUnitOfMeasure().equals("Count")) menuToBeUpdated.setUnitToUse("No.s");
-
+        CartSummary cartCount = restTemplate.getForObject(
+                "http://localhost:8081/farmfoods/item/cartsummary/" + menuToBeUpdated.getMenuItemId(), CartSummary.class);
+        menuToBeUpdated.setMenuItemInCartCount((cartCount == null)  ? 0 :cartCount.getMenuItemCount());
         BlockedQty blockedQty = restTemplate.getForObject(
                 "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
         menuToBeUpdated.setBlockedQty(blockedQty.getBlockedQuantity());
@@ -387,23 +407,57 @@ public class MainController {
         log.info(cart.toString());
         //Reference https://howtodoinjava.com/spring-boot2/resttemplate/resttemplate-post-json-example/
         try {
-            URI uri = new URI("http://localhost:8081/farmfoods/menu/addUpdateItem");
+            URI uri = new URI("http://localhost:8081/farmfoods/menu/addToCart");
             ResponseEntity<Cart> result = restTemplate.postForEntity(uri, cart, Cart.class);
             log.info(result.toString());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        log.info("Save successful");
-        return "redirect:/farmfoods/inventory?menuItemSubCategory=Dairy";
+        log.info("Add to cart is successful");
+        return "redirect:/farmfoods/products";
     }
 
     @GetMapping(path = "/cart")
     public String getContactPage(Model model, RestTemplate restTemplate){
         HomeMetaData homeMetaData = restTemplate.getForObject(
                 "http://localhost:8081/farmfoods/home", HomeMetaData.class);
-        homeMetaData.setCartHeader("Your cart is empty. ");
-        model.addAttribute("metahome",homeMetaData);
 
+        List<Cart> cartList = null;
+        try {
+            //menuItemSubCategory = URLEncoder.encode(menuItemSubCategory,"UTF-8").replace("+", "%20");
+            String customerId = "User";
+            URL url = new URL("http://localhost:8081/farmfoods/cart/" + customerId);
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("GET");
+            httpURLConnection.setRequestProperty("Accept", "application/json");
+
+            if (httpURLConnection.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + httpURLConnection.getResponseCode());
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (httpURLConnection.getInputStream())));
+            String output;
+            System.out.println("Output from Server .... \n");
+            while ((output = br.readLine()) != null) {
+                ObjectMapper mapper = new ObjectMapper();
+                cartList = mapper.readValue(output, new TypeReference<List<Cart>>(){});
+            }
+            httpURLConnection.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (cartList.size() > 0) {
+            homeMetaData.setCartHeader("Shopping Cart");
+            homeMetaData.setCartSubHeader("Explore more");
+        }
+        else {
+            homeMetaData.setCartHeader("Your cart is empty!");
+            homeMetaData.setCartSubHeader("Continue Shopping");
+        }
+        model.addAttribute("metahome",homeMetaData);
+        model.addAttribute("items",cartList);
         return "cart";
     }
 

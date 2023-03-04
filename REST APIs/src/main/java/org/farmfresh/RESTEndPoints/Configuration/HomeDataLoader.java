@@ -39,7 +39,7 @@ public class HomeDataLoader implements ApplicationListener<ApplicationReadyEvent
         homeData.setTileHeader5("Others");
         homeData.setTileHeader6("Pickup Point");
         homeData.setCategoryMessage("Availability of fruits and vegetables are subject to seasonal variations");
-
+        homeData.setLoggedInUser("Kumar");
         homeDataRepo.save(homeData);
     }
 }

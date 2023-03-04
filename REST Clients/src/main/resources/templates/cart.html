@@ -115,56 +115,63 @@
     ></h2>
     <div class="text-center">
       <a th:href="@{/farmfoods/products}" class="text-center"
-        >Continue shopping.</a
-      >
+        ><span th:text="${metahome.cartSubHeader}"></span>
+      </a>
     </div>
 
+    <hr />
+    <br />
     <div id="main-content" class="container">
+      <!--
       <div class="under-construction-sign">
-        <!-- img-responsive is from bootstrap and it will ensure that the image realigns based on the width and it is visible only when the browser is xs -->
+        <!- img-responsive is from bootstrap and it will ensure that the image realigns based on the width and it is visible only when the browser is xs ->
 
         <h2
           id="jumbotran-main-text"
           class="visible-xs visible-sm visible-md visible-lg"
         ></h2>
       </div>
-      <!--
-      <div id="home-tiles" class="row">
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Dairy)}"
-            ><div id="cart-tile">
-              <span th:text="${metahome.tileHeader1}"></span></div
-          ></a>
+      -->
+      <section th:if="${not #lists.isEmpty(items)}" class="row">
+        <div th:each="item : ${items}" class="menu-item-tile col-md-6">
+          <div id="home-tiles" class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <a th:href="@{/farmfoods/item(menuItemId=${item.menuItemId})}"
+                ><div id="cart-tile">
+                  <span
+                    th:text="${item.menuItemName} + ' - ' + ${item.menuItemTotalPriceFmtd}"
+                  ></span></div
+              ></a>
+            </div>
+          </div>
         </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Poultry)}"
-            ><div id="cart-tile">
-              <span th:text="${metahome.tileHeader2}"></span></div
-          ></a>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Vegetables)}"
-            ><div id="cart-tile">
-              <span th:text="${metahome.tileHeader3}"></span></div
-          ></a>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Fruits)}"
-            ><div id="cart-tile">
-              <span th:text="${metahome.tileHeader4}"></span></div
-          ></a>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Others)}"
-            ><div id="cart-tile">
-              <span th:text="${metahome.tileHeader5}"></span></div
-          ></a>
-        </div>
-      </div>
-    -->
+      </section>
       <!-- End of #home-tiles -->
     </div>
-
+    <div id="check-out-division">
+      <hr class="visible-xs visible-md visible-lg" />
+      <a id="check-out-link" th:href="@{/farmfoods/cart}">
+        <button
+          id="check-out-button"
+          type="button"
+          class="btn btn-primary mx-auto"
+        >
+          Place Order
+        </button>
+      </a>
+    </div>
+    <br />
+    <div id="back-from-checkout">
+      <a id="back-from-checkout-link" th:href="@{/farmfoods/home}">
+        <button
+          id="back-from-checkout-button"
+          type="button"
+          class="btn btn-primary mx-auto"
+        >
+          Back to Home
+        </button>
+      </a>
+    </div>
     <!-- End of #Main Content -->
     <footer class="panel-footer">
       <div class="container">

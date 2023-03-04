@@ -35,9 +35,11 @@ public class Cart {
     @Column(name = "menu_item_pack_price")
     private Integer menuItemPackPrice;
     @Column(name = "customer_discount_rate")
-    private String customerDiscountRate;
+    private Double customerDiscountRate;
+    @Column(name = "menu_item_total_price")
+    private Integer menuItemTotalPrice;
     @Column(name = "cart_status")
-    private Integer cartStatus;
+    private String cartStatus;
     @CreatedDate
     @Column(name = "date_created")
     private Date dateCreated;
@@ -48,4 +50,14 @@ public class Cart {
     private String userCreated;
     @Column(name = "user_updated")
     private String userUpdated;
+    @Transient
+    private String menuItemName;
+    @Transient
+    private String menuItemCategory;
+    @Transient
+    private String menuItemSubCategory;
+    @Transient
+    private String menuItemDescription;
+    @Transient
+    private String menuItemTotalPriceFmtd;
 }

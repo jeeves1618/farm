@@ -130,6 +130,10 @@
       th:text="${metahome.categoryHeader}"
     ></h2>
     <div class="text-center" th:text="${metahome.categoryMessage}"></div>
+    <article
+      th:data-customer-id="${metahome.loggedInUser}"
+      id="customer-id"
+    ></article>
     <!--           ------------------------------------------------------------                   -->
 
     <div class="container">
@@ -138,7 +142,15 @@
           <div class="row">
             <div class="col-sm-5">
               <div class="menu-item-photo">
-                <span id="cartIndicator"></span>
+                <span th:id="cartIndicator_+${item.menuItemId}">
+                  <a th:href="@{/farmfoods/cart}">
+                    <div>
+                      <span
+                        th:id="number-of-items-incart_+${item.menuItemId}"
+                        class="glyphicon glyphicon-shopping-cart"
+                      ></span></div
+                  ></a>
+                </span>
                 <img
                   class="img-responsive"
                   width="250"
@@ -163,7 +175,7 @@
                     class="flex-container"
                   >
                     <option
-                      th:value="${pricing.packSize} + 'MenuItemId:' + ${item.menuItemId}"
+                      th:value="${pricing.packSize} + 'MenuItemId:' + ${item.menuItemId}  + ':' + ${pricing.pricingId} + ':' + ${item.menuItemInCartCount}"
                     >
                       <span th:text="${pricing.packSize}"></span>
                     </option>
@@ -197,11 +209,10 @@
                 <span id="pricelabeloffarmpacks"> Price : </span>
                 <span th:id="priceoffarmpacks_+${item.menuItemId}"> ₹ 0 </span>
               </p>
-              <div id="add-to-cart-division">
+              <div th:id="add-to-cart-division">
                 <button
-                  th:id="placeorder_+${item.menuItemId}"
-                  type="button"
-                  class="btn btn-primary mx-auto"
+                  th:id="addtocart_+${item.menuItemId}"
+                  class="btn btn-primary"
                 >
                   Add to Cart
                 </button>
@@ -306,6 +317,15 @@
       crossorigin="anonymous"
     ></script>
     <script>
+      const addToCartRequestBody = {
+        customerId: null,
+        menuItemId: null,
+        menuItemCount: null,
+        packSize: null,
+      };
+
+      let addToCartList = [];
+
       const getPriceForPack = function (packSize, menuItemId, quantity) {
         let pricerForPack;
         fetch(
@@ -322,6 +342,9 @@
           });
       };
       let menu_options = document.querySelectorAll('[id^="priceoffarmpacks"]');
+
+      //Initial Loading function. Creates an array of products displayed
+
       menu_options.forEach((menu_option) => {
         let menuItem = menu_option.id;
         let menuItemId = menuItem.split("_")[1];
@@ -329,13 +352,28 @@
           "#PackSize_" + menuItemId
         ).value;
         let packSize = packSizeSelected.split(" ")[0];
+        let pricingId = packSizeSelected.split(":")[2];
+        let cartCount = packSizeSelected.split(":")[3];
         let quantity = document
           .querySelector("#quantityselected_" + menuItemId)
           .value.split(":")[0];
-        console.log(packSize, menuItemId, quantity);
+        let spanElement = document.querySelector(
+          "#number-of-items-incart_" + menuItemId
+        );
+        console.log(packSize, menuItemId, quantity, spanElement);
+        if (cartCount == 0) spanElement.style.display = "none";
+        let cartObject = {
+          customerId: "User",
+          menuItemId: menuItemId,
+          menuItemCount: quantity,
+          packSize: packSize,
+          pricingId: pricingId,
+        };
+        addToCartList.push(cartObject);
         getPriceForPack(packSize, menuItemId, quantity);
       });
 
+      //Gets executed when the user changes the pack size
       let pack_size = document.querySelectorAll('[id^="PackSize_"]');
       let quantity;
       let pack_price;
@@ -345,14 +383,26 @@
           let packSizeSelected = pack_options.value;
           let packSize = packSizeSelected.split(" ")[0];
           let menuItemId = packSizeSelected.split(":")[1];
+          console.log("Is the menu item coming through? " + menuItemId);
           let quantity = document
             .querySelector("#quantityselected_" + menuItemId)
             .value.split(":")[0];
           console.log(packSize, menuItemId, quantity);
+          let changedIndex = addToCartList.findIndex(function (cart, index) {
+            if (cart.menuItemId == menuItemId) return true;
+          });
+          console.log(
+            "Changed pack size for array item : " +
+              changedIndex +
+              " is = " +
+              packSize
+          );
+          addToCartList[changedIndex].packSize = packSize;
           getPriceForPack(packSize, menuItemId, quantity);
         });
       });
 
+      //Gets executed when the user changes the quantiy
       let qty_size = document.querySelectorAll('[id^="quantityselected_"]');
       qty_size.forEach((qty_options) => {
         qty_options.addEventListener("change", function () {
@@ -363,7 +413,64 @@
           ).value;
           let packSize = packSizeSelected.split(" ")[0];
           console.log(packSize, menuItemId, quantity);
+          let changedIndex = addToCartList.findIndex(function (cart, index) {
+            if (cart.menuItemId == menuItemId) return true;
+          });
+          console.log(
+            "Changed quantity for array item : " +
+              changedIndex +
+              " is = " +
+              quantity
+          );
+          addToCartList[changedIndex].menuItemCount = quantity;
           getPriceForPack(packSize, menuItemId, quantity);
+        });
+      });
+
+      let add_to_cart = document.querySelectorAll('[id^="addtocart_"]');
+      add_to_cart.forEach((addToCartButton) => {
+        addToCartButton.addEventListener("click", function () {
+          let menuItemId = addToCartButton.id.split("_")[1];
+          let changedIndex = addToCartList.findIndex(function (cart, index) {
+            if (cart.menuItemId == menuItemId) return true;
+          });
+
+          console.log("Object found : " + changedIndex);
+          console.log(
+            "Add to item clicked for menu item :" +
+              addToCartList[changedIndex].menuItemId +
+              ", Pack : " +
+              addToCartList[changedIndex].packSize +
+              ", Quantity : " +
+              addToCartList[changedIndex].menuItemCount +
+              ", User : " +
+              addToCartList[changedIndex].customerId +
+              ", Pricing ID : " +
+              addToCartList[changedIndex].pricingId
+          );
+          fetch("http://localhost:8081/farmfoods/menu/addToCart", {
+            method: "POST",
+            body: JSON.stringify({
+              customerId: addToCartList[changedIndex].customerId,
+              menuItemId: addToCartList[changedIndex].menuItemId,
+              menuItemCount: addToCartList[changedIndex].menuItemCount,
+              packSize: addToCartList[changedIndex].packSize,
+              pricingId: addToCartList[changedIndex].pricingId,
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          })
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (data) {
+              console.log(data);
+            });
+          let spanElement = document.querySelector(
+            "#number-of-items-incart_" + menuItemId
+          );
+          spanElement.style.display = "block";
         });
       });
     </script>

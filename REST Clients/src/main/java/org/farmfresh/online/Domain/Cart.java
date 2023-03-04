@@ -16,9 +16,15 @@ public class Cart {
     private String packSize;
     private Integer menuItemPackPrice;
     private String customerDiscountRate;
-    private Integer cartStatus;
+    private Integer menuItemTotalPrice;
+    private String cartStatus;
     private Date dateCreated;
     private Date dateUpdated;
     private String userCreated;
     private String userUpdated;
+    private String menuItemName;
+    private String menuItemCategory;
+    private String menuItemSubCategory;
+    private String menuItemDescription;
+    private String menuItemTotalPriceFmtd;
 }

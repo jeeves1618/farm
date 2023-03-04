@@ -30,6 +30,7 @@ public class Menu {
     private Double blockedQty;
     private Double freeQty;
     private List<Pricing> pricingList;
+    private Long menuItemInCartCount;
 
     /*
     Available Quantity

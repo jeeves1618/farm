@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -50,4 +51,14 @@ public class Menu {
     private Double availableQty;
     @Column(name = "unit_of_measure")
     private String unitOfMeasure;
+    @Transient
+    private String unitToUse;
+    @Transient
+    private Double blockedQty;
+    @Transient
+    private Double freeQty;
+    @Transient
+    private List<Pricing> pricingList;
+    @Transient
+    private Long menuItemInCartCount;
 }

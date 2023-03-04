@@ -24,4 +24,6 @@ public class HomeMetaData {
     private String categoryHeader;
     private String categoryMessage;
     private String cartHeader;
+    private String cartSubHeader;
+    private String loggedInUser;
 }

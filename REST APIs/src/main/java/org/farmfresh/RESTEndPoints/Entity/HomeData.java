@@ -46,7 +46,8 @@ public class HomeData {
     private String categoryHeader;
     @Column(name = "category_message")
     private String categoryMessage;
-
+    @Column(name = "logged_in_user")
+    private String loggedInUser;
     public HomeData() {
     }
 }
