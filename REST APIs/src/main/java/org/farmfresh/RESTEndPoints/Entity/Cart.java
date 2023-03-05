@@ -59,5 +59,13 @@ public class Cart {
     @Transient
     private String menuItemDescription;
     @Transient
+    private String menuItemPriceFmtd;
+    @Transient
     private String menuItemTotalPriceFmtd;
+    @Transient
+    private String menuImageFileName;
+    @Transient
+    private int cartTotal;
+    @Transient
+    private String cartTotalFmtd;
 }

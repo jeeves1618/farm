@@ -184,7 +184,6 @@ hr {
 /* Overflow hidden will ensure that nothing comes out of the tile*/
 #dairy-tile,
 #poultry-tile,
-#cart-tile,
 #veg-tile,
 #fruit-tile,
 #other-tile,
@@ -197,6 +196,36 @@ hr {
   overflow: hidden;
   border-radius: 3%;
 }
+
+#cart-tile {
+  height: auto;
+  width: 100%;
+  margin-bottom: 15px;
+  position: relative;
+  border: 0px solid #344e41;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+#cart-tile ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#cart-tile li {
+  vertical-align: middle;
+  margin-top: 30%;
+}
+
+#cart-tile li:first-child {
+  margin-top: 0;
+  font-size: 1.5rem;
+}
+
 #dairy-tile:hover,
 #poultry-tile:hover,
 #cart-tile:hover,
@@ -212,8 +241,7 @@ hr {
   background-position: center;
 }
 #cart-tile {
-  background: url("../img/cart-tile.jpg") no-repeat;
-  background-position: center;
+  background-image: linear-gradient(to bottom right, #fff, #fff);
 }
 #poultry-tile {
   background: url("../img/poultry-tile.jpg") no-repeat;
@@ -232,7 +260,7 @@ hr {
   background-position: center;
 }
 #bg-jumbotron {
-  background: url("../img/jumbotranf_1200.jpg") no-repeat;
+  background: url("../img/jumbotran_1200.jpg") no-repeat;
   background-position: center;
 }
 
@@ -262,17 +290,16 @@ hr {
   opacity: 0.8;
 }
 
-#cart-tile span {
-  position: absolute;
-  top: 0;
+span[id^="cartDelIndicator_"] {
+  position: relative;
+  bottom: 0;
   right: 0;
   width: 100%;
   text-align: center;
-  font-size: 1.6em;
+  font-size: 1.8em;
   text-transform: uppercase;
-  background-color: #000;
-  color: #fff;
-  opacity: 0.7;
+  color: #344e41;
+  opacity: 1;
 }
 
 #bg-jumbotron span {
@@ -459,7 +486,7 @@ h3.menu-item-title {
 /********** Large devices only **********/
 @media (min-width: 1200px) {
   .container .jumbotron {
-    background: url("../img/jumbotranf_1200.jpg") no-repeat;
+    background: url("../img/jumbotran_1200.jpg") no-repeat;
     height: 675px;
     box-shadow: 0 0 50px #344e41;
     border: 2px solid #344e41;
@@ -521,7 +548,7 @@ h3.menu-item-title {
 
   /* End Header */
   .container .jumbotron {
-    background: url("../img/jumbotranf_992.jpg") no-repeat;
+    background: url("../img/jumbotran_992.jpg") no-repeat;
     height: 558px;
     box-shadow: 0 0 50px #344e41;
     border: 2px solid #344e41;
@@ -564,7 +591,7 @@ h3.menu-item-title {
 /********** Small devices only **********/
 @media (min-width: 768px) and (max-width: 991px) {
   .container .jumbotron {
-    background: url("../img/jumbotranf_768.jpg") no-repeat;
+    background: url("../img/jumbotran_768.jpg") no-repeat;
     height: 432px;
     box-shadow: 0 0 50px #344e41;
     border: 2px solid #344e41;
@@ -644,7 +671,7 @@ h3.menu-item-title {
     height: 80px;
   }
   .container .jumbotron {
-    background: url("../img/jumbotranf_768.jpg") no-repeat;
+    background: url("../img/jumbotran_768.jpg") no-repeat;
     height: 432px;
     box-shadow: 0 0 50px #344e41;
     border: 2px solid #344e41;
@@ -835,7 +862,7 @@ h3.menu-item-title {
     height: 80px;
   }
   .container .jumbotron {
-    background: url("../img/jumbotranf_768.jpg") no-repeat;
+    background: url("../img/jumbotran_768.jpg") no-repeat;
     height: 432px;
     box-shadow: 0 0 50px #344e41;
     border: 2px solid #344e41;

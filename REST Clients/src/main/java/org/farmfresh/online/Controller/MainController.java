@@ -456,6 +456,10 @@ public class MainController {
             homeMetaData.setCartHeader("Your cart is empty!");
             homeMetaData.setCartSubHeader("Continue Shopping");
         }
+        if (cartList.size() > 0)
+            homeMetaData.setCartSummary("Your cart total (" + cartList.size() + " items) is : " + cartList.get(Math.max(cartList.size() - 1, 0)).getCartTotalFmtd());
+        else
+            homeMetaData.setCartSummary("Your cart total (" + cartList.size() + " items) is : Rs. 0.00" );
         model.addAttribute("metahome",homeMetaData);
         model.addAttribute("items",cartList);
         return "cart";

@@ -26,5 +26,9 @@ public class Cart {
     private String menuItemCategory;
     private String menuItemSubCategory;
     private String menuItemDescription;
+    private String menuItemPriceFmtd;
     private String menuItemTotalPriceFmtd;
+    private String menuImageFileName;
+    private int cartTotal;
+    private String cartTotalFmtd;
 }

@@ -172,6 +172,7 @@ public class MainController {
     @GetMapping(path = "/cart/{customerId}")
     public List<Cart> getCartItems(@PathVariable String customerId) throws IOException {
         List<Cart> cartList = cartRepo.findByCustomerId(customerId);
+        int cartTotal = 0;
         for(Cart cart: cartList){
             Optional<Menu> menuItem = menuRepo.findById(cart.getMenuItemId());
             log.info("Menu Id : " + cart.getMenuItemId());
@@ -184,6 +185,12 @@ public class MainController {
                 String currencyFormat = "Rs ##,##,##0.00";
                 DecimalFormat ft = new DecimalFormat(currencyFormat);
                 cart.setMenuItemTotalPriceFmtd(rf.formattedRupee(ft.format(cart.getMenuItemTotalPrice())));
+                cart.setMenuItemPriceFmtd(rf.formattedRupee(ft.format(cart.getMenuItemPackPrice())));
+                cart.setMenuImageFileName("../" + menu.getMenuImageFileName());
+                cartTotal = cartTotal + cart.getMenuItemTotalPrice();
+                cart.setCartTotal(cartTotal);
+                log.info("Cart Total " + cart.getCartTotal());
+                cart.setCartTotalFmtd(rf.formattedRupee(ft.format(cart.getCartTotal())));
             }
         }
         return cartList;
