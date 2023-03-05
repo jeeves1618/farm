@@ -108,6 +108,10 @@
       </nav>
     </header>
     <div id="complete-body-under-nav"></div>
+    <article
+      th:data-customerid="${metahome.loggedInUser}"
+      id="customer-id"
+    ></article>
     <h2
       id="cart-title"
       class="text-center"
@@ -219,5 +223,21 @@
       integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
       crossorigin="anonymous"
     ></script>
+    <script>
+      let getCartCount = function (customer) {
+        fetch(`http://localhost:8081/farmfoods/item/cartcount/` + customer)
+          .then(function (ajaxResponse) {
+            return ajaxResponse.json();
+          })
+          .then(function (numberOfItemsInCart) {
+            console.log(numberOfItemsInCart);
+            document.getElementById("nav-no-of-items-cart").textContent =
+              "(" + numberOfItemsInCart + ")";
+          });
+      };
+      const article = document.querySelector("#customer-id");
+      customerId = article.dataset.customerid;
+      getCartCount(customerId);
+    </script>
   </body>
 </html>

@@ -108,6 +108,10 @@
       </nav>
     </header>
     <div id="complete-body-under-nav"></div>
+    <article
+      th:data-customerid="${metahome.loggedInUser}"
+      id="customer-id"
+    ></article>
     <div id="contact-region" class="container">
       <div id="call-btn" class="visible-xs visible-sm visible-md visible-lg">
         <a
@@ -130,17 +134,19 @@
       <h2 id="menu-categories-title" class="text-center">Our Story</h2>
       <div class="text-center">
         <p>
-          Welcome to Dhariya Farms, a beautiful and sustainable farm that offers
-          a range of fresh, healthy, and locally sourced products! Our farm is
-          located in the banks of Palar river, and we're dedicated to providing
-          our customers with the freshest, most nutritious produce possible.
+          Welcome to <span th:text="${metahome.titleText}"></span>, a beautiful
+          and sustainable farm that offers a range of fresh, healthy, and
+          locally sourced products! Our farm is located in the banks of Palar
+          river, and we're dedicated to providing our customers with the
+          freshest, most nutritious produce possible.
         </p>
         <p>
-          At Dhariya Farms, we believe in the importance of sustainable
-          agriculture, which is why we use eco-friendly farming methods that are
-          gentle on the land and promote biodiversity. Our team is made up of
-          experienced farmers who are passionate about growing healthy food
-          while protecting the environment.
+          At <span th:text="${metahome.titleText}"></span>, we believe in the
+          importance of sustainable agriculture, which is why we use
+          eco-friendly farming methods that are gentle on the land and promote
+          biodiversity. Our team is made up of experienced farmers who are
+          passionate about growing healthy food while protecting the
+          environment.
         </p>
         <p>
           Our farm offers a wide variety of products, from fresh fruits and
@@ -157,7 +163,8 @@
         passionate about building a strong and vibrant local community. We
         believe that small, local farms like ours have an important role to play
         in promoting healthy living and strengthening the connections between
-        people and the land. Thank you for considering Dhariya Farms!
+        people and the land. Thank you for considering
+        <span th:text="${metahome.titleText}"></span>!
       </div>
       <hr />
     </div>
@@ -209,5 +216,21 @@
       integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
       crossorigin="anonymous"
     ></script>
+    <script>
+      let getCartCount = function (customer) {
+        fetch(`http://localhost:8081/farmfoods/item/cartcount/` + customer)
+          .then(function (ajaxResponse) {
+            return ajaxResponse.json();
+          })
+          .then(function (numberOfItemsInCart) {
+            console.log(numberOfItemsInCart);
+            document.getElementById("nav-no-of-items-cart").textContent =
+              "(" + numberOfItemsInCart + ")";
+          });
+      };
+      const article = document.querySelector("#customer-id");
+      customerId = article.dataset.customerid;
+      getCartCount(customerId);
+    </script>
   </body>
 </html>
