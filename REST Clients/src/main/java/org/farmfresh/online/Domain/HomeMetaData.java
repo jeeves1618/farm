@@ -28,5 +28,4 @@ public class HomeMetaData {
     private String loggedInUser;
     private String cartSummary;
     private String cartSubSummary;
-
 }

@@ -189,11 +189,28 @@ public class MainController {
                 cart.setMenuImageFileName("../" + menu.getMenuImageFileName());
                 cartTotal = cartTotal + cart.getMenuItemTotalPrice();
                 cart.setCartTotal(cartTotal);
-                log.info("Cart Total " + cart.getCartTotal());
+                log.info("Cart Total " + cart.getCartTotal() + " and " + cart.getMenuImageFileName());
                 cart.setCartTotalFmtd(rf.formattedRupee(ft.format(cart.getCartTotal())));
             }
         }
         return cartList;
+    }
+
+    @GetMapping(path = "/cart/delete/{cartId}")
+    public Cart deleteCartItem(@PathVariable int cartId) throws IOException {
+        Cart cart = cartRepo.findById(cartId).get();
+        if (cart != null)
+            cartRepo.deleteById(cartId);
+        return cart;
+    }
+
+    @GetMapping(path = "/place/order/{customerId}")
+    public String placeOrder(@PathVariable String customerId) throws IOException {
+        List<Cart> cartList = cartRepo.findByCustomerId(customerId);
+        for(Cart cart: cartList){
+            cartRepo.deleteById(cart.getCartId());
+        }
+        return "Dear " + customerId;
     }
 
     @GetMapping(path = "/item/blockedqty")

@@ -465,14 +465,28 @@ public class MainController {
         return "cart";
     }
 
-    @GetMapping(path = "/reservation")
-    public String getReservationPage(Model model){
-        return "reservation";
+    @GetMapping(path = "/cart/delete")
+    public String deleteCartItem(@RequestParam("cartId") int cartId, Model model, RestTemplate restTemplate) {
+
+        HomeMetaData homeMetaData = restTemplate.getForObject(
+                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+
+        Cart cart = restTemplate.getForObject(
+                "http://localhost:8081/farmfoods/cart/delete/"+cartId, Cart.class);
+
+        return "redirect:/farmfoods/cart";
     }
 
-    @GetMapping(path = "/service")
-    public String getServicePage(Model model){
-        return "service";
+    @GetMapping(path = "/order")
+    public String getServicePage(@RequestParam("customerId") String customerId, Model model, RestTemplate restTemplate){
+        HomeMetaData homeMetaData = restTemplate.getForObject(
+                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        String cart = restTemplate.getForObject(
+                "http://localhost:8081/farmfoods/place/order/"+homeMetaData.getLoggedInUser(), String.class);
+        homeMetaData.setCartHeader(cart + ", Your order is succeffully placed!");
+        homeMetaData.setCartSubHeader("Explore more");
+        model.addAttribute("metahome",homeMetaData);
+        return "order";
     }
 
     @GetMapping(path = "/testimonial")

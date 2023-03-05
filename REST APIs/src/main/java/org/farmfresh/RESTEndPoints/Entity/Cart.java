@@ -12,20 +12,16 @@ import java.sql.Date;
 @Data
 @Component
 @Table(name = "cart_table")
-@IdClass(CartId.class)
 public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "cart_id")
     private int cartId;
-    @Id
     @Column(name = "customer_id")
     private String customerId;
-    @Id
     @Column(name = "menu_item_id")
     private int menuItemId;
-    @Id
     @Column(name = "pricing_id")
     private int pricingId;
     @Column(name = "menu_item_count")

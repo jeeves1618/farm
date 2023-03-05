@@ -175,7 +175,9 @@
                     <span th:text="${item.menuItemTotalPriceFmtd}"></span>
                   </li>
                   <li>
-                    <a th:href="@{/farmfoods/cart}">
+                    <a
+                      th:href="@{/farmfoods/cart/delete(cartId=${item.cartId})}"
+                    >
                       <div>
                         <span
                           th:id="cartDelIndicator_+${item.menuItemId}"
@@ -200,7 +202,10 @@
         th:text="${metahome.cartSummary}"
       ></h2>
       <hr class="visible-xs visible-md visible-lg" />
-      <a id="check-out-link" th:href="@{/farmfoods/cart}">
+      <a
+        id="check-out-link"
+        th:href="@{/farmfoods/order(customerId=${metahome.loggedInUser})}"
+      >
         <button
           id="check-out-button"
           type="button"
