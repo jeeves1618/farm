@@ -131,7 +131,7 @@
     ></h2>
     <div class="text-center" th:text="${metahome.categoryMessage}"></div>
     <article
-      th:data-customer-id="${metahome.loggedInUser}"
+      th:data-customerid="${metahome.loggedInUser}"
       id="customer-id"
     ></article>
     <!--           ------------------------------------------------------------                   -->
@@ -317,11 +317,17 @@
       crossorigin="anonymous"
     ></script>
     <script>
-      const addToCartRequestBody = {
-        customerId: null,
-        menuItemId: null,
-        menuItemCount: null,
-        packSize: null,
+      const article = document.querySelector("#customer-id");
+      let getCartCount = function (customer) {
+        fetch(`http://localhost:8081/farmfoods/item/cartcount/` + customer)
+          .then(function (ajaxResponse) {
+            return ajaxResponse.json();
+          })
+          .then(function (numberOfItemsInCart) {
+            console.log(numberOfItemsInCart);
+            document.getElementById("nav-no-of-items-cart").textContent =
+              "(" + numberOfItemsInCart + ")";
+          });
       };
 
       let addToCartList = [];
@@ -362,14 +368,16 @@
         );
         console.log(packSize, menuItemId, quantity, spanElement);
         if (cartCount == 0) spanElement.style.display = "none";
+
         let cartObject = {
-          customerId: "User",
+          customerId: article.dataset.customerid,
           menuItemId: menuItemId,
           menuItemCount: quantity,
           packSize: packSize,
           pricingId: pricingId,
         };
         addToCartList.push(cartObject);
+        getCartCount(cartObject.customerId);
         getPriceForPack(packSize, menuItemId, quantity);
       });
 
@@ -466,6 +474,7 @@
             })
             .then(function (data) {
               console.log(data);
+              getCartCount(article.dataset.customerid);
             });
           let spanElement = document.querySelector(
             "#number-of-items-incart_" + menuItemId

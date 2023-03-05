@@ -146,6 +146,10 @@
           <i class="fa fa-table service-icon"></i>
           <p th:text="${metahome.centerCarousalLine4}"></p>
         </h3>
+        <article
+          th:data-customerid="${metahome.loggedInUser}"
+          id="customer-id"
+        ></article>
       </div>
       <div id="home-tiles" class="row">
         <div class="col-md-4 col-sm-6 col-xs-12">
@@ -244,5 +248,21 @@
       integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
       crossorigin="anonymous"
     ></script>
+    <script>
+      let getCartCount = function (customer) {
+        fetch(`http://localhost:8081/farmfoods/item/cartcount/` + customer)
+          .then(function (ajaxResponse) {
+            return ajaxResponse.json();
+          })
+          .then(function (numberOfItemsInCart) {
+            console.log(numberOfItemsInCart);
+            document.getElementById("nav-no-of-items-cart").textContent =
+              "(" + numberOfItemsInCart + ")";
+          });
+      };
+      const article = document.querySelector("#customer-id");
+      customerId = article.dataset.customerid;
+      getCartCount(customerId);
+    </script>
   </body>
 </html>

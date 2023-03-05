@@ -1,5 +1,6 @@
 package org.farmfresh.RESTEndPoints.Repo;
 
+import org.farmfresh.RESTEndPoints.Domain.CartCount;
 import org.farmfresh.RESTEndPoints.Domain.CartSummary;
 import org.farmfresh.RESTEndPoints.Entity.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,6 @@ public interface CartRepo extends JpaRepository<Cart, Integer> {
     @Query("select new org.farmfresh.RESTEndPoints.Domain.CartSummary(menuItemId, count(*)) from Cart C where C.menuItemId = ?1 group by menuItemId")
     CartSummary findCountByMenuId(int menuItemId);
 
+    @Query("select new org.farmfresh.RESTEndPoints.Domain.CartCount(customerId, count(*)) from Cart C where C.customerId = ?1 group by customerId")
+    CartCount findCartCount(String customerId);
 }

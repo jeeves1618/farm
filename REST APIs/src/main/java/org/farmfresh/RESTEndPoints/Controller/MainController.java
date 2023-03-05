@@ -200,6 +200,17 @@ public class MainController {
     public CartSummary getCartSummary(@PathVariable int menuItemId){
         return cartRepo.findCountByMenuId(menuItemId);
     }
+
+    @GetMapping(path = "item/cartcount/{customerId}")
+    public long getCartSummary(@PathVariable String customerId){
+        long cartCount;
+        if (cartRepo.findCartCount(customerId) == null)
+            cartCount = 0;
+        else
+            cartCount = cartRepo.findCartCount(customerId).getCartCount();
+        return cartCount;
+    }
+
     @GetMapping(path = "/about")
     public String getAboutPage(){
         return "about";

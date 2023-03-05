@@ -425,7 +425,7 @@ public class MainController {
         List<Cart> cartList = null;
         try {
             //menuItemSubCategory = URLEncoder.encode(menuItemSubCategory,"UTF-8").replace("+", "%20");
-            String customerId = "User";
+            String customerId = homeMetaData.getLoggedInUser();
             URL url = new URL("http://localhost:8081/farmfoods/cart/" + customerId);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("GET");
