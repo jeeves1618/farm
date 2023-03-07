@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.farmfresh</groupId>
-    <artifactId>Sweets</artifactId>
+    <artifactId>FarmFoods</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>myFarm</name>
     <description>Creating a sample portal for managing inventory and showcasing products</description>
@@ -37,8 +37,8 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -81,10 +81,6 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
         </dependency>
         <!-- Dependency added to read MS Excel File-->
         <dependency>

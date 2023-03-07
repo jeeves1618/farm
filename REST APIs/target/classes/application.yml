@@ -3,3 +3,7 @@ server:
 spring:
   profiles:
     active: h2
+  security:
+    user:
+      name: farmpeople
+      password: dhariya

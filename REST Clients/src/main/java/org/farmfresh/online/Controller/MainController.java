@@ -3,9 +3,13 @@ package org.farmfresh.online.Controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
 import org.farmfresh.online.Domain.*;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,8 +36,11 @@ public class MainController {
     @GetMapping(path = "/home")
     public String getHomePage(Model model, RestTemplate restTemplate){
         log.info("Retrieving data for home page");
-        HomeMetaData homeMetaData = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        HttpEntity<String> request = authenticateUser();
+        //HomeMetaData homeMetaData = restTemplate.getForObject(
+          //      "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        ResponseEntity<HomeMetaData> response = restTemplate.exchange("http://localhost:8081/farmfoods/home", HttpMethod.GET, request, HomeMetaData.class);
+        HomeMetaData homeMetaData = response.getBody();
         model.addAttribute("metahome",homeMetaData);
         return "homepage";
     }
@@ -492,5 +499,18 @@ public class MainController {
     @GetMapping(path = "/testimonial")
     public String getTestimonialPage(Model model){
         return "testimonial";
+    }
+
+    private HttpEntity<String> authenticateUser(){
+        String plainCreds = "farmpeople:dhariya";
+        byte[] plainCredsBytes = plainCreds.getBytes();
+        byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
+        String base64Creds = new String(base64CredsBytes);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Basic " + base64Creds);
+        HttpEntity<String> request = new HttpEntity<String>(headers);
+
+       return request;
     }
 }

@@ -9,8 +9,8 @@
         <version>2.6.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>org.archanasweets</groupId>
-    <artifactId>Sweets</artifactId>
+    <groupId>org.farmfresh</groupId>
+    <artifactId>FarmFoods</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>ArchanaSweets</name>
     <description>Creating a sample portal for managing inventory and showcasing products</description>
