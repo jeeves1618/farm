@@ -72,14 +72,14 @@
                   <span class="glyphicon glyphicon-leaf"></span>
                   <!--THe class hidden-xs will hide the break element at xs size-->
                   <br class="hidden-xs" />
-                  Products</a
+                  <p>Products</p></a
                 >
               </li>
               <li>
                 <a th:href="@{/farmfoods/about}">
                   <span class="glyphicon glyphicon-info-sign"></span
                   ><br class="hidden-xs" />
-                  About</a
+                  <p>About</p></a
                 >
               </li>
               <li class="selected">
@@ -88,17 +88,19 @@
                     id="nav-no-of-items-cart"
                     class="glyphicon glyphicon-shopping-cart"
                   ></span
-                  ><br class="hidden-xs" />&nbsp;&nbsp; Cart</a
+                  ><br class="hidden-xs" />
+                  <p>Cart</p></a
                 >
               </li>
               <li>
-                <a th:href="@{/farmfoods/category}">
+                <a th:href="@{/farmfoods/landing}">
                   <span
                     id="nav-no-of-items-cart"
                     class="glyphicon glyphicon-user"
                   ></span
-                  ><br class="hidden-xs" />&nbsp;&nbsp; Admin</a
-                >
+                  ><br class="hidden-xs" />
+                  <p th:text="${metahome.navRoleSensitiveLabel}"></p
+                ></a>
               </li>
             </ul>
             <!-- #nav-list -->

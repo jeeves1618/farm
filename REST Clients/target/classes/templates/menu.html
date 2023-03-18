@@ -39,7 +39,7 @@
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav ml-auto p-4">
                     <a th:href="@{/farmfoods/home}" class="nav-item nav-link">Home</a>
-                    <a th:href="@{/farmfoods/about}" class="nav-item nav-link">About</a>
+                    <a th:href="@{/farmfoods/about}" class="nav-item nav-link"><p>About</p></a>
                     <a th:href="@{/farmfoods/service}" class="nav-item nav-link">Service</a>
                     <a th:href="@{/farmfoods/menu}" class="nav-item nav-link active">Menu</a>
                     <div class="nav-item dropdown">
@@ -51,7 +51,8 @@
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Admin</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><p 
+th:text="${metahome.navRoleSensitiveLabel}"></p></a>
                         <div class="dropdown-menu text-capitalize">
                             <a th:href="@{/admin/menumanager}" class="dropdown-item">Menu Manager</a>
                             <a th:href="@{/admin/quotegenerator}" class="dropdown-item">Quote Generator</a>

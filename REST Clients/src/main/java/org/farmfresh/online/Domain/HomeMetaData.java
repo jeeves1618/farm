@@ -28,4 +28,6 @@ public class HomeMetaData {
     private String loggedInUser;
     private String cartSummary;
     private String cartSubSummary;
+    private String navRoleSensitiveLabel;
+    private String routingUrl;
 }

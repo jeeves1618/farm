@@ -5,12 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.farmfresh.online.Domain.*;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,20 +28,91 @@ import java.util.List;
 @Controller
 @RequestMapping(path = "/farmfoods")
 public class MainController {
+    private String USER_NAME = "Guest";
+    private String USER_ROLE = "Guest";
 
-    @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.build();
+    private Authentication getUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication currentUserName = null;
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+
+            currentUserName = authentication;
+            USER_NAME = authentication.getName();
+            log.info("Logged in as " + USER_NAME);
+            USER_ROLE = authentication.getAuthorities().stream().toArray()[0].toString();
+        } else {
+            USER_NAME = "Guest";
+            USER_ROLE = "Guest";
+        }
+        return currentUserName;
+    }
+
+    private HttpEntity<String> authenticateUser(){
+        String plainCreds = USER_NAME + ":farm";
+        byte[] plainCredsBytes = plainCreds.getBytes();
+        byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
+        String base64Creds = new String(base64CredsBytes);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Basic " + base64Creds);
+        HttpEntity<String> request = new HttpEntity<String>(headers);
+
+        return request;
+    }
+
+    private HomeMetaData getHomeMetaData(RestTemplate restTemplate){
+        log.info("Now a " + USER_ROLE);
+        String routingUrl = null;
+        if (USER_ROLE.equals("admin")) {
+            routingUrl = "redirect:/farmfoods/category";
+        } else if (USER_ROLE.equals("read")) {
+            routingUrl = "redirect:/farmfoods/products";
+        } else {
+            routingUrl = "redirect:/farmfoods/home";
+        }
+        log.info("Will be routed to " + routingUrl);
+        Authentication currentUser = getUser();
+        HttpEntity<String> request = authenticateUser();
+        ResponseEntity<HomeMetaData> response = restTemplate.exchange("http://localhost:8081/farmfoods/home", HttpMethod.GET, request, HomeMetaData.class);
+        HomeMetaData homeMetaData = response.getBody();
+        if (USER_ROLE.equals("admin")) {
+            homeMetaData.setNavRoleSensitiveLabel("Admin");
+        } else if (USER_ROLE.equals("read")) {
+            homeMetaData.setNavRoleSensitiveLabel("Hi " + USER_NAME);
+        } else {
+            homeMetaData.setNavRoleSensitiveLabel("Login");
+        }
+        homeMetaData.setLoggedInUser(USER_NAME);
+        homeMetaData.setRoutingUrl(routingUrl);
+        return homeMetaData;
+    }
+
+    @GetMapping(path = "/landing")
+    public String directFromLanding(Model model, RestTemplate restTemplate){
+        log.info("Retrieving data for home page for " + USER_NAME);
+        log.info("Authorities : " + USER_ROLE);
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
+        model.addAttribute("metahome",homeMetaData);
+        //return "redirect:/farmfoods/products";
+        return homeMetaData.getRoutingUrl();
     }
 
     @GetMapping(path = "/home")
     public String getHomePage(Model model, RestTemplate restTemplate){
-        log.info("Retrieving data for home page");
-        HttpEntity<String> request = authenticateUser();
-        //HomeMetaData homeMetaData = restTemplate.getForObject(
-          //      "http://localhost:8081/farmfoods/home", HomeMetaData.class);
-        ResponseEntity<HomeMetaData> response = restTemplate.exchange("http://localhost:8081/farmfoods/home", HttpMethod.GET, request, HomeMetaData.class);
-        HomeMetaData homeMetaData = response.getBody();
+
+        log.info("Retrieving data for home page for " + USER_NAME);
+        log.info("Authorities : " + USER_ROLE);
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
+        model.addAttribute("metahome",homeMetaData);
+        return "homepage";
+    }
+
+    @GetMapping(path = "/acct")
+    public String getMyAccount(Model model, RestTemplate restTemplate){
+
+        log.info("Retrieving data for home page for " + USER_NAME);
+        log.info("Authorities : " + USER_ROLE);
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
         model.addAttribute("metahome",homeMetaData);
         return "homepage";
     }
@@ -54,8 +126,7 @@ public class MainController {
 
     @GetMapping(path = "/items")
     public String getItemsPage(@RequestParam("menuItemSubCategory") String menuItemSubCategory,  Model model, RestTemplate restTemplate){
-        HomeMetaData homeMetaData = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
         String displayMenuItemSubCategory = menuItemSubCategory;
         List<Menu> menuList = null;
         try {
@@ -92,9 +163,9 @@ public class MainController {
             if (menu.getUnitOfMeasure().equals("Volume")) menu.setUnitToUse("Litres");
             if (menu.getUnitOfMeasure().equals("Count")) menu.setUnitToUse("No.s");
             System.out.println("Debug : " + menu.getMenuImageFileName() + " for " + menu.getMenuItemName());
-            CartSummary cartCount = restTemplate.getForObject(
-                    "http://localhost:8081/farmfoods/item/cartsummary/" + menu.getMenuItemId(), CartSummary.class);
-            menu.setMenuItemInCartCount((cartCount == null)  ? 0 :cartCount.getMenuItemCount());
+            CartCustItemCount cartCount = restTemplate.getForObject(
+                    "http://localhost:8081/farmfoods/item/cartsummary/" + menu.getMenuItemId() + "/" + homeMetaData.getLoggedInUser(), CartCustItemCount.class);
+            menu.setMenuItemInCartCount((cartCount == null)  ? 0 :cartCount.getCartCount());
             BlockedQty blockedQty = restTemplate.getForObject(
                     "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
             menu.setBlockedQty(blockedQty.getBlockedQuantity());
@@ -132,9 +203,7 @@ public class MainController {
 
     @GetMapping(path = "/products")
     public String getProductsPage(Model model, RestTemplate restTemplate){
-        HomeMetaData homeMetaData = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
-
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
         List<Menu> menuList = null;
         try {
             URL url = new URL("http://localhost:8081/farmfoods/products/Y");
@@ -168,9 +237,9 @@ public class MainController {
             if (menu.getUnitOfMeasure().equals("Weight")) menu.setUnitToUse("Kgs");
             if (menu.getUnitOfMeasure().equals("Volume")) menu.setUnitToUse("Litres");
             if (menu.getUnitOfMeasure().equals("Count")) menu.setUnitToUse("No.s");
-            CartSummary cartCount = restTemplate.getForObject(
-                    "http://localhost:8081/farmfoods/item/cartsummary/" + menu.getMenuItemId(), CartSummary.class);
-            menu.setMenuItemInCartCount((cartCount == null)  ? 0 :cartCount.getMenuItemCount());
+            CartCustItemCount cartCount = restTemplate.getForObject(
+                    "http://localhost:8081/farmfoods/item/cartsummary/" + menu.getMenuItemId() + "/" + homeMetaData.getLoggedInUser(), CartCustItemCount.class);
+            menu.setMenuItemInCartCount((cartCount == null)  ? 0 :cartCount.getCartCount());
             BlockedQty blockedQty = restTemplate.getForObject(
                     "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
             menu.setBlockedQty(blockedQty.getBlockedQuantity());
@@ -211,16 +280,14 @@ public class MainController {
 
     @GetMapping(path = "/about")
     public String getAboutPage(Model model, RestTemplate restTemplate){
-        HomeMetaData homeMetaData = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
         model.addAttribute("metahome",homeMetaData);
         return "about";
     }
 
     @GetMapping(path = "/category")
     public String getAccountPage(Model model, RestTemplate restTemplate){
-        HomeMetaData homeMetaData = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
         List<Category> categoryList = null;
         try {
             URL url = new URL("http://localhost:8081/farmfoods/catSummary");
@@ -254,8 +321,7 @@ public class MainController {
 
     @GetMapping(path = "/inventory")
     public String getInventory(@RequestParam("menuItemSubCategory") String menuItemSubCategory,  Model model, RestTemplate restTemplate){
-        HomeMetaData homeMetaData = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
         String displayMenuItemSubCategory = menuItemSubCategory;
         List<Menu> menuList = null;
         try {
@@ -331,8 +397,7 @@ public class MainController {
     @GetMapping(path = "/showFormForUpdating")
     public String ShowFormForUpdate(@RequestParam("menuItemId") int menuItemId, Model model, RestTemplate restTemplate){
 
-        HomeMetaData homeMetaData = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
         model.addAttribute("metahome",homeMetaData);
 
         Menu menuToBeUpdated = restTemplate.getForObject(
@@ -426,8 +491,7 @@ public class MainController {
 
     @GetMapping(path = "/cart")
     public String getContactPage(Model model, RestTemplate restTemplate){
-        HomeMetaData homeMetaData = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
 
         List<Cart> cartList = null;
         try {
@@ -475,8 +539,7 @@ public class MainController {
     @GetMapping(path = "/cart/delete")
     public String deleteCartItem(@RequestParam("cartId") int cartId, Model model, RestTemplate restTemplate) {
 
-        HomeMetaData homeMetaData = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
 
         Cart cart = restTemplate.getForObject(
                 "http://localhost:8081/farmfoods/cart/delete/"+cartId, Cart.class);
@@ -486,8 +549,7 @@ public class MainController {
 
     @GetMapping(path = "/order")
     public String getServicePage(@RequestParam("customerId") String customerId, Model model, RestTemplate restTemplate){
-        HomeMetaData homeMetaData = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
         String cart = restTemplate.getForObject(
                 "http://localhost:8081/farmfoods/place/order/"+homeMetaData.getLoggedInUser(), String.class);
         homeMetaData.setCartHeader(cart + ", Your order is succeffully placed!");
@@ -499,18 +561,5 @@ public class MainController {
     @GetMapping(path = "/testimonial")
     public String getTestimonialPage(Model model){
         return "testimonial";
-    }
-
-    private HttpEntity<String> authenticateUser(){
-        String plainCreds = "farmpeople:dhariya";
-        byte[] plainCredsBytes = plainCreds.getBytes();
-        byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
-        String base64Creds = new String(base64CredsBytes);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Basic " + base64Creds);
-        HttpEntity<String> request = new HttpEntity<String>(headers);
-
-       return request;
     }
 }

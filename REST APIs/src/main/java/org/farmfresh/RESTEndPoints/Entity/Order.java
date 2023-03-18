@@ -31,11 +31,11 @@ public class Order {
     @Column(name = "menu_item_pack_price")
     private Integer menuItemPackPrice;
     @Column(name = "customer_discount_rate")
-    private String customerDiscountRate;
+    private Double customerDiscountRate;
     @Column(name = "order_status")
-    private Integer orderStatus;
+    private String orderStatus;
     @Column(name = "customer_shipping_address")
-    private int customerShippingAddress;
+    private String customerShippingAddress;
     @CreatedDate
     @Column(name = "date_created")
     private Date dateCreated;

@@ -4,12 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.farmfresh.RESTEndPoints.Domain.AddToCart;
 import org.farmfresh.RESTEndPoints.Domain.BlockedQty;
-import org.farmfresh.RESTEndPoints.Domain.CartSummary;
+import org.farmfresh.RESTEndPoints.Domain.CartCustItemCount;
 import org.farmfresh.RESTEndPoints.Entity.*;
-import org.farmfresh.RESTEndPoints.Repo.CartRepo;
-import org.farmfresh.RESTEndPoints.Repo.CategoryRepo;
-import org.farmfresh.RESTEndPoints.Repo.MenuRepo;
-import org.farmfresh.RESTEndPoints.Repo.PricingRepo;
+import org.farmfresh.RESTEndPoints.Repo.*;
 import org.farmfresh.RESTEndPoints.Service.HomeDataService;
 import org.farmfresh.RESTEndPoints.Service.RupeeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +20,7 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @CrossOrigin
-@RequestMapping(path = "/farmfoods")
+    @RequestMapping(path = "/farmfoods")
 public class MainController {
 
     @Autowired
@@ -42,7 +39,13 @@ public class MainController {
     CartRepo cartRepo;
 
     @Autowired
+    OrderRepo orderRepo;
+
+    @Autowired
     RupeeFormatter rf;
+
+    long millis=System.currentTimeMillis();
+    java.sql.Date date=new java.sql.Date(millis);
 
     @GetMapping(path = "/home")
     public HomeData getHomePage(){
@@ -159,8 +162,6 @@ public class MainController {
         cart.setUserUpdated(addToCart.getCustomerId());
         cart.setUserCreated(addToCart.getCustomerId());
         cart.setCustomerId(addToCart.getCustomerId());
-        long millis=System.currentTimeMillis();
-        java.sql.Date date=new java.sql.Date(millis);
         cart.setDateCreated(date);
         cart.setDateUpdated(date);
         log.info(cart.toString());
@@ -206,7 +207,25 @@ public class MainController {
 
     @GetMapping(path = "/place/order/{customerId}")
     public String placeOrder(@PathVariable String customerId) throws IOException {
+        Order order = new Order();
         List<Cart> cartList = cartRepo.findByCustomerId(customerId);
+        for (Cart cart: cartList){
+            order.setCustomerId(customerId);
+            order.setMenuItemId(cart.getMenuItemId());
+            order.setPricingId(cart.getPricingId());
+            order.setMenuItemCount(cart.getMenuItemCount());
+            order.setPackSize(cart.getPackSize());
+            order.setMenuItemPackPrice(cart.getMenuItemPackPrice());
+            order.setCustomerDiscountRate(cart.getCustomerDiscountRate());
+            order.setOrderStatus(cart.getCartStatus());
+            order.setCustomerShippingAddress("123 Apartment Tower, Street from Customer Database, Locality, Chennai - 600 000");
+            order.setDateCreated(date);
+            order.setDateUpdated(date);
+            order.setUserCreated(customerId);
+            order.setUserUpdated(customerId);
+            orderRepo.save(order);
+            order = new Order();
+        }
         for(Cart cart: cartList){
             cartRepo.deleteById(cart.getCartId());
         }
@@ -220,9 +239,9 @@ public class MainController {
         return blockedQty;
     }
 
-    @GetMapping(path = "item/cartsummary/{menuItemId}")
-    public CartSummary getCartSummary(@PathVariable int menuItemId){
-        return cartRepo.findCountByMenuId(menuItemId);
+    @GetMapping(path = "item/cartsummary/{menuItemId}/{customerId}")
+    public CartCustItemCount getCartSummary(@PathVariable int menuItemId, @PathVariable String customerId){
+        return cartRepo.findCartCountByItemCust(menuItemId, customerId);
     }
 
     @GetMapping(path = "item/cartcount/{customerId}")

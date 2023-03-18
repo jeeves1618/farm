@@ -3,52 +3,75 @@ package org.farmfresh.online.Configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                /*
-                
-                */
-                .antMatchers("/admin/menumanager", "/admin/quotegenerator","/admin/menu/upload").authenticated()
-                /*
-                permitAll() has been given instead of authenticated() to test the REST endpoints.
-                Should figure out the rest endpoint for Spring Security
-                 */
-                .anyRequest().permitAll()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
+public class WebSecurityConfig {
+    @Bean
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests()
+                .regexMatchers("/farmfoods/inventory","/farmfoods/landing","/farmfoods/category","/farmfoods/products","/farmfoods/items")
+                .authenticated().and().formLogin().loginPage("/admin/login").loginProcessingUrl("/login").and().httpBasic()
                 .and()
                 .logout()
-                .permitAll();
-
+                ;
         http.csrf().disable();
+        /*
+        To prevent the below error:
+        No 'Access-Control-Allow-Origin' header is present on the requested resource.
+        If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
+         */
         http.headers().frameOptions().disable();
+        return http.build();
     }
 
     @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("USER")
-                        .build();
+    public InMemoryUserDetailsManager userDetailsManager(){
+        /*
+        Commenting out the approach 1 to try the new approach
 
-        return new InMemoryUserDetailsManager(user);
+        UserDetails shopper = User.withDefaultPasswordEncoder()
+                .username("shopper")
+                .password("farm")
+                .authorities("read")
+                .build();
+        UserDetails manager = User.withDefaultPasswordEncoder()
+                .username("manager")
+                .password("farm")
+                .authorities("admin")
+                .build();
+        return new InMemoryUserDetailsManager(shopper, manager);
+         */
+        /*
+        Approach 2: Instead of using withDefaultPasswordEncoder, we are using NoOpPasswordEncoder
+         */
+        UserDetails shopper1 = User.withUsername("Nithya")
+                .password("farm")
+                .authorities("read")
+                .build();
+        UserDetails shopper2 = User.withUsername("Guest")
+                .password("farm")
+                .authorities("read")
+                .build();
+        UserDetails manager = User.withUsername("Priya")
+                .password("farm")
+                .authorities("admin")
+                .build();
+        return new InMemoryUserDetailsManager(shopper1, shopper2, manager);
+
+    }
+
+    /*
+    The password Encoder is needed only for Approach 2.
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return NoOpPasswordEncoder.getInstance();
     }
 
 }
