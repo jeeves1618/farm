@@ -197,7 +197,8 @@ hr {
   border-radius: 3%;
 }
 
-#cart-tile {
+#cart-tile,
+#land-tile {
   height: auto;
   width: 100%;
   margin-bottom: 15px;
@@ -207,7 +208,11 @@ hr {
   border-radius: 5px;
 }
 
-#cart-tile ul {
+#land-tile {
+  border: 1px solid #344e41;
+}
+#cart-tile ul,
+#land-tile ul {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   gap: 0.5rem;
@@ -216,16 +221,34 @@ hr {
   list-style: none;
 }
 
+#land-tiles a {
+  text-decoration: none;
+}
+
+a:hover #land-tile {
+  text-decoration: none;
+}
+
+#land-tile ul {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr;
+  height: 130px;
+}
 #cart-tile li {
   vertical-align: middle;
   margin-top: 30%;
+}
+
+#land-tile li {
+  vertical-align: middle;
 }
 
 #nav-list li {
   border-radius: 5px;
 }
 
-#cart-tile li:first-child {
+#cart-tile li:first-child,
+#land-tile li:first-child {
   margin-top: 0;
   font-size: 1.5rem;
 }
@@ -240,11 +263,21 @@ hr {
   box-shadow: 0 1px 15px 1px #344e41;
 }
 
+#land-tile:hover {
+  box-shadow: 0 1px 15px 1px #344e41;
+}
+
+#land-tile img {
+  vertical-align: middle;
+  height: fit-content;
+}
+
 #dairy-tile {
   background: url("../img/dairy-tile.jpg") no-repeat;
   background-position: center;
 }
-#cart-tile {
+#cart-tile,
+#land-tile {
   background-image: linear-gradient(to bottom right, #fff, #fff);
 }
 #poultry-tile {
@@ -369,7 +402,18 @@ span[id^="cartDelIndicator_"] {
 .menu-item-tile {
   margin-bottom: 25px;
 }
-.menu-item-tile hr {
+
+.land-item-tile {
+  margin-bottom: 25px;
+}
+
+.land-item-tile #home-tiles {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.menu-item-tile hr,
+.land-item-tile hr {
   width: 80%;
   color: #951c49;
 }
@@ -780,6 +824,7 @@ h3.menu-item-title {
   #dairy-tile,
   #poultry-tile,
   #cart-tile,
+  #land-tile,
   #veg-tile,
   #fruit-tile,
   #other-tile,
@@ -939,6 +984,7 @@ h3.menu-item-title {
   #dairy-tile,
   #poultry-tile,
   #cart-tile,
+  #land-tile,
   #veg-tile,
   #fruit-tile,
   #other-tile,

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html" />
@@ -114,70 +114,76 @@
       th:data-customerid="${metahome.loggedInUser}"
       id="customer-id"
     ></article>
-    <div id="contact-region" class="container">
-      <div id="call-btn" class="visible-xs visible-sm visible-md visible-lg">
-        <a
-          class="btn"
-          href="tel:044-24344440"
-          th:text="${metahome.telephoneNumber}"
-          ><span class="glyphicon glyphicon-earphone"></span
-        ></a>
-      </div>
-      <div
-        id="xs-deliver"
-        class="text-center visible-xs visible-sm visible-md visible-lg glyphicon glyphicon-earphone"
-        th:text="${metahome.telephoneNumberText}"
-      ></div>
+
+    <h2
+      id="cart-title"
+      class="text-center"
+      th:text="${metahome.cartHeader}"
+    ></h2>
+    <div class="text-center">
+      <a th:href="@{/farmfoods/products}" class="text-center"
+        ><span th:text="${metahome.cartSubHeader}"></span>
+      </a>
     </div>
-    <!-- Login Start -->
-    <div id="container">
-      <div th:if="${param.error}">
-        <div class="alert alert-danger" role="alert" align="center">
-          <h3>Invalid username or password.</h3>
-        </div>
-      </div>
-      <div th:if="${param.logout}">
-        <div class="alert alert-success" role="alert" align="center">
-          <h3>
-            You have been successfully logged out. Thank you for shopping with
-            us!
-          </h3>
-        </div>
-      </div>
 
-      <hr class="visible-xs visible-md visible-lg" />
+    <br />
+    <div id="main-content" class="container">
+      <!--
+      <div class="under-construction-sign">
+        <!- img-responsive is from bootstrap and it will ensure that the image realigns based on the width and it is visible only when the browser is xs ->
 
-      <form th:action="@{/login}" method="post">
-        <table>
-          <col width="900" />
-          <col width="900" />
-          <tbody>
-            <tr>
-              <td align="right">
-                <label><b>User Name : </b></label>
-              </td>
-              <td align="left"><input type="text" name="username" /></td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
-              <td align="right">
-                <label><b>Password : </b></label>
-              </td>
-              <td align="left"><input type="password" name="password" /></td>
-            </tr>
-          </tbody>
-        </table>
-        <br />
-        <div align="center">
-          <input type="submit" value="Sign In" class="add-button" />
+        <h2
+          id="jumbotran-main-text"
+          class="visible-xs visible-sm visible-md visible-lg"
+        ></h2>
+      </div>
+      -->
+      <section th:if="${not #lists.isEmpty(icons)}" class="row">
+        <div
+          th:each="item : ${icons}"
+          class="land-item-tile col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+        >
+          <div id="home-tiles" class="row">
+            <div id="land-tiles">
+              <a th:href="@{${item.customUrl}}">
+                <div id="land-tile">
+                  <ul>
+                    <li>
+                      <img
+                        class="img-responsive"
+                        width="150"
+                        height="90"
+                        th:src="@{${item.imageFileName}}"
+                        th:alt="landing"
+                      />
+                    </li>
+                    <li>
+                      <h3><span th:text="${item.title}"></span></h3>
+                      <br />
+                      <span th:text="${item.subTitle}"></span>
+                    </li>
+                  </ul>
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
-      </form>
+      </section>
+      <!-- End of #home-tiles -->
     </div>
-    <!-- Login End -->
 
+    <br />
+    <div id="back-from-checkout">
+      <a id="back-from-checkout-link" th:href="@{/farmfoods/home}">
+        <button
+          id="back-from-checkout-button"
+          type="button"
+          class="btn btn-primary mx-auto"
+        >
+          Back to Home
+        </button>
+      </a>
+    </div>
     <!-- End of #Main Content -->
     <footer class="panel-footer">
       <div class="container">

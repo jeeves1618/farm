@@ -64,9 +64,9 @@ public class MainController {
         log.info("Now a " + USER_ROLE);
         String routingUrl = null;
         if (USER_ROLE.equals("admin")) {
-            routingUrl = "redirect:/farmfoods/category";
+            routingUrl = "redirect:/farmfoods/shopper/landing";
         } else if (USER_ROLE.equals("read")) {
-            routingUrl = "redirect:/farmfoods/products";
+            routingUrl = "redirect:/farmfoods/shopper/landing";
         } else {
             routingUrl = "redirect:/farmfoods/home";
         }
@@ -561,5 +561,40 @@ public class MainController {
     @GetMapping(path = "/testimonial")
     public String getTestimonialPage(Model model){
         return "testimonial";
+    }
+
+    @GetMapping(path = "/shopper/landing")
+    public String getShopperLanding(Model model, RestTemplate restTemplate){
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
+        log.info("Landing as " + USER_ROLE);
+        List<LandingIcon> landingIcons = new ArrayList<>();
+        if (USER_ROLE.equals("admin")) {
+            landingIcons.add(new LandingIcon("Orders", "Review all open orders", "/img/menu/landing/orders.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Carts", "Review what customers have in their carts", "/img/menu/landing/carts.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Inventory", "Manage your inventory", "/img/menu/landing/inventory.jpg", "/farmfoods/category"));
+            landingIcons.add(new LandingIcon("Customers", "Manage your customers and their contacts", "/img/menu/landing/customers.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Payables", "Track salaries and expenses", "/img/menu/landing/payment.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Receivables", "Track your receivables", "/img/menu/landing/receivings.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("P&L", "Your profit and loss statement", "/img/menu/landing/incomestatement.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Balance Sheet", "Your current balance sheet", "/img/menu/landing/balancesheet.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Cash Flow", "Treasury and cash flow services", "/img/menu/landing/cashflow.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Analytics", "Analyze data to plan better", "/img/menu/landing/analytics.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Sign Out", "Safely log off", "/img/menu/landing/logoff.jpg", "/logout"));
+            homeMetaData.setCartHeader("Farm Manager");
+            homeMetaData.setCartSubHeader("Quick Health Check!");
+        } else {
+            landingIcons.add(new LandingIcon("Orders", "Review, track, return, or buy", "/img/menu/landing/orders.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Credentials", "Edit login or mobile number", "/img/menu/landing/login.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Shipping", "Edit addresses and landmarks", "/img/menu/landing/shipping.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Payment", "Add or update payment methods", "/img/menu/landing/payment.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Contact", "Please contact us for further help", "/img/menu/landing/contact.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("About", "If you are curious about us..", "/img/menu/landing/about.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Sign Out", "Safely log off", "/img/menu/landing/logoff.jpg", "/logout"));
+            homeMetaData.setCartHeader(USER_NAME + "'s Account");
+            homeMetaData.setCartSubHeader("Back to shopping!");
+        }
+        model.addAttribute("metahome",homeMetaData);
+        model.addAttribute("icons",landingIcons);
+        return "shopperlanding";
     }
 }
