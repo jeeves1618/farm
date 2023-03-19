@@ -11,27 +11,23 @@ import java.sql.Date;
 @Entity
 @Data
 @Component
-@Table(name = "order_table")
-public class Order {
+@Table(name = "order_summary_table")
+public class OrderSummary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "order_id")
-    private int orderId;
+    @Column(name = "order_summary_id")
+    private int orderSummaryId;
+    @Column(name = "display_order_id")
+    private int displayOrderId;
     @Column(name = "customer_id")
     private String customerId;
-    @Column(name = "menu_item_id")
-    private int menuItemId;
-    @Column(name = "pricing_id")
-    private int pricingId;
-    @Column(name = "menu_item_count")
-    private Integer menuItemCount;
-    @Column(name = "pack_size")
-    private String packSize;
-    @Column(name = "menu_item_pack_price")
-    private Integer menuItemPackPrice;
-    @Column(name = "customer_discount_rate")
-    private Double customerDiscountRate;
+    @Column(name = "order_item_count")
+    private Integer orderItemCount;
+    @Column(name = "total_order_value")
+    private Integer totalOrderValue;
+    @Column(name = "you_saved")
+    private Integer youSaved;
     @Column(name = "order_status")
     private String orderStatus;
     @Column(name = "customer_shipping_address")
@@ -46,6 +42,6 @@ public class Order {
     private String userCreated;
     @Column(name = "user_updated")
     private String userUpdated;
-    @Column(name = "display_order_id")
-    private int displayOrderId;
+    @Transient
+    private String customUrl;
 }

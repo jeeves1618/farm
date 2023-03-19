@@ -208,10 +208,13 @@ hr {
   border-radius: 5px;
 }
 
-#land-tile {
+#land-tile,
+#orsm-tile {
   border: 1px solid #344e41;
+  border-radius: 7px;
 }
 #cart-tile ul,
+#orsm-tile ul,
 #land-tile ul {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -221,11 +224,13 @@ hr {
   list-style: none;
 }
 
-#land-tiles a {
+a #land-tiles,
+a #orsm-tiles {
   text-decoration: none;
 }
 
-a:hover #land-tile {
+a:hover #land-tile,
+a:hover #orsm-tile {
   text-decoration: none;
 }
 
@@ -234,12 +239,20 @@ a:hover #land-tile {
   grid-template-columns: 1.5fr 2fr;
   height: 130px;
 }
+
+#orsm-tile ul {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  height: 170px;
+}
+
 #cart-tile li {
   vertical-align: middle;
   margin-top: 30%;
 }
 
-#land-tile li {
+#land-tile li,
+#orsm-tile li {
   vertical-align: middle;
 }
 
@@ -248,7 +261,9 @@ a:hover #land-tile {
 }
 
 #cart-tile li:first-child,
+#orsm-tile li:first-child,
 #land-tile li:first-child {
+  padding-left: 10px;
   margin-top: 0;
   font-size: 1.5rem;
 }
@@ -263,8 +278,10 @@ a:hover #land-tile {
   box-shadow: 0 1px 15px 1px #344e41;
 }
 
-#land-tile:hover {
+#land-tile:hover,
+#orsm-tile:hover {
   box-shadow: 0 1px 15px 1px #344e41;
+  text-decoration: none !important;
 }
 
 #land-tile img {
@@ -277,6 +294,7 @@ a:hover #land-tile {
   background-position: center;
 }
 #cart-tile,
+#orsm-tile,
 #land-tile {
   background-image: linear-gradient(to bottom right, #fff, #fff);
 }
@@ -825,6 +843,7 @@ h3.menu-item-title {
   #poultry-tile,
   #cart-tile,
   #land-tile,
+  #orsm-tile,
   #veg-tile,
   #fruit-tile,
   #other-tile,
@@ -985,6 +1004,7 @@ h3.menu-item-title {
   #poultry-tile,
   #cart-tile,
   #land-tile,
+  #orsm-tile,
   #veg-tile,
   #fruit-tile,
   #other-tile,

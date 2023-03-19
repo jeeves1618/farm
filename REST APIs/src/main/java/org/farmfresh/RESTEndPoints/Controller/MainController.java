@@ -10,6 +10,9 @@ import org.farmfresh.RESTEndPoints.Repo.*;
 import org.farmfresh.RESTEndPoints.Service.HomeDataService;
 import org.farmfresh.RESTEndPoints.Service.RupeeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -40,6 +43,9 @@ public class MainController {
 
     @Autowired
     OrderRepo orderRepo;
+
+    @Autowired
+    OrderSummaryRepo orderSummaryRepo;
 
     @Autowired
     RupeeFormatter rf;
@@ -207,9 +213,13 @@ public class MainController {
 
     @GetMapping(path = "/place/order/{customerId}")
     public String placeOrder(@PathVariable String customerId) throws IOException {
-        Order order = new Order();
+        Order order = null;
+        int orderItemCount = 0, orderTotalValue = 0, savings = 0;
+        int orderId = 0;
         List<Cart> cartList = cartRepo.findByCustomerId(customerId);
         for (Cart cart: cartList){
+            orderItemCount++;
+            order = new Order();
             order.setCustomerId(customerId);
             order.setMenuItemId(cart.getMenuItemId());
             order.setPricingId(cart.getPricingId());
@@ -223,15 +233,40 @@ public class MainController {
             order.setDateUpdated(date);
             order.setUserCreated(customerId);
             order.setUserUpdated(customerId);
+            order.setDisplayOrderId(orderId);
+            orderTotalValue = cart.getMenuItemTotalPrice() +orderTotalValue;
             orderRepo.save(order);
-            order = new Order();
+            if (orderId == 0) {
+                orderId = order.getOrderId();
+                order.setDisplayOrderId(orderId);
+                orderRepo.save(order);
+                log.info("Display Order ID: " + order.getOrderId());
+            }
         }
+        createOrderSummary(order,orderItemCount,orderTotalValue,savings);
         for(Cart cart: cartList){
             cartRepo.deleteById(cart.getCartId());
         }
-        return "Dear " + customerId;
+
+        return "Dear " + customerId + ", Your order (ID: " + orderId + ") is successfully placed!";
     }
 
+    public void createOrderSummary(Order order, int count, int totalOrderValue, int savings){
+        OrderSummary orderSummary = new OrderSummary();
+        orderSummary.setDisplayOrderId(order.getDisplayOrderId());
+        orderSummary.setCustomerId(order.getCustomerId());
+        orderSummary.setOrderItemCount(count);
+        orderSummary.setTotalOrderValue(totalOrderValue);
+        orderSummary.setYouSaved(savings);
+        orderSummary.setOrderStatus(order.getOrderStatus());
+        orderSummary.setCustomerShippingAddress(order.getCustomerShippingAddress());
+        orderSummary.setDateCreated(date);
+        orderSummary.setDateUpdated(date);
+        orderSummary.setUserCreated(order.getUserCreated());
+        orderSummary.setUserUpdated(order.getUserUpdated());
+
+        orderSummaryRepo.save(orderSummary);
+    }
     @GetMapping(path = "/item/blockedqty")
     public BlockedQty getBlockedQty(){
         BlockedQty blockedQty = new BlockedQty();
@@ -242,6 +277,38 @@ public class MainController {
     @GetMapping(path = "item/cartsummary/{menuItemId}/{customerId}")
     public CartCustItemCount getCartSummary(@PathVariable int menuItemId, @PathVariable String customerId){
         return cartRepo.findCartCountByItemCust(menuItemId, customerId);
+    }
+
+    private String USER_NAME = "Guest";
+    private String USER_ROLE = "Guest";
+
+    private Authentication getUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication currentUserName = null;
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+
+            currentUserName = authentication;
+            USER_NAME = authentication.getName();
+            log.info("Logged in as " + USER_NAME);
+            USER_ROLE = authentication.getAuthorities().stream().toArray()[0].toString();
+        } else {
+            USER_NAME = "Guest";
+            USER_ROLE = "Guest";
+        }
+        return currentUserName;
+    }
+
+    @GetMapping(path = "order/summary/{customerId}")
+    public List<OrderSummary> getOrderSummary(@PathVariable String customerId){
+        Authentication currentUserName = getUser();
+        if (customerId.equals("Priya")) {
+            log.info("Retrieving as admin : " + customerId);
+            return orderSummaryRepo.findAll();
+        }
+        else {
+            log.info("Retrieving as guest : " + customerId);
+            return orderSummaryRepo.findByCustomerId(customerId);
+        }
     }
 
     @GetMapping(path = "item/cartcount/{customerId}")

@@ -552,10 +552,54 @@ public class MainController {
         HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
         String cart = restTemplate.getForObject(
                 "http://localhost:8081/farmfoods/place/order/"+homeMetaData.getLoggedInUser(), String.class);
-        homeMetaData.setCartHeader(cart + ", Your order is succeffully placed!");
+        homeMetaData.setCartHeader(cart);
         homeMetaData.setCartSubHeader("Explore more");
         model.addAttribute("metahome",homeMetaData);
         return "order";
+    }
+
+    @GetMapping(path = "/order/summary")
+    public String getOrderSummary(Model model, RestTemplate restTemplate){
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
+
+        List<OrderSummary> orderSummaries = null;
+        try {
+            //menuItemSubCategory = URLEncoder.encode(menuItemSubCategory,"UTF-8").replace("+", "%20");
+            String customerId = homeMetaData.getLoggedInUser();
+            URL url = new URL("http://localhost:8081/farmfoods/order/summary/" + customerId);
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("GET");
+            httpURLConnection.setRequestProperty("Accept", "application/json");
+
+            if (httpURLConnection.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + httpURLConnection.getResponseCode());
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (httpURLConnection.getInputStream())));
+            String output;
+            System.out.println("Output from Server .... \n");
+            while ((output = br.readLine()) != null) {
+                ObjectMapper mapper = new ObjectMapper();
+                orderSummaries = mapper.readValue(output, new TypeReference<List<OrderSummary>>(){});
+            }
+            httpURLConnection.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (orderSummaries.size() > 0) {
+            homeMetaData.setCartHeader("Your Orders");
+            homeMetaData.setCartSubHeader("Explore more");
+        }
+        else {
+            homeMetaData.setCartHeader("You have not placed any orders yet");
+            homeMetaData.setCartSubHeader("Continue Shopping");
+        }
+
+        model.addAttribute("metahome",homeMetaData);
+        model.addAttribute("ordersummaries",orderSummaries);
+        return "ordersummary";
     }
 
     @GetMapping(path = "/testimonial")
@@ -569,7 +613,7 @@ public class MainController {
         log.info("Landing as " + USER_ROLE);
         List<LandingIcon> landingIcons = new ArrayList<>();
         if (USER_ROLE.equals("admin")) {
-            landingIcons.add(new LandingIcon("Orders", "Review all open orders", "/img/menu/landing/orders.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Orders", "Review all open orders", "/img/menu/landing/orders.jpg", "/farmfoods/order/summary"));
             landingIcons.add(new LandingIcon("Carts", "Review what customers have in their carts", "/img/menu/landing/carts.jpg", "/farmfoods/about"));
             landingIcons.add(new LandingIcon("Inventory", "Manage your inventory", "/img/menu/landing/inventory.jpg", "/farmfoods/category"));
             landingIcons.add(new LandingIcon("Customers", "Manage your customers and their contacts", "/img/menu/landing/customers.jpg", "/farmfoods/about"));
@@ -583,7 +627,7 @@ public class MainController {
             homeMetaData.setCartHeader("Farm Manager");
             homeMetaData.setCartSubHeader("Quick Health Check!");
         } else {
-            landingIcons.add(new LandingIcon("Orders", "Review, track, return, or buy", "/img/menu/landing/orders.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Orders", "Review, track, return, or buy", "/img/menu/landing/orders.jpg", "/farmfoods/order/summary"));
             landingIcons.add(new LandingIcon("Credentials", "Edit login or mobile number", "/img/menu/landing/login.jpg", "/farmfoods/about"));
             landingIcons.add(new LandingIcon("Shipping", "Edit addresses and landmarks", "/img/menu/landing/shipping.jpg", "/farmfoods/about"));
             landingIcons.add(new LandingIcon("Payment", "Add or update payment methods", "/img/menu/landing/payment.jpg", "/farmfoods/about"));
