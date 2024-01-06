@@ -143,7 +143,12 @@
           th:each="item : ${ordersummaries}"
           class="land-item-tile col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12"
         >
-          <div id="home-tiles" class="row">
+          <div
+            id="home-tiles"
+            class="row"
+            th:onclick="|location.href='../../farmfoods/orderdetail?orderId=${item.displayOrderId}'|"
+            style="cursor: pointer"
+          >
             <div id="orsm-tiles">
               <div id="orsm-tile">
                 <ul>

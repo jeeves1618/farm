@@ -172,7 +172,10 @@
                     <span th:text="${item.menuItemName}"></span><br />
                     <span th:text="${item.menuItemPriceFmtd}"></span>
                   </li>
-                  <li><span th:text="${item.menuItemCount}"></span><br /></li>
+                  <li>
+                    <span>Qty - </span
+                    ><span th:text="${item.menuItemCount}"></span><br />
+                  </li>
                   <li>
                     <span th:text="${item.menuItemTotalPriceFmtd}"></span>
                   </li>

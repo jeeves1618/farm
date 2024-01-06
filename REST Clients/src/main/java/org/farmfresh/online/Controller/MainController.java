@@ -357,7 +357,7 @@ public class MainController {
             if (menu.getUnitOfMeasure().equals("Volume")) menu.setUnitToUse("Litres");
             if (menu.getUnitOfMeasure().equals("Count")) menu.setUnitToUse("No.s");
             CartSummary cartCount = restTemplate.getForObject(
-                    "http://localhost:8081/farmfoods/item/cartsummary/" + menu.getMenuItemId(), CartSummary.class);
+                    "http://localhost:8081/farmfoods/item/" + menu.getMenuItemId(), CartSummary.class);
             menu.setMenuItemInCartCount((cartCount == null)  ? 0 :cartCount.getMenuItemCount());
             BlockedQty blockedQty = restTemplate.getForObject(
                     "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
@@ -408,7 +408,7 @@ public class MainController {
         if (menuToBeUpdated.getUnitOfMeasure().equals("Volume")) menuToBeUpdated.setUnitToUse("Litres");
         if (menuToBeUpdated.getUnitOfMeasure().equals("Count")) menuToBeUpdated.setUnitToUse("No.s");
         CartSummary cartCount = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/item/cartsummary/" + menuToBeUpdated.getMenuItemId(), CartSummary.class);
+                "http://localhost:8081/farmfoods/item/" + menuToBeUpdated.getMenuItemId(), CartSummary.class);
         menuToBeUpdated.setMenuItemInCartCount((cartCount == null)  ? 0 :cartCount.getMenuItemCount());
         BlockedQty blockedQty = restTemplate.getForObject(
                 "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
@@ -509,7 +509,6 @@ public class MainController {
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     (httpURLConnection.getInputStream())));
             String output;
-            System.out.println("Output from Server .... \n");
             while ((output = br.readLine()) != null) {
                 ObjectMapper mapper = new ObjectMapper();
                 cartList = mapper.readValue(output, new TypeReference<List<Cart>>(){});
@@ -548,13 +547,19 @@ public class MainController {
     }
 
     @GetMapping(path = "/order")
-    public String getServicePage(@RequestParam("customerId") String customerId, Model model, RestTemplate restTemplate){
+    public String getOrdersByCustomer(@RequestParam("customerId") String customerId, Model model, RestTemplate restTemplate){
         HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
         String cart = restTemplate.getForObject(
                 "http://localhost:8081/farmfoods/place/order/"+homeMetaData.getLoggedInUser(), String.class);
         homeMetaData.setCartHeader(cart);
         homeMetaData.setCartSubHeader("Explore more");
         model.addAttribute("metahome",homeMetaData);
+        return "order";
+    }
+    //Order details page doesn't exist. It has to be created.
+    @GetMapping(path = "/orderdetail")
+    public String getOrdersById(@RequestParam("orderId") String orderId, Model model, RestTemplate restTemplate){
+
         return "order";
     }
 
@@ -589,8 +594,14 @@ public class MainController {
             e.printStackTrace();
         }
         if (orderSummaries.size() > 0) {
-            homeMetaData.setCartHeader("Your Orders");
-            homeMetaData.setCartSubHeader("Explore more");
+            if (USER_ROLE.equals("admin")){
+                homeMetaData.setCartHeader("Outstanding Orders");
+                homeMetaData.setCartSubHeader("Click here for completed orders");
+            }
+            else {
+                homeMetaData.setCartHeader("Your Orders");
+                homeMetaData.setCartSubHeader("Explore more");
+            }
         }
         else {
             homeMetaData.setCartHeader("You have not placed any orders yet");

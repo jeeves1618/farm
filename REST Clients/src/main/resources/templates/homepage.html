@@ -155,31 +155,36 @@
       </div>
       <div id="home-tiles" class="row">
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Dairy)}"
+          <a
+            th:href="@{/farmfoods/items(menuItemSubCategory=${metahome.tileHeader1})}"
             ><div id="dairy-tile">
               <span th:text="${metahome.tileHeader1}"></span></div
           ></a>
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Poultry)}"
+          <a
+            th:href="@{/farmfoods/items(menuItemSubCategory=${metahome.tileHeader2})}"
             ><div id="poultry-tile">
               <span th:text="${metahome.tileHeader2}"></span></div
           ></a>
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Vegetables)}"
+          <a
+            th:href="@{/farmfoods/items(menuItemSubCategory=${metahome.tileHeader3})}"
             ><div id="veg-tile">
               <span th:text="${metahome.tileHeader3}"></span></div
           ></a>
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Fruits)}"
+          <a
+            th:href="@{/farmfoods/items(menuItemSubCategory=${metahome.tileHeader4})}"
             ><div id="fruit-tile">
               <span th:text="${metahome.tileHeader4}"></span></div
           ></a>
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <a th:href="@{/farmfoods/items(menuItemSubCategory=Others)}"
+          <a
+            th:href="@{/farmfoods/items(menuItemSubCategory=${metahome.tileHeader5})}"
             ><div id="other-tile">
               <span th:text="${metahome.tileHeader5}"></span></div
           ></a>

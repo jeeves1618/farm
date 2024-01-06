@@ -336,6 +336,14 @@
 
       const getPriceForPack = function (packSize, menuItemId, quantity) {
         let pricerForPack;
+        console.log(
+          "Price for pack invoked: " +
+            packSize +
+            " " +
+            menuItemId +
+            " " +
+            quantity
+        );
         fetch(
           `http://localhost:8081/farmfoods/pricing/perpack?menuItemId=${menuItemId}&packSize=${packSize}&quantity=${quantity}`
         )
@@ -393,6 +401,7 @@
           let packSizeSelected = pack_options.value;
           let packSize = packSizeSelected.split(" ")[0];
           let menuItemId = packSizeSelected.split(":")[1];
+          let pricingId = packSizeSelected.split(":")[2];
           console.log("Is the menu item coming through? " + menuItemId);
           let quantity = document
             .querySelector("#quantityselected_" + menuItemId)
@@ -408,6 +417,7 @@
               packSize
           );
           addToCartList[changedIndex].packSize = packSize;
+          addToCartList[changedIndex].pricingId = pricingId;
           getPriceForPack(packSize, menuItemId, quantity);
         });
       });
@@ -442,6 +452,7 @@
         addToCartButton.addEventListener("click", function () {
           let menuItemId = addToCartButton.id.split("_")[1];
           let changedIndex = addToCartList.findIndex(function (cart, index) {
+            console.log("cart and index are " + cart + " and " + index);
             if (cart.menuItemId == menuItemId) return true;
           });
 

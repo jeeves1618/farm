@@ -77,6 +77,7 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
                 if (tokens.length == 1)
                     System.out.println("One" + tokens[0]);
                 if (tokens.length == 3) {
+                    System.out.println(keyValuePairs[j] + " and " + menuList.get(i));
                     System.out.println("Three" + tokens[0] + "," + tokens[1] + "," + tokens[2]);
                     pricing.setPackSize(tokens[1].substring(1));
                     pricing.setMenuItemPackPrice(Integer.valueOf(tokens[2]));
@@ -86,51 +87,48 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
 
                 if (tokens.length == 2) {
                     System.out.println("Two" + tokens[0] + "," + tokens[1]);
-                    switch (tokens[0])
-                    {
-                        case " name":
-                            menu.setMenuItemName(tokens[1]);
-                            break;
-                        case " description":
-                            menu.setMenuItemDescription(tokens[1]);
-                            break;
-                        case " category":
-                            menu.setMenuItemSubCategory(tokens[1]);
-                            menu.setMenuItemCategory(tokens[1]);
-                            break;
-                        case "{id":
-                            menu.setMenuItemCategory(tokens[1]);
-                            break;
-                        case " image":
-                            menu.setMenuImageFileName(tokens[1]);
-                            break;
-                        case " 1":
-                            pricing.setPackSize("1");
-                            pricing.setMenuItemPackPrice(Integer.valueOf(tokens[1].substring(0,tokens[1].length()-1)));
-                            pricingList.add(pricing);
-                            pricing = new Pricing();
-                            break;
-                        case " 500":
-                            pricing.setPackSize("500");
-                            pricing.setMenuItemPackPrice(Integer.valueOf(tokens[1]));
-                            pricingList.add(pricing);
-                            pricing = new Pricing();
-                            break;
-                        case " available":
-                            menu.setAvailableQty(Double.valueOf(tokens[1]));
-                            break;
-                        case " unitOfMeasure":
-                            menu.setUnitOfMeasure(tokens[1].substring(0,tokens[1].length()-1));
-                            break;
-                        default:
-                            menu.setMenuAvailabilityInd("Y");
-                            menu.setMenuTodaySpecialInd("Y");
-                            menu.setMenuBestSellerInd("Y");
-                            menu.setDateCreated(date);
-                            menu.setDateUpdated(date);
-                            menu.setUserCreated("Farm Fresh");
-                            menu.setUserUpdated("Organic");
-                            menu.setPrimaryInCategory("N");
+                    String token = tokens[0].replace(" ","");
+                    if (checkIfNumeric(token)){
+                        pricing.setPackSize(token);
+                        pricing.setMenuItemPackPrice(Integer.valueOf(tokens[1].replace("}", "")));
+                        System.out.println("setting up numeric value for token " + token + " and " + pricing.getMenuItemPackPrice());
+                        pricingList.add(pricing);
+                        pricing = new Pricing();
+                    }
+                    else {
+                        switch (tokens[0]) {
+                            case " name":
+                                menu.setMenuItemName(tokens[1]);
+                                break;
+                            case " description":
+                                menu.setMenuItemDescription(tokens[1]);
+                                break;
+                            case " category":
+                                menu.setMenuItemSubCategory(tokens[1]);
+                                menu.setMenuItemCategory(tokens[1]);
+                                break;
+                            case "{id":
+                                menu.setMenuItemCategory(tokens[1]);
+                                break;
+                            case " image":
+                                menu.setMenuImageFileName(tokens[1]);
+                                break;
+                            case " available":
+                                menu.setAvailableQty(Double.valueOf(tokens[1]));
+                                break;
+                            case " unitOfMeasure":
+                                menu.setUnitOfMeasure(tokens[1].substring(0, tokens[1].length() - 1));
+                                break;
+                            default:
+                                menu.setMenuAvailabilityInd("Y");
+                                menu.setMenuTodaySpecialInd("Y");
+                                menu.setMenuBestSellerInd("Y");
+                                menu.setDateCreated(date);
+                                menu.setDateUpdated(date);
+                                menu.setUserCreated("Farm Fresh");
+                                menu.setUserUpdated("Organic");
+                                menu.setPrimaryInCategory("N");
+                        }
                     }
                 }
             }
@@ -175,5 +173,14 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
 
         System.out.println(cartRepo.findAll());
         //menuRepo.saveAll(menuItems);
+    }
+
+    boolean checkIfNumeric(String input) {
+        for (char c : input.toCharArray()) {
+            if (Character.isDigit(c)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

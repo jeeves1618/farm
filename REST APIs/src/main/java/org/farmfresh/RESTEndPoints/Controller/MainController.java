@@ -23,7 +23,12 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @CrossOrigin
-    @RequestMapping(path = "/farmfoods")
+/*
+Instead of allowing cross origin across any domain by specifying @CrossOrigin,
+specify the required domains explicitly. 
+@CrossOrigin(origins = "http://localhost:80xXX")
+ */
+@RequestMapping(path = "/farmfoods")
 public class MainController {
 
     @Autowired
@@ -185,7 +190,7 @@ public class MainController {
             log.info("Menu Id : " + cart.getMenuItemId());
             if (menuItem.isPresent()) {
                 Menu menu = menuItem.get();
-                cart.setMenuItemName(menu.getMenuItemName());
+                cart.setMenuItemName(menu.getMenuItemName() + getMenuItemNameFormatted(menu,cart));
                 cart.setMenuItemCategory(menu.getMenuItemCategory());
                 cart.setMenuItemSubCategory(menu.getMenuItemSubCategory());
                 cart.setMenuItemDescription(menu.getMenuItemDescription());
@@ -202,7 +207,38 @@ public class MainController {
         }
         return cartList;
     }
+    private String getMenuItemNameFormatted(Menu menu, Cart cart){
 
+        String packSizeUnit = null;
+        switch (menu.getUnitOfMeasure()){
+            case "Volume":
+                if (Integer.valueOf(cart.getPackSize()) > 10)
+                    packSizeUnit = " - " + cart.getPackSize() + " ml";
+                else {
+                    if (Integer.valueOf(cart.getPackSize()) > 1)
+                        packSizeUnit = " - " + cart.getPackSize() + " liters";
+                    else
+                        packSizeUnit = " - " + cart.getPackSize() + " liter";
+                }
+                break;
+            case "Weight":
+                if (Integer.valueOf(cart.getPackSize()) > 10)
+                    packSizeUnit = " - " + cart.getPackSize() + " grams";
+                else {
+                    if (Integer.valueOf(cart.getPackSize()) > 1)
+                        packSizeUnit = " - " + cart.getPackSize() + " kilos";
+                    else
+                        packSizeUnit = " - " + cart.getPackSize() + " kilo";
+                }
+                break;
+            case "Count":
+                packSizeUnit = " - " + cart.getPackSize() + " No.s";
+                break;
+            default:
+                packSizeUnit = "Unit Error";
+        }
+        return packSizeUnit;
+    }
     @GetMapping(path = "/cart/delete/{cartId}")
     public Cart deleteCartItem(@PathVariable int cartId) throws IOException {
         Cart cart = cartRepo.findById(cartId).get();
@@ -302,11 +338,11 @@ public class MainController {
     public List<OrderSummary> getOrderSummary(@PathVariable String customerId){
         Authentication currentUserName = getUser();
         if (customerId.equals("Priya")) {
-            log.info("Retrieving as admin : " + customerId);
+            log.info("Retrieving as admin : " + customerId + USER_ROLE);
             return orderSummaryRepo.findAll();
         }
         else {
-            log.info("Retrieving as guest : " + customerId);
+            log.info("Retrieving as shopper : " + customerId);
             return orderSummaryRepo.findByCustomerId(customerId);
         }
     }

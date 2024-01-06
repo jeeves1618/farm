@@ -55,11 +55,15 @@ public class AppSecurityConfig {
                 .password("farm")
                 .authorities("read")
                 .build();
+        UserDetails shopper3 = User.withUsername("Sathya")
+                .password("farm")
+                .authorities("read")
+                .build();
         UserDetails manager = User.withUsername("Priya")
                 .password("farm")
                 .authorities("admin")
                 .build();
-        return new InMemoryUserDetailsManager(shopper1, shopper2, manager);
+        return new InMemoryUserDetailsManager(shopper1, shopper2, shopper3, manager);
 
     }
 
