@@ -48,6 +48,8 @@ public class Order {
     private String userUpdated;
     @Column(name = "display_order_id")
     private int displayOrderId;
+    @Column(name = "standardized_quantity")
+    private double standardizedQuantity;
     @Transient
     private String orderItemName;
     @Transient

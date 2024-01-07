@@ -18,4 +18,5 @@ public class Pricing {
     private Date dateUpdated;
     private String userCreated;
     private String userUpdated;
+    private String standardizedUnit;
 }

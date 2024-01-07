@@ -33,9 +33,9 @@ public class HomeDataLoader implements ApplicationListener<ApplicationReadyEvent
         homeData.setCenterCarousalLine3("A Hygienic Indulgence");
         homeData.setCenterCarousalLine4("Online Order Booking");
         homeData.setTileHeader1("Dairy and Eggs");
-        homeData.setTileHeader2("Vegetables");
+        homeData.setTileHeader2("Rice and Related");
         homeData.setTileHeader3("Oil & Honey");
-        homeData.setTileHeader4("Farm Made");
+        homeData.setTileHeader4("Vegetables");
         homeData.setTileHeader5("Others");
         homeData.setTileHeader6("Pickup Point");
         homeData.setCategoryMessage("Availability of fruits and vegetables are subject to seasonal variations");

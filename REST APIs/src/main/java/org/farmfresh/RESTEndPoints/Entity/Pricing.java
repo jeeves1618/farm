@@ -38,4 +38,6 @@ public class Pricing {
     private String userCreated;
     @Column(name = "user_updated")
     private String userUpdated;
+    @Column(name = "standardized_unit")
+    private String standardizedUnit;
 }

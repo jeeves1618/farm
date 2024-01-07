@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.farmfresh.RESTEndPoints.Domain.AddToCart;
 import org.farmfresh.RESTEndPoints.Domain.BlockedQty;
 import org.farmfresh.RESTEndPoints.Domain.CartCustItemCount;
+import org.farmfresh.RESTEndPoints.Domain.CartsSummary;
 import org.farmfresh.RESTEndPoints.Entity.*;
 import org.farmfresh.RESTEndPoints.Repo.*;
 import org.farmfresh.RESTEndPoints.Service.HomeDataService;
@@ -307,6 +308,9 @@ public class MainController {
                 orderRepo.save(order);
                 log.info("Display Order ID: " + order.getOrderId());
             }
+
+            //Update Inventory
+
         }
         createOrderSummary(order,orderItemCount,orderTotalValue,savings);
         for(Cart cart: cartList){
@@ -332,8 +336,8 @@ public class MainController {
 
         orderSummaryRepo.save(orderSummary);
     }
-    @GetMapping(path = "/item/blockedqty")
-    public BlockedQty getBlockedQty(){
+    @GetMapping(path = "/item/blockedqty/{menuItemId}")
+    public BlockedQty getBlockedQty(@PathVariable int menuItemId){
         BlockedQty blockedQty = new BlockedQty();
         blockedQty.setBlockedQuantity(0.0);
         return blockedQty;
@@ -373,6 +377,18 @@ public class MainController {
         else {
             log.info("Retrieving as shopper : " + customerId);
             return orderSummaryRepo.findByCustomerId(customerId);
+        }
+    }
+
+    @GetMapping(path = "/cart/summary/{customerRole}")
+    public List<CartsSummary> getCartsSummary(@PathVariable String customerRole){
+        Authentication currentUserName = getUser();
+        if (customerRole.equals("Admin")) {
+            log.info("Retrieving as admin ");
+            return cartRepo.findCountByMenuIdAndPackSize();
+        }
+        else {
+            return null;
         }
     }
 

@@ -172,7 +172,7 @@ public class MainController {
                     "http://localhost:8081/farmfoods/item/cartsummary/" + menu.getMenuItemId() + "/" + homeMetaData.getLoggedInUser(), CartCustItemCount.class);
             menu.setMenuItemInCartCount((cartCount == null)  ? 0 :cartCount.getCartCount());
             BlockedQty blockedQty = restTemplate.getForObject(
-                    "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
+                    "http://localhost:8081/farmfoods/item/blockedqty/" + menu.getMenuItemId(), BlockedQty.class);
             menu.setBlockedQty(blockedQty.getBlockedQuantity());
             menu.setFreeQty(menu.getAvailableQty() - blockedQty.getBlockedQuantity());
             List<Pricing> pricingList = new ArrayList<>();
@@ -246,7 +246,7 @@ public class MainController {
                     "http://localhost:8081/farmfoods/item/cartsummary/" + menu.getMenuItemId() + "/" + homeMetaData.getLoggedInUser(), CartCustItemCount.class);
             menu.setMenuItemInCartCount((cartCount == null)  ? 0 :cartCount.getCartCount());
             BlockedQty blockedQty = restTemplate.getForObject(
-                    "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
+                    "http://localhost:8081/farmfoods/item/blockedqty/" + menu.getMenuItemId(), BlockedQty.class);
             menu.setBlockedQty(blockedQty.getBlockedQuantity());
             menu.setFreeQty(menu.getAvailableQty() - blockedQty.getBlockedQuantity());
             List<Pricing> pricingList = new ArrayList<>();
@@ -365,7 +365,7 @@ public class MainController {
                     "http://localhost:8081/farmfoods/item/" + menu.getMenuItemId(), CartSummary.class);
             menu.setMenuItemInCartCount((cartCount == null)  ? 0 :cartCount.getMenuItemCount());
             BlockedQty blockedQty = restTemplate.getForObject(
-                    "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
+                    "http://localhost:8081/farmfoods/item/blockedqty/" + menu.getMenuItemId(), BlockedQty.class);
             menu.setBlockedQty(blockedQty.getBlockedQuantity());
             menu.setFreeQty(menu.getAvailableQty() - blockedQty.getBlockedQuantity());
             List<Pricing> pricingList = new ArrayList<>();
@@ -416,7 +416,7 @@ public class MainController {
                 "http://localhost:8081/farmfoods/item/" + menuToBeUpdated.getMenuItemId(), CartSummary.class);
         menuToBeUpdated.setMenuItemInCartCount((cartCount == null)  ? 0 :cartCount.getMenuItemCount());
         BlockedQty blockedQty = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/item/blockedqty", BlockedQty.class);
+                "http://localhost:8081/farmfoods/item/blockedqty/" + menuToBeUpdated.getMenuItemId(), BlockedQty.class);
         menuToBeUpdated.setBlockedQty(blockedQty.getBlockedQuantity());
         menuToBeUpdated.setFreeQty(menuToBeUpdated.getAvailableQty() - blockedQty.getBlockedQuantity());
 
@@ -659,6 +659,55 @@ public class MainController {
         return "ordersummary";
     }
 
+    @GetMapping(path = "/cart/summary")
+    public String getCartSummary(Model model, RestTemplate restTemplate){
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
+
+        List<CartsSummary> cartsSummaries = null;
+        try {
+            //menuItemSubCategory = URLEncoder.encode(menuItemSubCategory,"UTF-8").replace("+", "%20");
+            URL url = new URL("http://localhost:8081/farmfoods/cart/summary/" + "Admin");
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("GET");
+            httpURLConnection.setRequestProperty("Accept", "application/json");
+
+            if (httpURLConnection.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + httpURLConnection.getResponseCode());
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (httpURLConnection.getInputStream())));
+            String output;
+            System.out.println("Output from Server .... \n");
+            while ((output = br.readLine()) != null) {
+                ObjectMapper mapper = new ObjectMapper();
+                cartsSummaries = mapper.readValue(output, new TypeReference<List<CartsSummary>>(){});
+            }
+            httpURLConnection.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (cartsSummaries.size() > 0) {
+            if (USER_ROLE.equals("admin")){
+                homeMetaData.setCartHeader("Summary of Shoping Carts");
+                homeMetaData.setCartSubHeader(" ");
+            }
+            else {
+                homeMetaData.setCartHeader("Your Orders");
+                homeMetaData.setCartSubHeader("Explore more");
+            }
+        }
+        else {
+            homeMetaData.setCartHeader("You have not placed any orders yet");
+            homeMetaData.setCartSubHeader("Continue Shopping");
+        }
+
+        model.addAttribute("metahome",homeMetaData);
+        model.addAttribute("cartsSummaries",cartsSummaries);
+        return "cartsummary";
+    }
+
     @GetMapping(path = "/testimonial")
     public String getTestimonialPage(Model model){
         return "testimonial";
@@ -671,7 +720,7 @@ public class MainController {
         List<LandingIcon> landingIcons = new ArrayList<>();
         if (USER_ROLE.equals("admin")) {
             landingIcons.add(new LandingIcon("Orders", "Review all open orders", "/img/menu/landing/orders.jpg", "/farmfoods/order/summary"));
-            landingIcons.add(new LandingIcon("Carts", "Review what customers have in their carts", "/img/menu/landing/carts.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Carts", "Review what customers have in their carts", "/img/menu/landing/carts.jpg", "/farmfoods/cart/summary"));
             landingIcons.add(new LandingIcon("Inventory", "Manage your inventory", "/img/menu/landing/inventory.jpg", "/farmfoods/category"));
             landingIcons.add(new LandingIcon("Customers", "Manage your customers and their contacts", "/img/menu/landing/customers.jpg", "/farmfoods/about"));
             landingIcons.add(new LandingIcon("Payables", "Track salaries and expenses", "/img/menu/landing/payment.jpg", "/farmfoods/about"));

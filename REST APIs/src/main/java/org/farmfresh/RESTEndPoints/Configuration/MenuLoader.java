@@ -52,7 +52,7 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
     public void onApplicationEvent(ApplicationReadyEvent event) {
         ObjectMapper objectMapper = new ObjectMapper();
         Integer intId = 0;
-        ArrayList<Menu> menuList = new ArrayList<>();
+        List<Menu> menuList = new ArrayList<>();
         List<Menu> menuItems = new ArrayList<>();
         List<Pricing> pricingList = new ArrayList<>();
         long millis=System.currentTimeMillis();
@@ -66,6 +66,7 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
         for (int i = 0; i < menuList.size(); i++){
             menu = new Menu();
             System.out.println(menuList.get(i));
+
             String[] keyValuePairs = String.valueOf(menuList.get(i)).split(",");
             for(int j = 0; j < keyValuePairs.length; j++){
                 String[] tokens= keyValuePairs[j].split("=");
@@ -81,6 +82,7 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
                     System.out.println("Three" + tokens[0] + "," + tokens[1] + "," + tokens[2]);
                     pricing.setPackSize(tokens[1].substring(1));
                     pricing.setMenuItemPackPrice(Integer.valueOf(tokens[2]));
+                    //pricing.setStandardizedUnit(identifyUnit(menuList.get(i).getUnitOfMeasure(),Integer.valueOf(pricing.getPackSize())));
                     pricingList.add(pricing);
                     pricing = new Pricing();
                 }
@@ -92,6 +94,7 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
                         pricing.setPackSize(token);
                         pricing.setMenuItemPackPrice(Integer.valueOf(tokens[1].replace("}", "")));
                         System.out.println("setting up numeric value for token " + token + " and " + pricing.getMenuItemPackPrice());
+                        //pricing.setStandardizedUnit(identifyUnit(menuList.get(i).getUnitOfMeasure(),Integer.valueOf(pricing.getPackSize())));
                         pricingList.add(pricing);
                         pricing = new Pricing();
                     }
@@ -182,5 +185,30 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
             }
         }
         return false;
+    }
+
+    private String identifyUnit(String unitOfMeasure, Integer packSize){
+
+        String identifiedUnit = null;
+        switch (unitOfMeasure){
+            case "Volume":
+                if (packSize < 10)
+                    unitOfMeasure = "liters";
+                else
+                    unitOfMeasure = "ml";
+                break;
+            case "Weight":
+                if (packSize < 10)
+                    unitOfMeasure = "kilos";
+                else
+                    unitOfMeasure = "grams";
+                break;
+            case "Count":
+                unitOfMeasure = "No.s";
+                break;
+            default:
+                identifiedUnit = "Undefined";
+        }
+        return identifiedUnit;
     }
 }

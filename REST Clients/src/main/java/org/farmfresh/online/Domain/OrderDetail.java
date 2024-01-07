@@ -37,5 +37,6 @@ public class OrderDetail {
     private String orderImageFileName;
     private int orderTotal;
     private String orderTotalFmtd;
+    private double standardizedQuantity;
 
 }
