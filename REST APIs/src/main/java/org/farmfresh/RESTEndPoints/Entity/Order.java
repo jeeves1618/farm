@@ -48,4 +48,22 @@ public class Order {
     private String userUpdated;
     @Column(name = "display_order_id")
     private int displayOrderId;
+    @Transient
+    private String orderItemName;
+    @Transient
+    private String orderItemCategory;
+    @Transient
+    private String orderItemSubCategory;
+    @Transient
+    private String orderItemDescription;
+    @Transient
+    private String orderItemPriceFmtd;
+    @Transient
+    private String orderItemTotalPriceFmtd;
+    @Transient
+    private String orderImageFileName;
+    @Transient
+    private int orderTotal;
+    @Transient
+    private String orderTotalFmtd;
 }

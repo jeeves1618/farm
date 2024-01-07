@@ -21,7 +21,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -30,6 +32,9 @@ import java.util.List;
 public class MainController {
     private String USER_NAME = "Guest";
     private String USER_ROLE = "Guest";
+
+    private static SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("dd/MM/yyyy hh:mm aaa");
+    private static Date CURRENT_DATE = new Date(new Date().getTime() + (1000 * 60 * 60 * 24));
 
     private Authentication getUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -559,8 +564,49 @@ public class MainController {
     //Order details page doesn't exist. It has to be created.
     @GetMapping(path = "/orderdetail")
     public String getOrdersById(@RequestParam("orderId") String orderId, Model model, RestTemplate restTemplate){
+        HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
 
-        return "order";
+        List<OrderDetail> orderList = null;
+        try {
+            //menuItemSubCategory = URLEncoder.encode(menuItemSubCategory,"UTF-8").replace("+", "%20");
+            String customerId = homeMetaData.getLoggedInUser();
+            URL url = new URL("http://localhost:8081/farmfoods/orderdetail/" + orderId);
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("GET");
+            httpURLConnection.setRequestProperty("Accept", "application/json");
+
+            if (httpURLConnection.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + httpURLConnection.getResponseCode());
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (httpURLConnection.getInputStream())));
+            String output;
+            while ((output = br.readLine()) != null) {
+                ObjectMapper mapper = new ObjectMapper();
+                orderList = mapper.readValue(output, new TypeReference<List<OrderDetail>>(){});
+            }
+            httpURLConnection.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (orderList.size() > 0) {
+            homeMetaData.setCartHeader("Your Order No: " + orderList.get(0).getDisplayOrderId());
+            homeMetaData.setCartSubHeader("Deliver to : " + orderList.get(0).getCustomerId() + " " + orderList.get(0).getCustomerShippingAddress());
+            homeMetaData.setDeliveryInstructions("Free Delivery on your door step by " + DATE_FORMATTER.format(CURRENT_DATE) );
+        }
+        else {
+            homeMetaData.setCartHeader("Your order is empty! It may be because the items you ordered may have gone out of stock");
+            homeMetaData.setCartSubHeader("Continue Shopping");
+        }
+        if (orderList.size() > 0)
+            homeMetaData.setCartSummary("Your order total (" + orderList.size() + " items) is : " + orderList.get(Math.max(orderList.size() - 1, 0)).getOrderTotalFmtd());
+        else
+            homeMetaData.setCartSummary("Your order total (" + orderList.size() + " items) is : Rs. 0.00" );
+        model.addAttribute("metahome",homeMetaData);
+        model.addAttribute("items",orderList);
+        return "orderdetails";
     }
 
     @GetMapping(path = "/order/summary")

@@ -190,7 +190,7 @@ public class MainController {
             log.info("Menu Id : " + cart.getMenuItemId());
             if (menuItem.isPresent()) {
                 Menu menu = menuItem.get();
-                cart.setMenuItemName(menu.getMenuItemName() + getMenuItemNameFormatted(menu,cart));
+                cart.setMenuItemName(menu.getMenuItemName() + getMenuItemNameFormatted(menu,cart.getPackSize()));
                 cart.setMenuItemCategory(menu.getMenuItemCategory());
                 cart.setMenuItemSubCategory(menu.getMenuItemSubCategory());
                 cart.setMenuItemDescription(menu.getMenuItemDescription());
@@ -207,32 +207,61 @@ public class MainController {
         }
         return cartList;
     }
-    private String getMenuItemNameFormatted(Menu menu, Cart cart){
+
+    @GetMapping(path = "/orderdetail/{orderId}")
+    public List<Order> getOrderItems(@PathVariable String orderId) throws IOException {
+        List<Order> orderList = orderRepo.findByDisplayOrderId(Integer.valueOf(orderId));
+        int orderTotal = 0;
+        for(Order order: orderList){
+            Optional<Menu> menuItem = menuRepo.findById(order.getMenuItemId());
+            log.info("Menu Id : " + order.getMenuItemId());
+            if (menuItem.isPresent()) {
+                Menu menu = menuItem.get();
+                order.setOrderItemName(menu.getMenuItemName() + getMenuItemNameFormatted(menu,order.getPackSize()));
+                order.setOrderItemCategory(menu.getMenuItemCategory());
+                order.setOrderItemSubCategory(menu.getMenuItemSubCategory());
+                order.setOrderItemDescription(menu.getMenuItemDescription());
+                order.setOrderImageFileName(menu.getMenuImageFileName());
+                String currencyFormat = "Rs ##,##,##0.00";
+                DecimalFormat ft = new DecimalFormat(currencyFormat);
+                order.setOrderItemTotalPriceFmtd(rf.formattedRupee(ft.format(order.getMenuItemCount()*order.getMenuItemPackPrice())));
+                order.setOrderItemPriceFmtd(rf.formattedRupee(ft.format(order.getMenuItemPackPrice())));
+                order.setOrderImageFileName("../" + menu.getMenuImageFileName());
+                orderTotal = orderTotal + order.getMenuItemCount()*order.getMenuItemPackPrice();
+                order.setOrderTotal(orderTotal);
+                log.info("Cart Total " + order.getOrderTotal() + " and " + order.getOrderImageFileName());
+                order.setOrderTotalFmtd(rf.formattedRupee(ft.format(order.getOrderTotal())));
+            }
+        }
+        return orderList;
+    }
+
+    private String getMenuItemNameFormatted(Menu menu, String packSize){
 
         String packSizeUnit = null;
         switch (menu.getUnitOfMeasure()){
             case "Volume":
-                if (Integer.valueOf(cart.getPackSize()) > 10)
-                    packSizeUnit = " - " + cart.getPackSize() + " ml";
+                if (Integer.valueOf(packSize) > 10)
+                    packSizeUnit = " - " + packSize + " ml";
                 else {
-                    if (Integer.valueOf(cart.getPackSize()) > 1)
-                        packSizeUnit = " - " + cart.getPackSize() + " liters";
+                    if (Integer.valueOf(packSize) > 1)
+                        packSizeUnit = " - " + packSize + " liters";
                     else
-                        packSizeUnit = " - " + cart.getPackSize() + " liter";
+                        packSizeUnit = " - " + packSize + " liter";
                 }
                 break;
             case "Weight":
-                if (Integer.valueOf(cart.getPackSize()) > 10)
-                    packSizeUnit = " - " + cart.getPackSize() + " grams";
+                if (Integer.valueOf(packSize) > 10)
+                    packSizeUnit = " - " + packSize + " grams";
                 else {
-                    if (Integer.valueOf(cart.getPackSize()) > 1)
-                        packSizeUnit = " - " + cart.getPackSize() + " kilos";
+                    if (Integer.valueOf(packSize) > 1)
+                        packSizeUnit = " - " + packSize + " kilos";
                     else
-                        packSizeUnit = " - " + cart.getPackSize() + " kilo";
+                        packSizeUnit = " - " + packSize + " kilo";
                 }
                 break;
             case "Count":
-                packSizeUnit = " - " + cart.getPackSize() + " No.s";
+                packSizeUnit = " - " + packSize + " No.s";
                 break;
             default:
                 packSizeUnit = "Unit Error";

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html" />
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <title th:text="${metahome.titleText}"></title>
+    <!-- CSS only -->
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+      crossorigin="anonymous"
+    />
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oxygen&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Libre+Bodoni&family=Lora&family=Mukta&family=Oxygen&family=Source+Serif+Pro&family=Tiro+Kannada&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <nav id="header-nav" class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header" id="navbar-header-id">
+            <!--pull left is bootstrap way of saying float left. visible-md and visible-lg will ensure that the impage is visible only when the screen is not small-->
+            <a
+              th:href="@{/farmfoods/home}"
+              class="pull-left visible-md visible-lg visible-sm visible-xs"
+              id="a-element-behind-logo"
+            >
+              <div id="logo-img" alt="Logo image"></div>
+            </a>
+            <div class="navbar-brand" id="nvbr01">
+              <a
+                th:href="@{/farmfoods/home}"
+                class="visible-md visible-lg visible-xs visible-sm"
+                id="a-element-behind-brandname"
+                ><h1 th:text="${metahome.titleText}"></h1
+              ></a>
+              <p>
+                <!--<img src="img/x.jpg" alt="sub text" />-->
+              </p>
+            </div>
+            <!--data-target="#collapsable-nav" points to the element with that ID-->
+            <button
+              type="button"
+              class="navbar-toggle collapsed"
+              data-toggle="collapse"
+              data-target="#collapsable-nav"
+              aria-expanded="false"
+            >
+              <!--sr only is for screen reader-->
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+
+          <div id="collapsable-nav" class="collapse navbar-collapse">
+            <!--nav navbar-nav ensures that the elements are part of nav bar. navbar-right aligns to the right-->
+            <ul id="nav-list" class="nav navbar-nav navbar-right">
+              <li>
+                <a th:href="@{/farmfoods/products}">
+                  <!--Glyficons are part of bootstrap https://getbootstrap.com/docs/3.4/components/#glyphicons-->
+                  <span class="glyphicon glyphicon-leaf"></span>
+                  <!--THe class hidden-xs will hide the break element at xs size-->
+                  <br class="hidden-xs" />
+                  <p>Products</p></a
+                >
+              </li>
+              <li>
+                <a th:href="@{/farmfoods/about}">
+                  <span class="glyphicon glyphicon-info-sign"></span
+                  ><br class="hidden-xs" />
+                  <p>About</p></a
+                >
+              </li>
+              <li class="selected">
+                <a th:href="@{/farmfoods/cart}">
+                  <span
+                    id="nav-no-of-items-cart"
+                    class="glyphicon glyphicon-shopping-cart"
+                  ></span
+                  ><br class="hidden-xs" />
+                  <p>Cart</p></a
+                >
+              </li>
+              <li>
+                <a th:href="@{/farmfoods/landing}">
+                  <span
+                    id="nav-no-of-items-cart"
+                    class="glyphicon glyphicon-user"
+                  ></span
+                  ><br class="hidden-xs" />
+                  <p th:text="${metahome.navRoleSensitiveLabel}"></p
+                ></a>
+              </li>
+            </ul>
+            <!-- #nav-list -->
+          </div>
+          <!-- .collapse .navbar-collapse -->
+        </div>
+      </nav>
+    </header>
+    <div id="complete-body-under-nav"></div>
+    <article
+      th:data-customerid="${metahome.loggedInUser}"
+      id="customer-id"
+    ></article>
+    <div id="contact-region" class="container">
+      <div id="call-btn" class="visible-xs visible-sm visible-md visible-lg">
+        <a
+          class="btn"
+          href="tel:9915081947"
+          th:text="${metahome.telephoneNumber}"
+          ><span class="glyphicon glyphicon-earphone"></span
+        ></a>
+      </div>
+      <div
+        id="xs-deliver"
+        class="text-center visible-xs visible-sm visible-md visible-lg glyphicon glyphicon-earphone"
+        th:text="${metahome.telephoneNumberText}"
+      ></div>
+    </div>
+    <h2
+      id="cart-title"
+      class="text-center"
+      th:text="${metahome.cartHeader}"
+    ></h2>
+    <div class="text-center">
+      <strong>
+        <span th:text="${metahome.cartSubHeader}"></span>
+      </strong>
+    </div>
+    <div class="text-center">
+      <i>
+        <span th:text="${metahome.deliveryInstructions}"></span>
+      </i>
+    </div>
+
+    <hr />
+    <br />
+    <div id="main-content" class="container">
+      <!--
+      <div class="under-construction-sign">
+        <!- img-responsive is from bootstrap and it will ensure that the image realigns based on the width and it is visible only when the browser is xs ->
+
+        <h2
+          id="jumbotran-main-text"
+          class="visible-xs visible-sm visible-md visible-lg"
+        ></h2>
+      </div>
+      -->
+      <section th:if="${not #lists.isEmpty(items)}" class="row">
+        <div th:each="item : ${items}" class="menu-item-tile">
+          <div id="home-tiles" class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div id="cart-tile">
+                <ul>
+                  <li>
+                    <img
+                      class="img-responsive"
+                      width="150"
+                      height="90"
+                      th:src="@{${item.orderImageFileName}}"
+                      th:alt="${item.orderItemSubCategory}"
+                    />
+                  </li>
+                  <li>
+                    <span th:text="${item.orderItemName}"></span><br />
+                    <span th:text="${item.orderItemPriceFmtd}"></span>
+                  </li>
+                  <li>
+                    <span>Qty - </span
+                    ><span th:text="${item.menuItemCount}"></span><br />
+                  </li>
+                  <li>
+                    <span th:text="${item.orderItemTotalPriceFmtd}"></span>
+                  </li>
+                  <li>
+                    <a
+                      th:href="@{/farmfoods/cart/delete(cartId=${item.menuItemId})}"
+                    >
+                      <div>
+                        <span
+                          th:id="cartDelIndicator_+${item.menuItemId}"
+                          class="glyphicon glyphicon-edit"
+                        ></span></div
+                    ></a>
+                  </li>
+                </ul>
+              </div>
+              <span th:id="cartIndicator_+${item.menuItemId}"> </span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End of #home-tiles -->
+    </div>
+    <div id="check-out-division">
+      <hr class="visible-xs visible-md visible-lg" />
+      <h2
+        id="cart-title"
+        class="text-center"
+        th:text="${metahome.cartSummary}"
+      ></h2>
+      <hr class="visible-xs visible-md visible-lg" />
+      <a
+        id="check-out-link"
+        th:href="@{/farmfoods/order(customerId=${metahome.loggedInUser})}"
+      >
+        <button
+          id="check-out-button"
+          type="button"
+          class="btn btn-primary mx-auto"
+        >
+          Cancel Order
+        </button>
+      </a>
+    </div>
+    <br />
+    <div id="back-from-checkout">
+      <a id="back-from-checkout-link" th:href="@{/farmfoods/order/summary}">
+        <button
+          id="back-from-checkout-button"
+          type="button"
+          class="btn btn-primary mx-auto"
+        >
+          Back to Orders
+        </button>
+      </a>
+    </div>
+    <!-- End of #Main Content -->
+    <footer class="panel-footer">
+      <div class="container">
+        <div class="row">
+          <section id="hours" class="col-sm-4">
+            <span>Hours:</span><br />
+            Sun-Thurs: 7:15am - 10:00pm<br />
+            Fri: 7:15am - 10:30pm<br />
+            Saturday: 7:15am - 11:30pm
+            <hr class="visible-xs" />
+          </section>
+          <section id="address" class="col-sm-4">
+            <span>Address:</span><br />
+            5/63, Old Mahaballipuram Road, <br />Egattur, Near Navallur,<br />
+            Chennai-600130
+            <p>* Delivery area within 5 Kms, with minimum order of Rs.200.</p>
+            <hr class="visible-xs" />
+          </section>
+          <section id="testimonials" class="col-sm-4">
+            <p>
+              "The healthiest organic shop I've ever tried! And that's saying a
+              lot, since I've tried many!"
+            </p>
+            <p>
+              "Fresh farm produce! Great service! Couldn't ask for more! I'll be
+              back again and again!"
+            </p>
+          </section>
+        </div>
+        <div class="text-center">
+          &copy; Copyright Farm Fresh Foods, Chennai, 2022
+        </div>
+      </div>
+    </footer>
+    <!--Java Script -->
+    <!-- jQuery is needed for JS -->
+    <script
+      src="https://code.jquery.com/jquery-2.2.4.js"
+      integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+      crossorigin="anonymous"
+    ></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
+      integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      let getCartCount = function (customer) {
+        fetch(`http://localhost:8081/farmfoods/item/cartcount/` + customer)
+          .then(function (ajaxResponse) {
+            return ajaxResponse.json();
+          })
+          .then(function (numberOfItemsInCart) {
+            console.log(numberOfItemsInCart);
+            document.getElementById("nav-no-of-items-cart").textContent =
+              "(" + numberOfItemsInCart + ")";
+          });
+      };
+      const article = document.querySelector("#customer-id");
+      customerId = article.dataset.customerid;
+      getCartCount(customerId);
+    </script>
+  </body>
+</html>
