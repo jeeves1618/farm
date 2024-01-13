@@ -424,7 +424,7 @@ public class MainController {
 
         List<Pricing> pricingList = new ArrayList<>();
         try {
-            URL url = new URL("http://localhost:8081/farmfoods/pricing/" + menuToBeUpdated.getMenuItemId());
+            URL url = new URL("http://localhost:8081/farmfoods/pricing/" + menuToBeUpdated.getMenuItemId() + "/Y");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("GET");
             httpURLConnection.setRequestProperty("Accept", "application/json");

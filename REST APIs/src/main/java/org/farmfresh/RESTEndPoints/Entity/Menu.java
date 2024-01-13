@@ -49,12 +49,12 @@ public class Menu {
     private String userUpdated;
     @Column(name = "available_qty")
     private Double availableQty;
+    @Column(name = "blocked_qty")
+    private Double blockedQty;
     @Column(name = "unit_of_measure")
     private String unitOfMeasure;
     @Transient
     private String unitToUse;
-    @Transient
-    private Double blockedQty;
     @Transient
     private Double freeQty;
     @Transient

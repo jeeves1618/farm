@@ -90,8 +90,8 @@ public class MainController {
 
     @GetMapping(path = "/products/{menuAvailabilityInd}")
     public List<Menu> getProducts(@PathVariable String menuAvailabilityInd) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return menuRepo.findByMenuAvailabilityInd(menuAvailabilityInd);
+        List<Menu> menuList = menuRepo.findByMenuAvailabilityInd(menuAvailabilityInd);
+        return menuList;
     }
 
     @GetMapping(path = "/catSummary")
@@ -106,13 +106,17 @@ public class MainController {
         return menuRepo.findAll();
     }
 
-    @GetMapping(path = "/pricing/{menuItemId}")
-    public List<Pricing> getPricing(@PathVariable int menuItemId) throws IOException {
+    @GetMapping(path = {"/pricing/{menuItemId}","/pricing/{menuItemId}/{includeAll}"})
+    public List<Pricing> getPricing(@PathVariable int menuItemId, @PathVariable(required = false)String includeAll) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         String currencyFormat = "Rs ##,##,##0.00";
         DecimalFormat ft = new DecimalFormat(currencyFormat);
         Optional<Menu> menu = menuRepo.findById(menuItemId);
-        List<Pricing> pricingList = pricingRepo.findByMenuItemId(menuItemId);
+        List<Pricing> pricingList;
+        if (includeAll != null)
+            pricingList = pricingRepo.findAllByMenuItemId(menuItemId);
+        else
+            pricingList = pricingRepo.findByMenuItemId(menuItemId);
         for (Pricing pricing:pricingList){
             pricing.setMenuItemPackPriceFmtd(rf.formattedRupee(ft.format(pricing.getMenuItemPackPrice())));
             if (menu.get().getUnitOfMeasure().equals("Weight")){
@@ -286,6 +290,23 @@ public class MainController {
         for (Cart cart: cartList){
             orderItemCount++;
             order = new Order();
+            double packSize = 0.0;
+            Menu menu = menuRepo.findById(cart.getMenuItemId()).get();
+            BlockedQty blockedQty = getBlockedQty(order.getMenuItemId());
+            menu.setBlockedQty(blockedQty.getBlockedQuantity());
+            Double remainingQty = menu.getAvailableQty() - blockedQty.getBlockedQuantity() - getStandardizedQty(cart.getPricingId(),cart.getMenuItemCount());
+            for (Pricing pricing: pricingRepo.findAllByMenuItemId(cart.getMenuItemId())){
+                if (pricing.getStandardizedUnit().equals("ml") || pricing.getStandardizedUnit().equals("grams")){
+                    packSize = Double.valueOf(pricing.getPackSize())/1000;
+                } else {
+                    packSize = Double.valueOf(pricing.getPackSize());
+                }
+                if (packSize > remainingQty) {
+                    pricing.setMenuItemPackPrice(0);
+                    menu.setMenuAvailabilityInd("N");
+                }
+                pricingRepo.save(pricing);
+            }
             order.setCustomerId(customerId);
             order.setMenuItemId(cart.getMenuItemId());
             order.setPricingId(cart.getPricingId());
@@ -300,7 +321,9 @@ public class MainController {
             order.setUserCreated(customerId);
             order.setUserUpdated(customerId);
             order.setDisplayOrderId(orderId);
-            orderTotalValue = cart.getMenuItemTotalPrice() +orderTotalValue;
+            order.setStandardizedQuantity(getStandardizedQty(cart.getPricingId(),cart.getMenuItemCount()));
+            orderTotalValue = cart.getMenuItemTotalPrice() + orderTotalValue;
+            menuRepo.save(menu);
             orderRepo.save(order);
             if (orderId == 0) {
                 orderId = order.getOrderId();
@@ -338,9 +361,28 @@ public class MainController {
     }
     @GetMapping(path = "/item/blockedqty/{menuItemId}")
     public BlockedQty getBlockedQty(@PathVariable int menuItemId){
-        BlockedQty blockedQty = new BlockedQty();
-        blockedQty.setBlockedQuantity(0.0);
+        BlockedQty blockedQty = orderRepo.findSumByMenuId(menuItemId);
+        if (blockedQty == null){
+            blockedQty = new BlockedQty(0,0.0);
+        }
+        System.out.println(blockedQty.getBlockedQuantity());
         return blockedQty;
+    }
+
+    private double getStandardizedQty(int pricingId, int menuItemCount){
+        Optional<Pricing> pricingDetails = pricingRepo.findById(pricingId);
+        Pricing pricing = pricingDetails.get();
+        switch (pricing.getStandardizedUnit()){
+            case "liters":
+            case "kilos":
+            case "No.s":
+                return Double.valueOf(pricing.getPackSize())*menuItemCount;
+            case "grams":
+            case "ml":
+                return Double.valueOf(pricing.getPackSize())/1000*menuItemCount;
+            default:
+                return 0.0;
+        }
     }
 
     @GetMapping(path = "item/cartsummary/{menuItemId}/{customerId}")

@@ -17,4 +17,5 @@ public interface MenuRepo extends JpaRepository<Menu, Integer> {
     Menu findOneByMenuItemSubCategory(String menuItemSubCategory);
     List<Menu> findByMenuItemSubCategory(String menuItemSubCategory);
     List<Menu>findByMenuItemSubCategoryAndMenuAvailabilityInd(String menuItemSubCategory, String menuAvailabilityInd);
+
 }

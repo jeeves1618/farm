@@ -51,6 +51,7 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         ObjectMapper objectMapper = new ObjectMapper();
+        String unitOfMeasure = null;
         Integer intId = 0;
         List<Menu> menuList = new ArrayList<>();
         List<Menu> menuItems = new ArrayList<>();
@@ -121,6 +122,10 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
                                 break;
                             case " unitOfMeasure":
                                 menu.setUnitOfMeasure(tokens[1].substring(0, tokens[1].length() - 1));
+                                unitOfMeasure = tokens[1].substring(0, tokens[1].length() - 1);
+                                for(Pricing temp: pricingList){
+                                    temp.setStandardizedUnit(identifyUnit(unitOfMeasure,Integer.valueOf(temp.getPackSize())));
+                                }
                                 break;
                             default:
                                 menu.setMenuAvailabilityInd("Y");
@@ -143,6 +148,7 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
             menu.setUserCreated("Farm Fresh");
             menu.setUserUpdated("Organic");
             menu.setPrimaryInCategory("N");
+            menu.setBlockedQty(0.0);
             menuItems.add(menu);
             menuRepo.save(menu);
             System.out.println("ID After: " + menu.getMenuItemId());
@@ -193,18 +199,18 @@ public class MenuLoader implements ApplicationListener<ApplicationReadyEvent> {
         switch (unitOfMeasure){
             case "Volume":
                 if (packSize < 10)
-                    unitOfMeasure = "liters";
+                    identifiedUnit = "liters";
                 else
-                    unitOfMeasure = "ml";
+                    identifiedUnit = "ml";
                 break;
             case "Weight":
                 if (packSize < 10)
-                    unitOfMeasure = "kilos";
+                    identifiedUnit = "kilos";
                 else
-                    unitOfMeasure = "grams";
+                    identifiedUnit = "grams";
                 break;
             case "Count":
-                unitOfMeasure = "No.s";
+                identifiedUnit = "No.s";
                 break;
             default:
                 identifiedUnit = "Undefined";
