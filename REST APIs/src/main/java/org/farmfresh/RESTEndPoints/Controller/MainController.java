@@ -54,6 +54,9 @@ public class MainController {
     OrderSummaryRepo orderSummaryRepo;
 
     @Autowired
+    CustomerRepo customerRepo;
+
+    @Autowired
     RupeeFormatter rf;
 
     long millis=System.currentTimeMillis();
@@ -287,8 +290,10 @@ public class MainController {
         int orderItemCount = 0, orderTotalValue = 0, savings = 0;
         int orderId = 0;
         List<Cart> cartList = cartRepo.findByCustomerId(customerId);
+        int cartCount = cartList.size();
+        Customer customer = customerRepo.findByCustomerUserId(customerId);
         for (Cart cart: cartList){
-            orderItemCount++;
+
             order = new Order();
             double packSize = 0.0;
             Menu menu = menuRepo.findById(cart.getMenuItemId()).get();
@@ -322,9 +327,15 @@ public class MainController {
             order.setUserUpdated(customerId);
             order.setDisplayOrderId(orderId);
             order.setStandardizedQuantity(getStandardizedQty(cart.getPricingId(),cart.getMenuItemCount()));
-            orderTotalValue = cart.getMenuItemTotalPrice() + orderTotalValue;
-            menuRepo.save(menu);
-            orderRepo.save(order);
+
+            if ((orderTotalValue + cart.getMenuItemTotalPrice()) < customer.getCustomerBalance()) {
+                orderTotalValue = cart.getMenuItemTotalPrice() + orderTotalValue;
+                menuRepo.save(menu);
+                orderRepo.save(order);
+                cartRepo.deleteById(cart.getCartId());
+                orderItemCount++;
+            }
+
             if (orderId == 0) {
                 orderId = order.getOrderId();
                 order.setDisplayOrderId(orderId);
@@ -335,12 +346,16 @@ public class MainController {
             //Update Inventory
 
         }
+        customer.setCustomerBalance(customer.getCustomerBalance()-orderTotalValue);
+        customerRepo.save(customer);
         createOrderSummary(order,orderItemCount,orderTotalValue,savings);
-        for(Cart cart: cartList){
-            cartRepo.deleteById(cart.getCartId());
-        }
+        /*for(Cart cart: cartList){
 
-        return "Dear " + customerId + ", Your order (ID: " + orderId + ") is successfully placed!";
+        }*/
+        if (orderItemCount == cartCount)
+            return "Dear " + customerId + ", Your order (ID: " + orderId + ") is successfully placed!";
+        else
+            return "Dear " + customerId + ", Your order (ID: " + orderId + ") is not fully placed due to insufficient balance. Please add money to wallet and re-order the items in the cart";
     }
 
     public void createOrderSummary(Order order, int count, int totalOrderValue, int savings){
@@ -376,10 +391,10 @@ public class MainController {
             case "liters":
             case "kilos":
             case "No.s":
-                return Double.valueOf(pricing.getPackSize())*menuItemCount;
+                return Math.floor(Double.valueOf(pricing.getPackSize())*menuItemCount*100)/100;
             case "grams":
             case "ml":
-                return Double.valueOf(pricing.getPackSize())/1000*menuItemCount;
+                return Math.floor(Double.valueOf(pricing.getPackSize())/1000*menuItemCount*100)/100;
             default:
                 return 0.0;
         }

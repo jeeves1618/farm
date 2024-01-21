@@ -1,23 +1,24 @@
 package org.farmfresh.RESTEndPoints.Controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.farmfresh.RESTEndPoints.Domain.HomeMetaData;
 import org.farmfresh.RESTEndPoints.Domain.UIMetaData;
+import org.farmfresh.RESTEndPoints.Entity.Customer;
 import org.farmfresh.RESTEndPoints.Entity.Menu;
 import org.farmfresh.RESTEndPoints.Entity.UploadInfo;
+import org.farmfresh.RESTEndPoints.Repo.CustomerRepo;
 import org.farmfresh.RESTEndPoints.Repo.MenuRepo;
 import org.farmfresh.RESTEndPoints.Service.MenuService;
 import org.farmfresh.RESTEndPoints.Service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -40,26 +41,34 @@ public class AdminController {
     @Autowired
     MenuRepo menuRepo;
 
+    @Autowired
+    CustomerRepo customerRepo;
+
     private final String UPLOAD_FILE_PATH = "C:\\Dev\\Sweets\\data\\";
-    private final String USER_NAME = System.getProperty("user.name").substring(0,1).toUpperCase()+ System.getProperty("user.name").substring(1);
+    private String USER_NAME = "Guest";
+    private String USER_ROLE = "Guest";
 
-    @GetMapping(path = "/products")
-    public List<Menu> getProducts() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return menuRepo.findAll();
+    private Authentication getUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication currentUserName = null;
+        log.info("Still a guest");
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+
+            currentUserName = authentication;
+            USER_NAME = authentication.getName();
+            log.info("Logged in as " + USER_NAME);
+            USER_ROLE = authentication.getAuthorities().stream().toArray()[0].toString();
+        }
+        return currentUserName;
     }
 
-    @GetMapping(path = "/menumanager")
-    public String getHomePage(Model model, RestTemplate restTemplate){
-        HomeMetaData homeMetaData = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/home", HomeMetaData.class);
-        model.addAttribute("metahome",homeMetaData);
-        return "menumanager";
-    }
-
-    @GetMapping(path = "/quotegenerator")
-    public String getMenuPage(Model model){
-        return "quotegenerator";
+    @GetMapping(path = "/customers")
+    public List<Customer> getCustomers(Model model){
+        if (USER_ROLE.equals("admin"))
+            return customerRepo.findAll();
+        else
+            //This has to be fixed. Check why user role isn't getting populated
+            return customerRepo.findAll();
     }
 
     @PostMapping("/menu/upload")

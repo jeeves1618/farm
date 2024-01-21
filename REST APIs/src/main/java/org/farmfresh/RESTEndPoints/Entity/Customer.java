@@ -1,8 +1,9 @@
 package org.farmfresh.RESTEndPoints.Entity;
 
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -12,28 +13,35 @@ import java.sql.Date;
 @Data
 @Component
 @Table(name = "customer_table")
+@EntityListeners(AuditingEntityListener.class)
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "customer_id")
-    private String customerId;
+    private int customerId;
     @Column(name = "customer_mobile")
-    private int customerMobile;
+    private String customerMobile;
     @Column(name = "customer_billing_address")
-    private int customerBillingAddress;
+    private String customerBillingAddress;
     @Column(name = "customer_email")
-    private Integer customerEmail;
+    private String customerEmail;
     @Column(name = "customer_discount_rate")
-    private String customerDiscountRate;
-    @CreatedDate
+    private Double customerDiscountRate;
+    @Column(name = "customer_user_id")
+    private String customerUserId;
+    @Column(name = "customer_credential")
+    private String customerCredential;
+    @Column(name = "customer_balance")
+    private Double customerBalance;
     @Column(name = "date_created")
     private Date dateCreated;
-    @LastModifiedDate
     @Column(name = "date_updated")
     private Date dateUpdated;
+    @CreatedBy
     @Column(name = "user_created")
     private String userCreated;
+    @LastModifiedBy
     @Column(name = "user_updated")
     private String userUpdated;
 }

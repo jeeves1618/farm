@@ -62,11 +62,27 @@ public class WebSecurityConfig {
                 .password("farm")
                 .authorities("read")
                 .build();
+        UserDetails shopper4 = User.withUsername("Lavanya")
+                .password("farm")
+                .authorities("read")
+                .build();
+        UserDetails shopper5 = User.withUsername("Swetha")
+                .password("farm")
+                .authorities("read")
+                .build();
+        UserDetails shopper6 = User.withUsername("Dharshana")
+                .password("farm")
+                .authorities("read")
+                .build();
+        UserDetails shopper7 = User.withUsername("Naga")
+                .password("farm")
+                .authorities("read")
+                .build();
         UserDetails manager = User.withUsername("Priya")
                 .password("farm")
                 .authorities("admin")
                 .build();
-        return new InMemoryUserDetailsManager(shopper1, shopper2, shopper3, manager);
+        return new InMemoryUserDetailsManager(shopper1, shopper2, shopper3, shopper4, shopper5, shopper6, shopper7, manager);
 
     }
 

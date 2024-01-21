@@ -209,12 +209,14 @@ hr {
 }
 
 #land-tile,
+#cust-tile,
 #orsm-tile {
   border: 1px solid #344e41;
   border-radius: 7px;
 }
 #cart-tile ul,
 #orsm-tile ul,
+#cust-tile ul,
 #land-tile ul {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -225,11 +227,13 @@ hr {
 }
 
 a #land-tiles,
+a #cust-tiles,
 a #orsm-tiles {
   text-decoration: none;
 }
 
 a:hover #land-tile,
+a:hover #cust-tile,
 a:hover #orsm-tile {
   text-decoration: none;
 }
@@ -245,6 +249,19 @@ a:hover #orsm-tile {
   grid-template-columns: 1fr 2fr 1fr;
   height: 170px;
 }
+#cust-tile ul {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1.5fr 0.5fr;
+  height: 180px;
+}
+
+#cust-tile ul .glyphicon-edit,
+#cust-tile ul .glyphicon-trash {
+  font-size: 2em;
+  display: block;
+  text-align: center;
+  margin-top: 30%;
+}
 
 #cart-tile li {
   vertical-align: middle;
@@ -252,6 +269,7 @@ a:hover #orsm-tile {
 }
 
 #land-tile li,
+#cust-tile li,
 #orsm-tile li {
   vertical-align: middle;
 }
@@ -261,6 +279,7 @@ a:hover #orsm-tile {
 }
 
 #cart-tile li:first-child,
+#cust-tile li:first-child,
 #orsm-tile li:first-child,
 #land-tile li:first-child {
   padding-left: 10px;
@@ -279,6 +298,7 @@ a:hover #orsm-tile {
 }
 
 #land-tile:hover,
+#cust-tile:hover,
 #orsm-tile:hover {
   box-shadow: 0 1px 15px 1px #344e41;
   text-decoration: none !important;
@@ -294,6 +314,7 @@ a:hover #orsm-tile {
   background-position: center;
 }
 #cart-tile,
+#cust-tile,
 #orsm-tile,
 #land-tile {
   background-image: linear-gradient(to bottom right, #fff, #fff);
@@ -844,6 +865,7 @@ h3.menu-item-title {
   #cart-tile,
   #land-tile,
   #orsm-tile,
+  #cust-tile,
   #veg-tile,
   #fruit-tile,
   #other-tile,
@@ -1005,6 +1027,7 @@ h3.menu-item-title {
   #cart-tile,
   #land-tile,
   #orsm-tile,
+  #cust-tile,
   #veg-tile,
   #fruit-tile,
   #other-tile,

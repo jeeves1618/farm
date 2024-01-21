@@ -174,7 +174,7 @@ public class MainController {
             BlockedQty blockedQty = restTemplate.getForObject(
                     "http://localhost:8081/farmfoods/item/blockedqty/" + menu.getMenuItemId(), BlockedQty.class);
             menu.setBlockedQty(blockedQty.getBlockedQuantity());
-            menu.setFreeQty(menu.getAvailableQty() - blockedQty.getBlockedQuantity());
+            menu.setFreeQty(Math.floor((menu.getAvailableQty() - blockedQty.getBlockedQuantity())*100)/100);
             List<Pricing> pricingList = new ArrayList<>();
             try {
                 URL url = new URL("http://localhost:8081/farmfoods/pricing/" + menu.getMenuItemId());
@@ -248,7 +248,7 @@ public class MainController {
             BlockedQty blockedQty = restTemplate.getForObject(
                     "http://localhost:8081/farmfoods/item/blockedqty/" + menu.getMenuItemId(), BlockedQty.class);
             menu.setBlockedQty(blockedQty.getBlockedQuantity());
-            menu.setFreeQty(menu.getAvailableQty() - blockedQty.getBlockedQuantity());
+            menu.setFreeQty(Math.floor((menu.getAvailableQty() - blockedQty.getBlockedQuantity())*100)/100);
             List<Pricing> pricingList = new ArrayList<>();
             try {
                 URL url = new URL("http://localhost:8081/farmfoods/pricing/" + menu.getMenuItemId());
@@ -367,7 +367,7 @@ public class MainController {
             BlockedQty blockedQty = restTemplate.getForObject(
                     "http://localhost:8081/farmfoods/item/blockedqty/" + menu.getMenuItemId(), BlockedQty.class);
             menu.setBlockedQty(blockedQty.getBlockedQuantity());
-            menu.setFreeQty(menu.getAvailableQty() - blockedQty.getBlockedQuantity());
+            menu.setFreeQty(Math.floor((menu.getAvailableQty() - blockedQty.getBlockedQuantity())*100)/100);
             List<Pricing> pricingList = new ArrayList<>();
             try {
                 URL url = new URL("http://localhost:8081/farmfoods/pricing/" + menu.getMenuItemId());
@@ -418,7 +418,7 @@ public class MainController {
         BlockedQty blockedQty = restTemplate.getForObject(
                 "http://localhost:8081/farmfoods/item/blockedqty/" + menuToBeUpdated.getMenuItemId(), BlockedQty.class);
         menuToBeUpdated.setBlockedQty(blockedQty.getBlockedQuantity());
-        menuToBeUpdated.setFreeQty(menuToBeUpdated.getAvailableQty() - blockedQty.getBlockedQuantity());
+        menuToBeUpdated.setFreeQty(Math.floor((menuToBeUpdated.getAvailableQty() - blockedQty.getBlockedQuantity())*100)/100);
 
         System.out.println("Debug : " + menuToBeUpdated.getMenuImageFileName() + " for " + menuToBeUpdated.getMenuItemName());
 
@@ -722,7 +722,7 @@ public class MainController {
             landingIcons.add(new LandingIcon("Orders", "Review all open orders", "/img/menu/landing/orders.jpg", "/farmfoods/order/summary"));
             landingIcons.add(new LandingIcon("Carts", "Review what customers have in their carts", "/img/menu/landing/carts.jpg", "/farmfoods/cart/summary"));
             landingIcons.add(new LandingIcon("Inventory", "Manage your inventory", "/img/menu/landing/inventory.jpg", "/farmfoods/category"));
-            landingIcons.add(new LandingIcon("Customers", "Manage your customers and their contacts", "/img/menu/landing/customers.jpg", "/farmfoods/about"));
+            landingIcons.add(new LandingIcon("Customers", "Manage your customers and their contacts", "/img/menu/landing/customers.jpg", "/admin/customer"));
             landingIcons.add(new LandingIcon("Payables", "Track salaries and expenses", "/img/menu/landing/payment.jpg", "/farmfoods/about"));
             landingIcons.add(new LandingIcon("Receivables", "Track your receivables", "/img/menu/landing/receivings.jpg", "/farmfoods/about"));
             landingIcons.add(new LandingIcon("P&L", "Your profit and loss statement", "/img/menu/landing/incomestatement.jpg", "/farmfoods/about"));
