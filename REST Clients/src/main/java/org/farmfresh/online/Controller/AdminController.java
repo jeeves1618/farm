@@ -149,6 +149,7 @@ public class AdminController {
             String currencyFormat = "Rs ##,##,##0.00";
             DecimalFormat ft = new DecimalFormat(currencyFormat);
             customer.setCustomerBalanceFmtd(rupeeFormatter.formattedRupee(ft.format(customer.getCustomerBalance())));
+            customer.setCustomerDiscountRateFmtd(String.format("%.0f %%%n", customer.getCustomerDiscountRate()*100));
         }
         model.addAttribute("metahome",homeMetaData);
         model.addAttribute("customers",customerList);

@@ -163,8 +163,8 @@
                     <span>Customer Since : </span>
                     <span th:text="${item.dateCreated}"></span>
                     <br />
-                    <span>Email Address : </span>
-                    <span th:text="${item.customerEmail}"></span>
+                    <span>Loyalty Discount : </span>
+                    <span th:text="${item.customerDiscountRateFmtd}"></span>
                   </li>
                   <li>
                     <h3>
@@ -175,6 +175,9 @@
                     <br />
                     <span>Contact Number : </span>
                     <span th:text="${item.customerMobile}"></span>
+                    <br />
+                    <span>Email Address : </span>
+                    <span th:text="${item.customerEmail}"></span>
                   </li>
                   <li>
                     <h3>

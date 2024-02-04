@@ -14,6 +14,7 @@ public class Customer {
     private String customerBillingAddress;
     private String customerEmail;
     private Double customerDiscountRate;
+    private String customerDiscountRateFmtd;
     private String customerUserId;
     private String customerCredential;
     private Double customerBalance;

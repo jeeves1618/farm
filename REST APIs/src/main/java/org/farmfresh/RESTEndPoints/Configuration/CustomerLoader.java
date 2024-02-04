@@ -54,7 +54,10 @@ public class CustomerLoader implements ApplicationListener<ApplicationReadyEvent
             customer.setCustomerEmail(faker.internet().emailAddress());
             customer.setCustomerUserId(user);
             customer.setCustomerBillingAddress(faker.address().fullAddress());
-            customer.setCustomerDiscountRate(0.0);
+            if (user.equals("Naga"))
+                customer.setCustomerDiscountRate(0.1);
+            else
+                customer.setCustomerDiscountRate(0.0);
             customer.setUserCreated(user);
             customer.setUserUpdated(user);
             customer.setDateCreated(date);
