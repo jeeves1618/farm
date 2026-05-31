@@ -9,7 +9,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Sweets" />
         <module name="FarmFoods" />
-        <module name="REST APIs" />
       </profile>
     </annotationProcessing>
   </component>

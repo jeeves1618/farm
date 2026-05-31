@@ -9,7 +9,7 @@ services:
         limits:
           memory: 700m
     networks:
-      - dhariyafarms
+      - naturalfarms
   clients:
     image: "vjponnusamy/my-farm-clients:20240203"
     container_name: farms_clients_container
@@ -20,7 +20,7 @@ services:
         limits:
           memory: 700m
     networks:
-      - dhariyafarms
+      - naturalfarms
 networks:
-  dhariyafarms:
+  naturalfarms:
     driver: "bridge"

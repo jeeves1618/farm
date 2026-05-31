@@ -555,7 +555,7 @@ public class MainController {
     public String getOrdersByCustomer(@RequestParam("customerId") String customerId, Model model, RestTemplate restTemplate){
         HomeMetaData homeMetaData = getHomeMetaData(restTemplate);
         String cart = restTemplate.getForObject(
-                "http://localhost:8081/farmfoods/place/order/"+homeMetaData.getLoggedInUser(), String.class);
+                "http://localhost:8081/farmfoods "+homeMetaData.getLoggedInUser(), String.class);
         homeMetaData.setCartHeader(cart);
         homeMetaData.setCartSubHeader("Explore more");
         model.addAttribute("metahome",homeMetaData);
